@@ -1,0 +1,137 @@
+@use 'sass:map';
+@use './variables' as *;
+
+// Центрирование по обеим осям
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Flex колонка
+@mixin flex-column() {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-column-center() {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-column-start() {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+@mixin flex-column-between() {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+@mixin flex-column-between-center() {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// Flex с промежутком между элементами
+@mixin flex-space-between() {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Flex с равномерным распределением элементов
+@mixin flex-space-around() {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+// Flex wrap
+@mixin flex-wrap() {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+// Абсолютное позиционирование по центру родителя
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// Абсолютное позиционирование по углам
+@mixin absolute-top-right() {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+@mixin absolute-top-left() {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+@mixin absolute-bottom-right() {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+@mixin absolute-bottom-left() {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+@mixin square($size) {
+  width: $size;
+  height: $size;
+}
+
+// Обрезка текста с многоточием
+@mixin text-ellipsis($lines: 1) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Установка жирности и размера
+@mixin font($weight: 400, $size: var(--font-size-base), $line-height: 1.5) {
+  font-weight: $weight;
+  font-size: $size;
+  line-height: $line-height;
+}
+
+@mixin hover-accent {
+  transition: $transition;
+
+  &:hover {
+    color: $color-accent;
+  }
+}
+
+@mixin respond-up($key) {
+  $size: map-get($breakpoints, $key);
+
+  @if $size {
+    @media (min-width: $size) {
+      @content;
+    }
+  } @else {
+    @warn "Нет такого брейкпоинта: #{$key}";
+  }
+}

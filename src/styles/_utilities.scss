@@ -1,0 +1,43 @@
+.bottom-divider {
+  border-bottom: 0.1rem solid rgba(var(--color-black), 0.35);
+  box-shadow:
+    0 0.1rem 0.6rem rgba(var(--color-black), 0.25),
+    0 0 0.12rem rgba(var(--color-black), 0.15);
+}
+
+.soft-glow {
+  box-shadow:
+    0 0 0.8rem rgba(255, 255, 255, 0.2),
+    0 0 0.16rem rgba(255, 255, 255, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.accent-glow {
+  filter: blur(0.2rem);
+  color: rgba(var(--color-accent), 0.5);
+}
+
+.glass-effect {
+  background-color: rgb(var(--color-glass));
+  backdrop-filter: blur(0.5rem);
+  -webkit-backdrop-filter: blur(0.5rem);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(0.6rem) scale(0.98);
+  filter: blur(0.6rem);
+
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.9s ease;
+
+  will-change: transform, opacity;
+}
+
+.reveal--visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}

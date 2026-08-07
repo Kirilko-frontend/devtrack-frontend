@@ -1,0 +1,16 @@
+.container {
+  max-width: 120rem;
+  margin: 0 auto;
+  padding: 0 4rem;
+}
+
+.section {
+  padding: 2rem;
+}
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 4rem;
+}
