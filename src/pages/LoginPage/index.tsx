@@ -1,5 +1,6 @@
 import AuthLayout from '@/widgets/AuthLayout';
-import AuthForm from '@/widgets/AuthForm';
+
+import { AuthForm } from '@/widgets';
 
 import styles from './styles.module.scss';
 
@@ -8,7 +9,7 @@ function LoginPage() {
     <AuthLayout>
       <div className={styles['login-page']}>
         <div className={styles['login-page__body']}>
-          <AuthForm />
+          <AuthForm type="login" />
         </div>
       </div>
     </AuthLayout>

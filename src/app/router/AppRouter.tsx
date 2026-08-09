@@ -1,11 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import AppLayout from '../layouts/AppLayout';
-import LoginPage from '@/pages/LoginPage';
-
-function RegisterPage() {
-  return <div>Register</div>;
-}
+import { LoginPage, RegisterPage } from '@/pages';
 
 function DashboardPage() {
   return <div>Dashboard</div>;

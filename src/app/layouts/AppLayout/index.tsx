@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
-import { Sidebar } from '@/widgets/Sidebar';
+import { Sidebar } from '@/widgets';
 
 import styles from './styles.module.scss';
 
