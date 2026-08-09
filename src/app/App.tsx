@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 import { authService } from '@/services/auth.service';
+import { AppRouter } from './router/AppRouter';
 
 function App() {
   useEffect(() => {
@@ -19,7 +20,7 @@ function App() {
       });
   }, []);
 
-  return <div>DevTrack</div>;
+  return <AppRouter />;
 }
 
 export default App;

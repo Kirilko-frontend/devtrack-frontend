@@ -2,23 +2,23 @@
 @use 'sass:meta';
 @use './variables' as *;
 
-:root {
-  @each $key, $value in $theme {
-    @if meta.type-of($value) == 'list' {
-      // Превращаем список в строку через запятую
-      $value-str: '';
-      @for $i from 1 through list.length($value) {
-        $value-str: $value-str + list.nth($value, $i);
-        @if $i != list.length($value) {
-          $value-str: $value-str + ', ';
-        }
-      }
-      --#{$key}: #{$value-str};
-    } @else {
-      --#{$key}: #{$value};
-    }
-  }
-}
+// :root {
+//   @each $key, $value in $theme {
+//     @if meta.type-of($value) == 'list' {
+//       // Превращаем список в строку через запятую
+//       $value-str: '';
+//       @for $i from 1 through list.length($value) {
+//         $value-str: $value-str + list.nth($value, $i);
+//         @if $i != list.length($value) {
+//           $value-str: $value-str + ', ';
+//         }
+//       }
+//       --#{$key}: #{$value-str};
+//     } @else {
+//       --#{$key}: #{$value};
+//     }
+//   }
+// }
 
 html {
   font-size: 100%;
@@ -27,11 +27,6 @@ html {
 
 body {
   min-height: 100vh;
-  background: rgb(var(--color-bg));
-  color: rgb(var(--color-text));
-  font-family: var(--font-family);
-  font-size: var(--font-size-base);
-  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 
