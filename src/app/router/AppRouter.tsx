@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { ProtectedRoute } from './ProtectedRoute';
+import { AppLayout } from '../layouts/AppLayout';
 
 function LoginPage() {
   return <div>Login</div>;
@@ -40,11 +41,13 @@ export function AppRouter() {
       <Route path="/register" element={<RegisterPage />} />
 
       <Route element={<ProtectedRoute />}>
-        <Route path="/" element={<DashboardPage />} />
-        <Route path="/companies" element={<CompaniesPage />} />
-        <Route path="/vacancies" element={<VacanciesPage />} />
-        <Route path="/interviews" element={<InterviewsPage />} />
-        <Route path="/resumes" element={<ResumesPage />} />
+        <Route element={<AppLayout />}>
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/companies" element={<CompaniesPage />} />
+          <Route path="/vacancies" element={<VacanciesPage />} />
+          <Route path="/interviews" element={<InterviewsPage />} />
+          <Route path="/resumes" element={<ResumesPage />} />
+        </Route>
       </Route>
 
       <Route path="*" element={<NotFoundPage />} />
