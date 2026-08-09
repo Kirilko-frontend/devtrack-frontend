@@ -3,3 +3,26 @@ $breakpoints: (
   md: 1024px,
   lg: 1280px,
 );
+
+$theme: (
+  // colors
+  color-black: (0, 0, 0),
+  color-white: (255, 255, 255),
+  color-accent: (139, 92, 246),
+  color-glass: (255, 255, 255, 0.08),
+  color-placeholder: (255, 255, 255),
+  // gradients
+  gradient-dark-light: linear-gradient(
+      135deg,
+      rgb(0, 0, 0) 0%,
+      rgb(35, 35, 35) 50%,
+      rgb(255, 255, 255) 100%
+    ),
+  // utils
+  transition: (0.3s ease),
+  // Shadows
+  shadow-sm: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15),
+  shadow-md: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.25),
+  shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.35),
+  shadow-white: 0 0 1rem rgba(255, 255, 255, 0.1)
+);
