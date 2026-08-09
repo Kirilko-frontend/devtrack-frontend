@@ -7,17 +7,23 @@ interface AuthContextValue {
   user: AuthUser | null;
   loading: boolean;
   isAuthenticated: boolean;
-  logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
+  logout: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextValue | null>(null);
+const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+interface AuthProviderProps {
+  children: React.ReactNode;
+}
+
+export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   const checkAuth = useCallback(async () => {
+    setLoading(true);
+
     try {
       const currentUser = await authService.me();
 
@@ -30,10 +36,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         error.status === 401
       ) {
         setUser(null);
-        return;
+      } else {
+        console.error('Failed to check authentication:', error);
       }
-
-      console.error('Failed to check authentication', error);
     } finally {
       setLoading(false);
     }
@@ -42,9 +47,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = useCallback(async () => {
     try {
       await authService.logout();
-      setUser(null);
     } catch (error) {
-      console.error('Failed to logout', error);
+      console.error('Failed to logout:', error);
+    } finally {
+      setUser(null);
     }
   }, []);
 
@@ -52,21 +58,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     void checkAuth();
   }, [checkAuth]);
 
-  const value = useMemo(
+  const value = useMemo<AuthContextValue>(
     () => ({
       user,
       loading,
       isAuthenticated: user !== null,
-      logout,
       checkAuth,
+      logout,
     }),
-    [user, loading, logout, checkAuth]
+    [user, loading, checkAuth, logout]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-export function useAuth() {
+export function useAuth(): AuthContextValue {
   const context = useContext(AuthContext);
 
   if (!context) {
