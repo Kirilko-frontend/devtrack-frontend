@@ -27,8 +27,10 @@ function AuthForm({ type }: IProps) {
           <Input label="Confirm password" placeholder="Confirm your password" type="password" />
         )}
       </form>
-      <p>{isRegister && 'Have account?'}</p>
-      <Link to={'/login'}>{isRegister && 'Sign up'}</Link>
+      <div>
+        <p>{isRegister && 'Have account?'}</p>
+        <Link to={'/login'}>{isRegister && 'Sign up'}</Link>
+      </div>
     </div>
   );
 }
