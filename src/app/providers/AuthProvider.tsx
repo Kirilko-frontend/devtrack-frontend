@@ -8,6 +8,7 @@ interface AuthContextValue {
   loading: boolean;
   isAuthenticated: boolean;
   checkAuth: () => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -44,6 +45,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, []);
 
+  const login = useCallback(async (email: string, password: string) => {
+    await authService.login({
+      email,
+      password,
+    });
+
+    const currentUser = await authService.me();
+
+    setUser(currentUser);
+  }, []);
+
   const logout = useCallback(async () => {
     try {
       await authService.logout();
@@ -64,6 +76,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       loading,
       isAuthenticated: user !== null,
       checkAuth,
+      login,
       logout,
     }),
     [user, loading, checkAuth, logout]
