@@ -1,6 +1,7 @@
 import { Input } from '@/shared/ui';
 
 import styles from './styles.module.scss';
+import { Link } from 'react-router-dom';
 
 type AuthFormType = 'login' | 'register';
 
@@ -10,6 +11,7 @@ interface IProps {
 
 function AuthForm({ type }: IProps) {
   const isRegister = type === 'register';
+
   return (
     <div className={styles['auth-form']}>
       <h1 className={styles['auth-form__title']}>
@@ -25,6 +27,8 @@ function AuthForm({ type }: IProps) {
           <Input label="Confirm password" placeholder="Confirm your password" type="password" />
         )}
       </form>
+      <p>{isRegister && 'Have account?'}</p>
+      <Link to={'/login'}>{isRegister && 'Sign up'}</Link>
     </div>
   );
 }

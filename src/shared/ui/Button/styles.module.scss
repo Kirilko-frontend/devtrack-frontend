@@ -3,19 +3,21 @@
 
   border-radius: 0.75rem;
 
-  background: var(--gradient-button);
+  background-color: rgb(var(--color-glass));
   color: rgb(var(--color-white));
 
   font-weight: 600;
 
   transition: var(--transition);
 
-  &:hover {
-    background: var(--gradient-button-hover);
+  &:hover,
+  &:focus-visible {
+    background-color: rgb(var(--color-glass-light));
   }
 
   &:active {
-    transform: translateY(0.1rem);
+    background-color: rgb(var(--color-white));
+    color: rgb(var(--color-black));
   }
 
   &:disabled {
