@@ -1,0 +1,40 @@
+.button {
+  width: 100%;
+
+  border-radius: 0.75rem;
+
+  background: var(--gradient-button);
+  color: rgb(var(--color-white));
+
+  font-weight: 600;
+
+  transition: var(--transition);
+
+  &:hover {
+    background: var(--gradient-button-hover);
+  }
+
+  &:active {
+    transform: translateY(0.1rem);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.button--sm {
+  padding: 0.5rem 0.8rem;
+  font-size: 0.8rem;
+}
+
+.button--md {
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+}
+
+.button--lg {
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+}
