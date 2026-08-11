@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
 
-import styles from './styles.module.scss';
 import { formImg } from './config';
+
+import styles from './styles.module.scss';
 
 interface IAuthLayoutProps {
   children: ReactNode;
