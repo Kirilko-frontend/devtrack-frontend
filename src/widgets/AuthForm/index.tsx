@@ -4,48 +4,103 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '@/app/providers/AuthProvider';
 import { authService } from '@/services/auth.service';
+import { getErrorMessage } from '@/shared/utils/getErrorMessage';
 
 import { Button, Input } from '@/shared/ui';
+
 import styles from './styles.module.scss';
 
 type AuthFormType = 'login' | 'register';
+
+type AuthFormData = {
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+
+type AuthFormErrors = Partial<Record<keyof AuthFormData, string>>;
 
 interface IProps {
   type: AuthFormType;
 }
 
 function AuthForm({ type }: IProps) {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [form, setForm] = useState<AuthFormData>({
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const [errors, setErrors] = useState<AuthFormErrors>({});
 
   const navigate = useNavigate();
   const { login } = useAuth();
 
   const isRegister = type === 'register';
 
+  const handleChange = (field: keyof AuthFormData, value: string) => {
+    setForm((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [field]: undefined,
+    }));
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: AuthFormErrors = {};
+
+    if (!form.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      newErrors.email = 'Enter a valid email';
+    }
+
+    if (!form.password) {
+      newErrors.password = 'Password is required';
+    } else if (form.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+
+    if (isRegister) {
+      if (!form.confirmPassword) {
+        newErrors.confirmPassword = 'Please confirm your password';
+      } else if (form.password !== form.confirmPassword) {
+        newErrors.confirmPassword = 'Passwords do not match';
+      }
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
   const resetForm = () => {
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
+    setForm({
+      email: '',
+      password: '',
+      confirmPassword: '',
+    });
+
+    setErrors({});
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (isRegister && password !== confirmPassword) {
-      console.error('Passwords do not match');
+    if (!validateForm()) {
       return;
     }
 
     try {
       if (isRegister) {
-        const response = await authService.register({
-          email,
-          password,
+        await authService.register({
+          email: form.email,
+          password: form.password,
         });
-
-        console.log('Register response:', response);
 
         resetForm();
         navigate('/login');
@@ -53,12 +108,14 @@ function AuthForm({ type }: IProps) {
         return;
       }
 
-      await login(email, password);
+      await login(form.email, form.password);
 
       resetForm();
       navigate('/');
     } catch (error) {
-      console.error('Auth error:', error);
+      const message = getErrorMessage(error);
+
+      console.error(message);
     }
   };
 
@@ -73,16 +130,18 @@ function AuthForm({ type }: IProps) {
           label="Email"
           placeholder="Enter your email"
           type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={form.email}
+          error={errors.email}
+          onChange={(e) => handleChange('email', e.target.value)}
         />
 
         <Input
           label="Password"
           placeholder="Enter your password"
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={form.password}
+          error={errors.password}
+          onChange={(e) => handleChange('password', e.target.value)}
         />
 
         {isRegister && (
@@ -90,14 +149,17 @@ function AuthForm({ type }: IProps) {
             label="Confirm password"
             placeholder="Confirm your password"
             type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            value={form.confirmPassword}
+            error={errors.confirmPassword}
+            onChange={(e) => handleChange('confirmPassword', e.target.value)}
           />
         )}
+
         <Button type="submit" size="lg" className={styles['auth-form__button']}>
           {isRegister ? 'Create account' : 'Log in'}
         </Button>
       </form>
+
       <div className={styles['auth-form__switch']}>
         <p className={styles['auth-form__switch-text']}>
           {isRegister ? 'Already have an account?' : "Don't have an account?"}
