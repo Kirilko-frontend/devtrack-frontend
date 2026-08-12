@@ -33,8 +33,14 @@ export interface DashboardInterview {
   vacancy: DashboardInterviewVacancy;
 }
 
+export interface DashboardApplicationActivity {
+  date: string;
+  count: number;
+}
+
 export interface DashboardResponse {
   stats: DashboardStats;
   vacancyStatuses: DashboardVacancyStatuses;
   upcomingInterviews: DashboardInterview[];
+  applicationActivity: DashboardApplicationActivity[];
 }
