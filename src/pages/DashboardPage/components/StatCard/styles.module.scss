@@ -6,9 +6,8 @@
   min-height: 7rem;
   padding: 1.25rem;
 
-  background-color: rgb(var(--color-surface));
-
-  border: 0.0625rem solid rgb(var(--color-border));
+  background: var(--gradient-surface-shine);
+  border: 0.0625rem solid rgb(var(--color-white), 0.1);
   border-radius: 1rem;
 
   box-shadow: var(--shadow-md);
@@ -17,7 +16,7 @@
 
   &:hover {
     transform: translateY(-0.2rem);
-    border-color: rgb(var(--color-border-hover));
+
     box-shadow: var(--shadow-lg);
   }
 }
@@ -28,30 +27,33 @@
 
 .stat-card__title {
   @include flex-center;
-  gap: 0.2rem;
+  gap: 1rem;
 }
 
 .stat-card__header-icon {
-  display: flex;
-  align-items: center;
+  @include flex-center;
 
   width: 3rem;
   height: 2rem;
 
   border-radius: 0.75rem;
 
-  background: rgb(var(--color-surface));
-  color: rgb(var(--color-black));
+  background-color: rgb(var(--color-white), 0.1);
+  color: rgb(var(--color-white));
 }
 
 .stat-card__header-label {
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-semibold);
-  color: rgb(var(--color-black));
+  color: rgb(var(--color-white));
 }
 
 .stat-card__value {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-semibold);
-  color: rgb(var(--color-black));
+  color: rgb(var(--color-white));
+}
+
+.stat-card__header-details-icon {
+  color: rgb(var(--color-white));
 }

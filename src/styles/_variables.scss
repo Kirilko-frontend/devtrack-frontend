@@ -18,6 +18,14 @@ $theme: (
       rgb(60, 60, 60) 50%,
       rgb(255, 255, 255) 100%
     ),
+  gradient-surface-shine: linear-gradient(
+      167deg,
+      rgb(var(--color-black)) 0%,
+      rgb(var(--color-black)) 10%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgb(var(--color-black)) 80%,
+      rgb(var(--color-black)) 100%
+    ),
   // utils
   transition: 0.3s ease,
 

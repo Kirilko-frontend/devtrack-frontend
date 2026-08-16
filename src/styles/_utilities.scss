@@ -6,7 +6,7 @@
 }
 
 .glass-effect {
-  background-color: rgb(var(--color-glass));
+  background-color: rgb(var(--color-white), 0.1);
   backdrop-filter: blur(0.5rem);
   -webkit-backdrop-filter: blur(0.5rem);
 }
