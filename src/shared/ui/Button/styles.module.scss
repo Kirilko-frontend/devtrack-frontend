@@ -1,23 +1,32 @@
 .button {
+  @include flex-center;
   width: 100%;
 
+  border: 0.0625rem solid rgb(var(--color-white), 0.2);
   border-radius: 0.75rem;
 
-  background-color: rgb(var(--color-glass));
+  background-color: rgb(var(--color-muted));
   color: rgb(var(--color-white));
 
-  font-weight: 600;
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-md);
+
+  outline: none;
 
   transition: var(--transition);
 
   &:hover,
   &:focus-visible {
-    background-color: rgb(var(--color-glass-light));
+    background-color: rgb(var(--color-white));
+    border-color: rgb(var(--color-white));
+    color: rgb(var(--color-black));
   }
 
   &:active {
     background-color: rgb(var(--color-white));
-    color: rgb(var(--color-black));
+    transform: translateY(0.0625rem);
   }
 
   &:disabled {
@@ -28,15 +37,15 @@
 
 .button--sm {
   padding: 0.5rem 0.8rem;
-  font-size: 0.8rem;
+  font-size: var(--font-size-sm);
 }
 
 .button--md {
   padding: 0.75rem 1rem;
-  font-size: 0.9rem;
+  font-size: var(--font-size-md);
 }
 
 .button--lg {
   padding: 1rem 1.25rem;
-  font-size: 1rem;
+  font-size: var(--font-size-lg);
 }

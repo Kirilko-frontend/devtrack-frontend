@@ -10,18 +10,17 @@
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-md);
 
-  color: rgb(var(--color-white));
+  color: rgb(var(--color-black));
 }
 
 .input__field {
   width: 100%;
   padding: 0.75rem 1rem;
 
-  border: 0.1rem solid rgb(var(--color-glass));
+  border: 0.0625rem solid rgb(var(--color-black));
   border-radius: 0.75rem;
 
-  background: rgb(var(--color-glass));
-
+  background-color: rgb(var(--color-white), 0.1);
   color: rgb(var(--color-white));
 
   font-family: var(--font-family);
@@ -34,13 +33,17 @@
   transition: var(--transition);
 
   &::placeholder {
-    color: rgb(var(--color-placeholder));
+    color: rgb(var(--color-muted));
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-light);
+    line-height: var(--line-height-md);
+
     transition: opacity var(--transition);
   }
 
   &:focus {
-    border-color: rgb(var(--color-glass-light));
-    background: rgb(var(--color-glass-light));
+    border-color: rgb(var(--color-white));
   }
 
   &:focus::placeholder {
@@ -58,5 +61,5 @@
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-md);
 
-  color: rgb(var(--color-white));
+  color: rgb(var(--color-black));
 }

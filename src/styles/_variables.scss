@@ -6,31 +6,28 @@ $breakpoints: (
 
 $theme: (
   // colors
-  color-black: (0, 0, 0),
+  color-black: (15, 15, 15),
   color-white: (255, 255, 255),
-  color-accent: (154, 92, 62),
-  color-beige: (248, 244, 239),
-  color-surface: (245, 245, 245),
-  color-border: (220, 220, 220),
-  color-border-hover: (190, 190, 190),
-  color-placeholder: (255, 255, 255, 0.5),
+  color-surface: (247, 247, 247),
+  color-muted: (120, 120, 120),
+  color-accent: (234, 114, 35),
   // gradients
   gradient-dark-light: linear-gradient(
       135deg,
-      rgb(0, 0, 0) 0%,
-      rgb(35, 35, 35) 50%,
+      rgb(15, 15, 15) 0%,
+      rgb(60, 60, 60) 50%,
       rgb(255, 255, 255) 100%
     ),
   // utils
   transition: 0.3s ease,
 
   // shadows
-  shadow-sm: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15),
-  shadow-md: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.25),
-  shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.35),
-  shadow-white: 0 0 1rem rgba(255, 255, 255, 0.1),
+  shadow-sm: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.08),
+  shadow-md: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.12),
+  shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.16),
   // typography
   font-family: 'Manrope' sans-serif,
+
   font-size-xs: 0.75rem,
   font-size-sm: 0.875rem,
   font-size-md: 1rem,

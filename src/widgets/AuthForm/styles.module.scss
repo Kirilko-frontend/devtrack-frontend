@@ -3,9 +3,9 @@
   gap: 5rem;
   width: 30rem;
   height: 38rem;
-  border: 0.2rem rgb(var(--color-glass)) solid;
+  border: 0.2rem rgb(var(--color-white), 0.1) solid;
   border-radius: 2rem;
-  background-color: rgb(var(--color-glass));
+  background-color: rgb(var(--color-white), 0.1);
 }
 
 .auth-form__title {
