@@ -57,3 +57,44 @@
 .stat-card__header-details-icon {
   color: rgb(var(--color-white));
 }
+
+.stat-card__change {
+  @include flex-start;
+
+  width: 12rem;
+  height: 1rem;
+
+  padding-left: 0.5rem;
+
+  background-color: rgb(var(--color-black));
+  box-shadow: var(--shadow-md);
+  border-radius: 2rem;
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-sm);
+
+  color: rgb(var(--color-muted));
+
+  transition: var(--transition);
+}
+
+.star-card__change-icon {
+  width: 1rem;
+  height: 1rem;
+
+  margin-right: 0.5rem;
+}
+
+.star-card__change-icon--postive {
+  color: rgb(var(--color-success));
+}
+
+.star-card__change-icon--negative {
+  color: rgb(var(--color-danger));
+}
+
+.stat-card__change-text {
+  font-size: var(--font-size-md);
+  white-space: nowrap;
+}

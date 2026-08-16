@@ -8,6 +8,12 @@
   justify-content: center;
 }
 
+@mixin flex-start {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
 // Flex колонка
 @mixin flex-column() {
   display: flex;

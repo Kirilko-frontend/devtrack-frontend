@@ -7,6 +7,13 @@ export interface DashboardStats {
   totalResumes: number;
 }
 
+export interface DashboardStatsChanges {
+  vacancies: number;
+  companies: number;
+  interviews: number;
+  resumes: number;
+}
+
 export interface DashboardVacancyStatuses {
   saved: number;
   applied: number;
@@ -40,6 +47,7 @@ export interface DashboardApplicationActivity {
 
 export interface DashboardResponse {
   stats: DashboardStats;
+  statsChanges: DashboardStatsChanges;
   vacancyStatuses: DashboardVacancyStatuses;
   upcomingInterviews: DashboardInterview[];
   applicationActivity: DashboardApplicationActivity[];
