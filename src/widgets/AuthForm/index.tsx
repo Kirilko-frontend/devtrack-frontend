@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '@/app/providers/AuthProvider';
-import { getErrorMessage } from '@/shared/utils/getErrorMessage';
+import { getErrorMessage } from '@/shared/utils';
 import { authService } from '@/services';
 
 import { Button, Input } from '@/shared/ui';

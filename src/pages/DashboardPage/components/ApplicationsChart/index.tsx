@@ -2,8 +2,10 @@ import { useState } from 'react';
 
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-import type { DashboardApplicationActivity } from '@/types/dashboard';
 import { applicationPeriods, type ApplicationPeriod } from './config';
+
+import type { DashboardApplicationActivity } from '@/types/dashboard';
+import { formatDate } from '@/shared/utils';
 
 import ApplicationsTooltip from './components/ApplicationsTooltip';
 
@@ -12,13 +14,6 @@ import styles from './styles.module.scss';
 interface IProps {
   data: DashboardApplicationActivity[];
 }
-
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-  });
-};
 
 function ApplicationsChart({ data }: IProps) {
   const [period, setPeriod] = useState<ApplicationPeriod>('30D');

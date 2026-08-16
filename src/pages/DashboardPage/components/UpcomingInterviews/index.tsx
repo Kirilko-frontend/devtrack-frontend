@@ -1,5 +1,7 @@
 import { CalendarDays, Clock } from 'lucide-react';
 
+import { formatDate, formatTime } from '@/shared/utils';
+
 import type { DashboardInterview } from '@/types/dashboard';
 
 import styles from './styles.module.scss';
@@ -7,20 +9,6 @@ import styles from './styles.module.scss';
 interface IProps {
   interviews: DashboardInterview[];
 }
-
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-  });
-};
-
-const formatTime = (date: string) => {
-  return new Date(date).toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-  });
-};
 
 function UpcomingInterviews({ interviews }: IProps) {
   return (
