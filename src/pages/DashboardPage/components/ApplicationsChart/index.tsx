@@ -24,7 +24,7 @@ function ApplicationsChart({ data }: IProps) {
   const [period, setPeriod] = useState<ApplicationPeriod>('30D');
 
   return (
-    <section className={styles['applications-chart']}>
+    <div className={styles['applications-chart']}>
       <div className={styles['applications-chart__header']}>
         <div>
           <h2 className={styles['applications-chart__title']}>Applications</h2>
@@ -51,7 +51,7 @@ function ApplicationsChart({ data }: IProps) {
       <div className={styles['applications-chart__chart']}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data}>
-            <CartesianGrid stroke="rgb(var(--color-black))" strokeOpacity={0.06} vertical={false} />
+            <CartesianGrid stroke="rgb(var(--color-white))" strokeOpacity={0.06} vertical={false} />
 
             <XAxis
               dataKey="date"
@@ -60,7 +60,7 @@ function ApplicationsChart({ data }: IProps) {
               tickFormatter={formatDate}
               tick={{
                 fontSize: 12,
-                fill: 'rgb(var(--color-black))',
+                fill: 'rgb(var(--color-white))',
                 opacity: 0.5,
               }}
             />
@@ -72,7 +72,7 @@ function ApplicationsChart({ data }: IProps) {
               width={30}
               tick={{
                 fontSize: 12,
-                fill: 'rgb(var(--color-black))',
+                fill: 'rgb(var(--color-white))',
                 opacity: 0.5,
               }}
             />
@@ -80,7 +80,7 @@ function ApplicationsChart({ data }: IProps) {
             <Tooltip
               content={<ApplicationsTooltip />}
               cursor={{
-                fill: 'rgb(var(--color-black))',
+                fill: 'rgb(var(--color-white))',
                 fillOpacity: 0.03,
               }}
             />
@@ -94,7 +94,7 @@ function ApplicationsChart({ data }: IProps) {
           </BarChart>
         </ResponsiveContainer>
       </div>
-    </section>
+    </div>
   );
 }
 

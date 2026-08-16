@@ -42,10 +42,14 @@
   color: rgb(var(--color-white));
 }
 
+.stat-card__header-icon {
+  color: rgb(var(--color-muted));
+}
+
 .stat-card__header-label {
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-xl);
   font-weight: var(--font-weight-semibold);
-  color: rgb(var(--color-white));
+  color: rgb(var(--color-muted));
 }
 
 .stat-card__value {
@@ -55,14 +59,14 @@
 }
 
 .stat-card__header-details-icon {
-  color: rgb(var(--color-white));
+  color: rgb(var(--color-muted));
 }
 
 .stat-card__change {
   @include flex-start;
 
   width: 12rem;
-  height: 1rem;
+  height: 1.5rem;
 
   padding-left: 0.5rem;
 

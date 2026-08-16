@@ -2,9 +2,9 @@
   width: 100%;
   padding: 1.5rem;
 
-  background-color: rgb(var(--color-white));
+  background: var(--gradient-surface-shine);
 
-  border: 0.0625rem solid rgb(var(--color-surface));
+  border: 0.0625rem solid rgb(var(--color-white), 0.1);
   border-radius: 1rem;
 
   box-shadow: var(--shadow-sm);
@@ -17,14 +17,14 @@
 }
 
 .applications-chart__header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  @include flex-space-between;
   gap: 1.5rem;
 }
 
 .applications-chart__title {
   margin: 0;
+
+  color: rgb(var(--color-white));
 
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
@@ -47,7 +47,8 @@
 
   padding: 0.25rem;
 
-  background-color: rgb(var(--color-surface));
+  background: var(--gradient-surface-shine);
+
   border-radius: 0.75rem;
 }
 
@@ -74,7 +75,7 @@
 }
 
 .applications-chart__filter--active {
-  background-color: rgb(var(--color-white));
+  background-color: rgb(var(--color-white), 0.1);
   color: rgb(var(--color-black));
 
   box-shadow: var(--shadow-sm);
