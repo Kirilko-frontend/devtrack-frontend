@@ -2,11 +2,10 @@ import { useEffect, useState } from 'react';
 
 import type { DashboardResponse } from '@/types/dashboard';
 
-import { dashboardService } from '@/services';
-import StatCard from '@/pages/DashboardPage/components/StatCard';
-import ApplicationsChart from './components/ApplicationsChart';
-
 import { dashboardStats } from './config';
+
+import { dashboardService } from '@/services';
+import { ApplicationsChart, StatCard, UpcomingInterviews } from './components';
 
 import styles from './styles.module.scss';
 
@@ -30,8 +29,6 @@ function DashboardPage() {
     return <div>Loading...</div>;
   }
 
-  console.log(dashboard.applicationActivity);
-
   return (
     <div className={`${styles['dashboard-page']} page`}>
       <div className={styles['dashboard-page__stats']}>
@@ -45,7 +42,10 @@ function DashboardPage() {
           />
         ))}
       </div>
-      <ApplicationsChart data={dashboard.applicationActivity} />
+      <main className={styles['dashboard-page__main']}>
+        <ApplicationsChart data={dashboard.applicationActivity} />
+        <UpcomingInterviews interviews={dashboard.upcomingInterviews} />
+      </main>
     </div>
   );
 }

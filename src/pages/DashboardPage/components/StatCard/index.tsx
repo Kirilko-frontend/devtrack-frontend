@@ -31,14 +31,12 @@ function StatCard({ label, value, change, icon, className }: IProps) {
       <div className={styles['stat-card__change']}>
         {isPositive && (
           <TrendingUp
-            className={`${styles['star-card__change-icon']} ${styles['star-card__change-icon--positive']}`}
-            size={14}
+            className={`${styles['stat-card__change-icon']} ${styles['stat-card__change-icon--positive']}`}
           />
         )}
         {isNegative && (
           <TrendingDown
-            className={`${styles['star-card__change-icon']} ${styles['star-card__change-icon--negative']}`}
-            size={14}
+            className={`${styles['stat-card__change-icon']} ${styles['stat-card__change-icon--negative']}`}
           />
         )}
 

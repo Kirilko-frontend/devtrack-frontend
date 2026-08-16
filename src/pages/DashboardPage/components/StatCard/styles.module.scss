@@ -40,9 +40,6 @@
 
   background-color: rgb(var(--color-white), 0.1);
   color: rgb(var(--color-white));
-}
-
-.stat-card__header-icon {
   color: rgb(var(--color-muted));
 }
 
@@ -83,18 +80,18 @@
   transition: var(--transition);
 }
 
-.star-card__change-icon {
+.stat-card__change-icon {
   width: 1rem;
   height: 1rem;
 
   margin-right: 0.5rem;
 }
 
-.star-card__change-icon--postive {
+.stat-card__change-icon--positive {
   color: rgb(var(--color-success));
 }
 
-.star-card__change-icon--negative {
+.stat-card__change-icon--negative {
   color: rgb(var(--color-danger));
 }
 

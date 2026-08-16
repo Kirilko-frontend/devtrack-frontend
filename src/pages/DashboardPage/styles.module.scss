@@ -1,3 +1,14 @@
+.dashboard-page {
+  @include flex-column;
+  gap: 5rem;
+}
+
 .dashboard-page__stats {
   @include flex-space-between;
+}
+
+.dashboard-page__main {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(20rem, 1fr);
+  gap: 1rem;
 }
