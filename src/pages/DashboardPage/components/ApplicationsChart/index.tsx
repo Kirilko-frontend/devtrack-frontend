@@ -1,14 +1,9 @@
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
+import { useState } from 'react';
+
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 import type { DashboardApplicationActivity } from '@/types/dashboard';
+import { applicationPeriods, type ApplicationPeriod } from './config';
 
 import ApplicationsTooltip from './components/ApplicationsTooltip';
 
@@ -26,6 +21,8 @@ const formatDate = (date: string) => {
 };
 
 function ApplicationsChart({ data }: IProps) {
+  const [period, setPeriod] = useState<ApplicationPeriod>('30D');
+
   return (
     <section className={styles['applications-chart']}>
       <div className={styles['applications-chart__header']}>
@@ -34,19 +31,26 @@ function ApplicationsChart({ data }: IProps) {
 
           <p className={styles['applications-chart__description']}>Your applications over time</p>
         </div>
+
+        <div className={styles['applications-chart__filters']}>
+          {applicationPeriods.map(({ value, label }) => (
+            <button
+              key={value}
+              type="button"
+              className={`${styles['applications-chart__filter']} ${
+                period === value ? styles['applications-chart__filter--active'] : ''
+              }`}
+              onClick={() => setPeriod(value)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className={styles['applications-chart__chart']}>
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data}>
-            <defs>
-              <linearGradient id="applicationsGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="rgb(var(--color-accent))" stopOpacity={0.25} />
-
-                <stop offset="100%" stopColor="rgb(var(--color-accent))" stopOpacity={0} />
-              </linearGradient>
-            </defs>
-
+          <BarChart data={data}>
             <CartesianGrid stroke="rgb(var(--color-black))" strokeOpacity={0.06} vertical={false} />
 
             <XAxis
@@ -76,19 +80,18 @@ function ApplicationsChart({ data }: IProps) {
             <Tooltip
               content={<ApplicationsTooltip />}
               cursor={{
-                stroke: 'rgb(var(--color-black))',
-                strokeOpacity: 0.1,
+                fill: 'rgb(var(--color-black))',
+                fillOpacity: 0.03,
               }}
             />
 
-            <Area
-              type="monotone"
+            <Bar
               dataKey="count"
-              stroke="rgb(var(--color-accent))"
-              strokeWidth={2}
-              fill="url(#applicationsGradient)"
+              fill="rgb(var(--color-accent))"
+              radius={[6, 6, 0, 0]}
+              maxBarSize={32}
             />
-          </AreaChart>
+          </BarChart>
         </ResponsiveContainer>
       </div>
     </section>

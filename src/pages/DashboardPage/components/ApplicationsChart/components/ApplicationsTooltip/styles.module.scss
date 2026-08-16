@@ -4,7 +4,7 @@
 
   background-color: rgb(var(--color-white));
 
-  border: 0.0625rem solid rgb(var(--color-glass));
+  border: 0.0625rem solid rgb(var(--color-surface));
   border-radius: 0.75rem;
 
   box-shadow: var(--shadow-md);
@@ -13,10 +13,11 @@
 .tooltip__date {
   margin: 0 0 0.5rem;
 
+  color: rgb(var(--color-muted));
+
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
-
-  opacity: 0.5;
+  line-height: var(--line-height-md);
 }
 
 .tooltip__value {
@@ -24,7 +25,10 @@
   align-items: center;
   gap: 0.5rem;
 
+  color: rgb(var(--color-black));
+
   font-size: var(--font-size-sm);
+  line-height: var(--line-height-md);
 }
 
 .tooltip__value strong {
