@@ -169,8 +169,16 @@
 }
 
 
+.upcoming-interviews__type-wrapper {
+  @include flex-start;
+
+  width: 5rem;
+
+}
+
 .upcoming-interviews__type {
   margin: 0;
+
   padding: 0.35rem 0.6rem;
 
   background-color: rgb(var(--color-accent), 0.12);
@@ -184,7 +192,6 @@
 
   white-space: nowrap;
 }
-
 .upcoming-interviews__empty {
   @include flex-column;
   align-items: center;

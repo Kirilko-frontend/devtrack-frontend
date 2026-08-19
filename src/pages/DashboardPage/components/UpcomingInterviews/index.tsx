@@ -57,7 +57,9 @@ function UpcomingInterviews({ interviews }: IProps) {
                 </div>
               </div>
 
-              <p className={styles['upcoming-interviews__type']}>{interview.types}</p>
+              <div className={styles['upcoming-interviews__type-wrapper']}>
+                <p className={styles['upcoming-interviews__type']}>{interview.types}</p>
+              </div>
             </li>
           ))}
         </ul>
