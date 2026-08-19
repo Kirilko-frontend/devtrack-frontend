@@ -16,7 +16,7 @@
 }
 
 .upcoming-interviews__header {
-  @include flex-space-between;
+  @include flex-column-between;
 }
 
 .upcoming-interviews__title {
@@ -99,6 +99,11 @@
   }
 }
 
+.upcoming-interviews__item-date-wrapper{
+  @include flex-center;
+  gap: 2rem;
+}
+
 .upcoming-interviews__item-date {
   @include flex-column;
   gap: 0.25rem;
@@ -163,12 +168,13 @@
   white-space: nowrap;
 }
 
+
 .upcoming-interviews__type {
   margin: 0;
   padding: 0.35rem 0.6rem;
 
   background-color: rgb(var(--color-accent), 0.12);
-  border-radius: 999px;
+  border-radius: 2rem;
 
   color: rgb(var(--color-accent));
 

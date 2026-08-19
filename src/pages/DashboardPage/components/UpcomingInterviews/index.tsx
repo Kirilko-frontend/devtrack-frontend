@@ -33,26 +33,28 @@ function UpcomingInterviews({ interviews }: IProps) {
         <ul className={styles['upcoming-interviews__list']}>
           {interviews.map((interview) => (
             <li className={styles['upcoming-interviews__item']} key={interview.id}>
-              <div className={styles['upcoming-interviews__item-date']}>
-                <p className={styles['upcoming-interviews__item-date-day']}>
-                  {formatDate(interview.date)}
-                </p>
+              <div className={styles['upcoming-interviews__item-date-wrapper']}>
+                <div className={styles['upcoming-interviews__item-date']}>
+                  <p className={styles['upcoming-interviews__item-date-day']}>
+                    {formatDate(interview.date)}
+                  </p>
 
-                <p className={styles['upcoming-interviews__item-date-time']}>
-                  <Clock className={styles['upcoming-interviews__item-date-icon']} size={13} />
+                  <p className={styles['upcoming-interviews__item-date-time']}>
+                    <Clock className={styles['upcoming-interviews__item-date-icon']} size={13} />
 
-                  {formatTime(interview.date)}
-                </p>
-              </div>
+                    {formatTime(interview.date)}
+                  </p>
+                </div>
 
-              <div className={styles['upcoming-interviews__item-content']}>
-                <p className={styles['upcoming-interviews__item-title']}>
-                  {interview.vacancy.title}
-                </p>
+                <div className={styles['upcoming-interviews__item-content']}>
+                  <p className={styles['upcoming-interviews__item-title']}>
+                    {interview.vacancy.title}
+                  </p>
 
-                <p className={styles['upcoming-interviews__item-company']}>
-                  {interview.vacancy.company.name}
-                </p>
+                  <p className={styles['upcoming-interviews__item-company']}>
+                    {interview.vacancy.company.name}
+                  </p>
+                </div>
               </div>
 
               <p className={styles['upcoming-interviews__type']}>{interview.types}</p>
