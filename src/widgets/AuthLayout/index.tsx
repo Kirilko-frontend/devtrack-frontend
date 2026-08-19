@@ -10,7 +10,7 @@ interface IAuthLayoutProps {
 
 function AuthLayout({ children }: IAuthLayoutProps) {
   return (
-    <div className={`${styles['auth-layout']} page`}>
+    <div className={`${styles['auth-layout']} auth`}>
       <div className={styles['auth-layout__wrapper']}>
         <div className={styles['auth-layout__image']}>
           <img src={formImg} alt="form-image" />

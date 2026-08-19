@@ -1,5 +1,7 @@
 .upcoming-interviews {
-  width: 100%;
+  @include flex-column;
+  gap: 2rem;
+
   padding: 1.5rem;
 
   background: var(--gradient-surface-shine);
@@ -16,7 +18,7 @@
 }
 
 .upcoming-interviews__header {
-  @include flex-column-between;
+  @include flex-space-between;
 }
 
 .upcoming-interviews__title {
@@ -99,7 +101,7 @@
   }
 }
 
-.upcoming-interviews__item-date-wrapper{
+.upcoming-interviews__item-date-wrapper {
   @include flex-center;
   gap: 2rem;
 }
@@ -168,12 +170,10 @@
   white-space: nowrap;
 }
 
-
 .upcoming-interviews__type-wrapper {
   @include flex-start;
 
   width: 5rem;
-
 }
 
 .upcoming-interviews__type {

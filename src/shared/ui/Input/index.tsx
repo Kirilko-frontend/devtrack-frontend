@@ -1,3 +1,4 @@
+import { Search } from 'lucide-react';
 import type { InputHTMLAttributes } from 'react';
 
 import styles from './styles.module.scss';
@@ -5,21 +6,26 @@ import styles from './styles.module.scss';
 interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
-  placeholder?: string;
 }
 
-function Input({ label, error, placeholder, className, ...props }: IInputProps) {
+function Input({ label, error, className, type = 'text', ...props }: IInputProps) {
+  const isSearch = type === 'search';
+
   return (
     <div className={styles['input']}>
       {label && <label className={styles['input__label']}>{label}</label>}
 
-      <input
-        className={`${styles['input__field']} ${className ?? ''}`}
-        placeholder={placeholder}
-        {...props}
-      />
+      <div
+        className={`${styles['input__wrapper']} ${
+          isSearch ? styles['input__wrapper--search'] : ''
+        }`}
+      >
+        {isSearch && <Search className={styles['input__search-icon']} size={16} />}
 
-      {error && <span className={styles['input__error']}>{error}</span>}
+        <input className={`${styles['input__field']} ${className ?? ''}`} type={type} {...props} />
+      </div>
+
+      {error && <p className={styles['input__error']}>{error}</p>}
     </div>
   );
 }

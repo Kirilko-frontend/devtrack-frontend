@@ -5,7 +5,7 @@ import type { DashboardResponse } from '@/types/dashboard';
 import { dashboardStats } from './config';
 
 import { dashboardService } from '@/services';
-import { ApplicationsChart, StatCard, UpcomingInterviews } from './components';
+import { ApplicationsChart, RecentVacancies, StatCard, UpcomingInterviews } from './components';
 
 import styles from './styles.module.scss';
 
@@ -17,6 +17,7 @@ function DashboardPage() {
       try {
         const data = await dashboardService.getDashboard();
         setDashboard(data);
+        console.log(data);
       } catch (error) {
         console.error('Dashboard error:', error);
       }
@@ -30,7 +31,7 @@ function DashboardPage() {
   }
 
   return (
-    <div className={`${styles['dashboard-page']} page`}>
+    <div className={`${styles['dashboard-page']} `}>
       <div className={styles['dashboard-page__stats']}>
         {dashboardStats.map(({ key, changeKey, label, icon: Icon }) => (
           <StatCard
@@ -46,6 +47,7 @@ function DashboardPage() {
         <ApplicationsChart data={dashboard.applicationActivity} />
         <UpcomingInterviews interviews={dashboard.upcomingInterviews} />
       </main>
+      <RecentVacancies vacancies={dashboard.recentVacancies} />
     </div>
   );
 }
