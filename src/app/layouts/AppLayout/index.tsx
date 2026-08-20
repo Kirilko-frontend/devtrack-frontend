@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
-import { Sidebar } from '@/widgets';
+import { Sidebar, TopBar } from '@/widgets';
 
 import styles from './styles.module.scss';
 
@@ -9,9 +9,13 @@ function AppLayout() {
     <div className={styles['layout']}>
       <Sidebar />
 
-      <main className={styles['main']}>
-        <Outlet />
-      </main>
+      <div className={styles['content-area']}>
+        <TopBar />
+
+        <main className={styles['main']}>
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }
