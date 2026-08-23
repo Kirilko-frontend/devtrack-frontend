@@ -6,6 +6,7 @@ export interface TableColumn<T> {
   key: keyof T;
   label: string;
   render?: (item: T) => ReactNode;
+  width?: string;
 }
 
 interface IProps<T> {
@@ -18,6 +19,12 @@ function Table<T>({ columns, data, getRowKey }: IProps<T>) {
   return (
     <div className={styles['table__wrapper']}>
       <table className={styles['table']}>
+        <colgroup>
+          {columns.map((column) => (
+            <col key={String(column.key)} style={{ width: column.width }} />
+          ))}
+        </colgroup>
+
         <thead className={styles['table__head']}>
           <tr className={styles['table__row']}>
             {columns.map((column) => (

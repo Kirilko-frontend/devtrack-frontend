@@ -11,15 +11,24 @@ import {
   type VacancySort,
   type VacancyStatusFilter,
 } from './config';
+
 import { Table } from '@/widgets';
+import { filterVacancies, searchVacancies, sortVacancies } from './helpers/vacancies';
 
 interface IProps {
   vacancies: DashboardRecentVacancy[];
 }
 
 function RecentVacancies({ vacancies }: IProps) {
+  const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<VacancyStatusFilter>('ALL');
   const [sort, setSort] = useState<VacancySort>('NEWEST');
+
+  const filteredVacancies = filterVacancies(vacancies, statusFilter);
+
+  const searchedVacancies = searchVacancies(filteredVacancies, search);
+
+  const sortedVacancies = sortVacancies(searchedVacancies, sort);
 
   return (
     <div className={styles['recent-vacancies']}>
@@ -29,6 +38,8 @@ function RecentVacancies({ vacancies }: IProps) {
 
           <Input
             type="search"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
             placeholder="Search vacancies"
             className={styles['recent-vacancies__search']}
           />
@@ -52,24 +63,31 @@ function RecentVacancies({ vacancies }: IProps) {
       </div>
 
       <Table
-        data={vacancies}
+        data={sortedVacancies}
         getRowKey={(vacancy) => vacancy.id}
         columns={[
           {
             key: 'title',
             label: 'Title',
+            render: (vacancy) => vacancy.title,
+            width: '35%',
           },
           {
             key: 'salary',
             label: 'Salary',
+            render: (vacancy) => vacancy.salary ?? '—',
+            width: '20%',
           },
           {
             key: 'status',
             label: 'Status',
+            render: (vacancy) => vacancy.status,
+            width: '20%',
           },
           {
             key: 'url',
             label: 'Link',
+            width: '25%',
             render: (vacancy) =>
               vacancy.url ? (
                 <a href={vacancy.url} target="_blank" rel="noreferrer">

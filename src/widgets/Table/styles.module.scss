@@ -2,6 +2,7 @@
   width: 100%;
   min-height: 0;
 
+  scrollbar-gutter: stable;
   overflow-x: auto;
   overflow-y: auto;
 
@@ -39,6 +40,7 @@
 .table {
   width: 100%;
 
+  table-layout: fixed;
   border-collapse: collapse;
 
   font-size: var(--font-size-sm);
