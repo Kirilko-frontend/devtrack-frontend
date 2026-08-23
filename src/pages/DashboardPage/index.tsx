@@ -17,7 +17,6 @@ function DashboardPage() {
       try {
         const data = await dashboardService.getDashboard();
         setDashboard(data);
-        console.log(data);
       } catch (error) {
         console.error('Dashboard error:', error);
       }
@@ -31,7 +30,7 @@ function DashboardPage() {
   }
 
   return (
-    <div className={`${styles['dashboard-page']} `}>
+    <div className={styles['dashboard-page']}>
       <div className={styles['dashboard-page__stats']}>
         {dashboardStats.map(({ key, changeKey, label, icon: Icon }) => (
           <StatCard

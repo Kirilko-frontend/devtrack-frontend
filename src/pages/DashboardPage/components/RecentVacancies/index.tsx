@@ -2,18 +2,18 @@ import { useState } from 'react';
 
 import type { DashboardRecentVacancy } from '@/types/dashboard';
 
-import { Input, Select } from '@/shared/ui';
-
-import styles from './styles.module.scss';
 import {
   vacancySortOptions,
   vacancyStatusOptions,
   type VacancySort,
   type VacancyStatusFilter,
-} from './config';
+} from '@/shared/constants/vacancies';
+import { filterVacancies, searchVacancies, sortVacancies } from '@/shared/utils/vacancies';
 
+import { Input, Select } from '@/shared/ui';
 import { Table } from '@/widgets';
-import { filterVacancies, searchVacancies, sortVacancies } from './helpers/vacancies';
+
+import styles from './styles.module.scss';
 
 interface IProps {
   vacancies: DashboardRecentVacancy[];

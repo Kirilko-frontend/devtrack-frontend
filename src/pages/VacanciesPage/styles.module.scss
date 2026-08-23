@@ -1,0 +1,40 @@
+.vacancies-page {
+  @include flex-column;
+  gap: 4rem;
+  padding-top: 2rem;
+}
+
+.vacancies-page__header {
+  @include flex-space-between;
+}
+
+.vacancies-page__title {
+  color: rgb(var(--color-white));
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-md);
+}
+
+.vacancies-page__create-button-icon {
+  margin-right: 0.5rem;
+}
+
+.vacancies-page__create-button {
+  width: 11rem;
+  height: 2rem;
+}
+
+.vacancies-page__main {
+  @include flex-center;
+  gap: 2rem;
+}
+
+.vacancies-page__search {
+  height: 3rem;
+  width: 25rem;
+}
+
+.vacancies-page__actions {
+  @include flex-center;
+  gap: 1rem;
+}
