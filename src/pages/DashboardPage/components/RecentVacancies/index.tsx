@@ -11,6 +11,7 @@ import {
   type VacancySort,
   type VacancyStatusFilter,
 } from './config';
+import { Table } from '@/widgets';
 
 interface IProps {
   vacancies: DashboardRecentVacancy[];
@@ -50,48 +51,36 @@ function RecentVacancies({ vacancies }: IProps) {
         </div>
       </div>
 
-      <div className={styles['recent-vacancies__table-wrapper']}>
-        <table className={styles['recent-vacancies__table']}>
-          <thead className={styles['recent-vacancies__table-head']}>
-            <tr className={styles['recent-vacancies__table-row']}>
-              <th className={styles['recent-vacancies__table-header']}>Title</th>
-              <th className={styles['recent-vacancies__table-header']}>Company</th>
-              <th className={styles['recent-vacancies__table-header']}>Salary</th>
-              <th className={styles['recent-vacancies__table-header']}>Status</th>
-              <th className={styles['recent-vacancies__table-header']}>Link</th>
-            </tr>
-          </thead>
-
-          <tbody className={styles['recent-vacancies__table-body']}>
-            {vacancies.map((vacancy) => (
-              <tr className={styles['recent-vacancies__table-row']} key={vacancy.id}>
-                <td className={styles['recent-vacancies__table-cell']}>{vacancy.title}</td>
-
-                <td className={styles['recent-vacancies__table-cell']}>{vacancy.company.name}</td>
-
-                <td className={styles['recent-vacancies__table-cell']}>{vacancy.salary ?? '—'}</td>
-
-                <td className={styles['recent-vacancies__table-cell']}>{vacancy.status}</td>
-
-                <td className={styles['recent-vacancies__table-cell']}>
-                  {vacancy.url ? (
-                    <a
-                      className={styles['recent-vacancies__link']}
-                      href={vacancy.url}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      View vacancy
-                    </a>
-                  ) : (
-                    '—'
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <Table
+        data={vacancies}
+        getRowKey={(vacancy) => vacancy.id}
+        columns={[
+          {
+            key: 'title',
+            label: 'Title',
+          },
+          {
+            key: 'salary',
+            label: 'Salary',
+          },
+          {
+            key: 'status',
+            label: 'Status',
+          },
+          {
+            key: 'url',
+            label: 'Link',
+            render: (vacancy) =>
+              vacancy.url ? (
+                <a href={vacancy.url} target="_blank" rel="noreferrer">
+                  View vacancy
+                </a>
+              ) : (
+                '—'
+              ),
+          },
+        ]}
+      />
     </div>
   );
 }

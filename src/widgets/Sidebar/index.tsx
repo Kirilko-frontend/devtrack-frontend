@@ -5,7 +5,7 @@ import { navigation } from './config';
 
 import styles from './styles.module.scss';
 
-export function Sidebar() {
+function Sidebar() {
   return (
     <aside className={styles['sidebar']}>
       <div className={styles['sidebar__brand']}>
@@ -36,3 +36,5 @@ export function Sidebar() {
     </aside>
   );
 }
+
+export default Sidebar;
