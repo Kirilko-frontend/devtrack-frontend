@@ -27,7 +27,7 @@ function UpcomingInterviews({ interviews }: IProps) {
         <div className={styles['upcoming-interviews__empty']}>
           <CalendarDays size={24} />
 
-          <p>No upcoming interviews</p>
+          <p className={styles['upcoming-interviews__empty-title']}>No upcoming interviews</p>
         </div>
       ) : (
         <ul className={styles['upcoming-interviews__list']}>

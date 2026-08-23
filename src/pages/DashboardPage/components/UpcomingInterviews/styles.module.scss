@@ -51,7 +51,7 @@
 
 .upcoming-interviews__list {
   @include flex-column;
-  gap: 0.5rem;
+  gap: 1.5rem;
 
   flex: 1;
   min-height: 0;
@@ -209,7 +209,7 @@
   color: rgb(var(--color-muted));
 }
 
-.upcoming-interviews__empty p {
+.upcoming-interviews__empty-title {
   margin: 0;
 
   font-size: var(--font-size-sm);
