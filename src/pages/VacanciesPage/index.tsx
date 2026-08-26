@@ -3,7 +3,7 @@ import { Plus } from 'lucide-react';
 
 import type { Vacancy } from '@/types/vacancy';
 
-import { Button, Input, Select } from '@/shared/ui';
+import { Button, Input, Pagination, Select } from '@/shared/ui';
 import { Table } from '@/widgets';
 import { vacanciesService } from '@/services';
 
@@ -140,10 +140,7 @@ function VacanciesPage() {
         ]}
       />
 
-      {/* Pagination добавим сюда */}
-      <div>
-        Page {page} of {totalPages}
-      </div>
+      <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
     </div>
   );
 }
