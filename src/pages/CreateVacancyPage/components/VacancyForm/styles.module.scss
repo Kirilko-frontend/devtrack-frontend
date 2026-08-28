@@ -1,6 +1,6 @@
 .vacancy-form {
   @include flex-column;
-  gap: 3rem;
+  gap: 1rem;
   width: 35rem;
 
   border-radius: 2rem;
@@ -12,6 +12,7 @@
 .vacancy-form__field {
   @include flex-column;
   gap: 0.5rem;
+  min-height: 7rem;
 }
 
 .vacancy-form__actions {

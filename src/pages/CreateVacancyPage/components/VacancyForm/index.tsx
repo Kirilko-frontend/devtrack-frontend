@@ -1,9 +1,10 @@
 import { useState } from 'react';
 
-import { Button, Input, Select } from '@/shared/ui';
-
 import type { Company } from '@/types/company';
 import type { VacancyFormValues } from '@/types/vacancy';
+
+import { Button, Input, Select } from '@/shared/ui';
+import { vacancySchema } from '@/shared/validation/vacancy';
 
 import styles from './styles.module.scss';
 
@@ -24,6 +25,7 @@ const defaultValues: VacancyFormValues = {
 
 function VacancyForm({ companies, initialValues = defaultValues, onSubmit, onCancel }: IProps) {
   const [values, setValues] = useState<VacancyFormValues>(initialValues);
+  const [errors, setErrors] = useState<Partial<Record<keyof VacancyFormValues, string>>>({});
 
   const companyOptions = companies.map((company) => ({
     value: String(company.id),
@@ -43,7 +45,25 @@ function VacancyForm({ companies, initialValues = defaultValues, onSubmit, onCan
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    onSubmit(values);
+    const result = vacancySchema.safeParse(values);
+
+    if (!result.success) {
+      const formErrors: Partial<Record<keyof VacancyFormValues, string>> = {};
+
+      result.error.issues.forEach((issue) => {
+        const field = issue.path[0] as keyof VacancyFormValues;
+
+        formErrors[field] = issue.message;
+      });
+
+      setErrors(formErrors);
+
+      return;
+    }
+
+    setErrors({});
+
+    onSubmit(result.data);
   };
 
   return (
@@ -57,6 +77,8 @@ function VacancyForm({ companies, initialValues = defaultValues, onSubmit, onCan
           onChange={(event) => handleChange('title', event.target.value)}
           placeholder="Frontend Developer"
         />
+
+        {errors.title && <span className={styles['vacancy-form__error']}>{errors.title}</span>}
       </div>
 
       <div className={styles['vacancy-form__field']}>
@@ -68,6 +90,10 @@ function VacancyForm({ companies, initialValues = defaultValues, onSubmit, onCan
           onChange={(value) => handleChange('companyId', Number(value))}
           placeholder="Select company"
         />
+
+        {errors.companyId && (
+          <span className={styles['vacancy-form__error']}>{errors.companyId}</span>
+        )}
       </div>
 
       <div className={styles['vacancy-form__field']}>
@@ -79,6 +105,8 @@ function VacancyForm({ companies, initialValues = defaultValues, onSubmit, onCan
           onChange={(event) => handleChange('salary', event.target.value)}
           placeholder="2000-3000 USD"
         />
+
+        {errors.url && <span className={styles['vacancy-form__error']}>{errors.url}</span>}
       </div>
 
       <div className={styles['vacancy-form__field']}>
