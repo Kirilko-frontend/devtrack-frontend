@@ -1,7 +1,10 @@
 .vacancies-page {
   @include flex-column;
-  gap: 4rem;
-  padding-top: 2rem;
+  gap: 2rem;
+  padding-bottom: 2rem;
+
+  height: 100%;
+  min-height: 0;
 }
 
 .vacancies-page__header {
@@ -25,8 +28,15 @@
 }
 
 .vacancies-page__main {
-  @include flex-center;
+  @include flex-column;
   gap: 2rem;
+
+  flex: 1;
+  min-height: 0;
+}
+
+.vacancies-page__main-content {
+  @include flex-center;
 }
 
 .vacancies-page__search {
@@ -35,6 +45,12 @@
 }
 
 .vacancies-page__actions {
-  @include flex-center;
+  display: flex;
   gap: 1rem;
+}
+
+.vacancies-page__table {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
 }

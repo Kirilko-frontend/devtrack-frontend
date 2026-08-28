@@ -76,77 +76,78 @@ function VacanciesPage() {
         <h1 className={styles['vacancies-page__title']}>Manage and track your job opportunities</h1>
 
         <Button className={styles['vacancies-page__create-button']} onClick={handleNavigate}>
-          <Plus className={styles['vacancies-page__create-button-icon']} size={18} />
+          <Plus className={styles['vacancies-page__create-button-icon']} />
           Add vacancy
         </Button>
       </div>
 
       <main className={styles['vacancies-page__main']}>
-        <Input
-          type="search"
-          value={search}
-          onChange={(event) => handleSearchChange(event.target.value)}
-          placeholder="Search vacancies"
-          className={styles['vacancies-page__search']}
-        />
-
-        <div className={styles['vacancies-page__actions']}>
-          <Select
-            value={statusFilter}
-            options={vacancyStatusOptions}
-            onChange={handleStatusChange}
-            placeholder="Status"
+        <div className={styles['vacancies-page__main-content']}>
+          <Input
+            type="search"
+            value={search}
+            onChange={(event) => handleSearchChange(event.target.value)}
+            placeholder="Search vacancies"
+            className={styles['vacancies-page__search']}
           />
-
-          <Select
-            value={sort}
-            options={vacancySortOptions}
-            onChange={handleSortChange}
-            placeholder="Sort by"
+          <div className={styles['vacancies-page__actions']}>
+            <Select
+              value={statusFilter}
+              options={vacancyStatusOptions}
+              onChange={handleStatusChange}
+              placeholder="Status"
+            />
+            <Select
+              value={sort}
+              options={vacancySortOptions}
+              onChange={handleSortChange}
+              placeholder="Sort by"
+            />
+          </div>
+        </div>
+        <div className={styles['vacancies-page__table']}>
+          <Table
+            data={vacancies}
+            getRowKey={(vacancy) => vacancy.id}
+            columns={[
+              {
+                key: 'title',
+                label: 'Title',
+                width: '30%',
+              },
+              {
+                key: 'company',
+                label: 'Company',
+                render: (vacancy) => vacancy.company.name,
+                width: '20%',
+              },
+              {
+                key: 'salary',
+                label: 'Salary',
+                width: '15%',
+              },
+              {
+                key: 'status',
+                label: 'Status',
+                width: '15%',
+              },
+              {
+                key: 'url',
+                label: 'Link',
+                width: '20%',
+                render: (vacancy) =>
+                  vacancy.url ? (
+                    <a href={vacancy.url} target="_blank" rel="noreferrer">
+                      View vacancy
+                    </a>
+                  ) : (
+                    '—'
+                  ),
+              },
+            ]}
           />
         </div>
       </main>
-
-      <Table
-        data={vacancies}
-        getRowKey={(vacancy) => vacancy.id}
-        columns={[
-          {
-            key: 'title',
-            label: 'Title',
-            width: '30%',
-          },
-          {
-            key: 'company',
-            label: 'Company',
-            render: (vacancy) => vacancy.company.name,
-            width: '20%',
-          },
-          {
-            key: 'salary',
-            label: 'Salary',
-            width: '15%',
-          },
-          {
-            key: 'status',
-            label: 'Status',
-            width: '15%',
-          },
-          {
-            key: 'url',
-            label: 'Link',
-            width: '20%',
-            render: (vacancy) =>
-              vacancy.url ? (
-                <a href={vacancy.url} target="_blank" rel="noreferrer">
-                  View vacancy
-                </a>
-              ) : (
-                '—'
-              ),
-          },
-        ]}
-      />
 
       <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
     </div>
