@@ -21,6 +21,7 @@ const defaultValues: VacancyFormValues = {
   url: '',
   salary: '',
   companyId: null,
+  appliedAt: new Date().toISOString().split('T')[0],
 };
 
 function VacancyForm({ companies, initialValues = defaultValues, onSubmit, onCancel }: IProps) {
@@ -118,6 +119,21 @@ function VacancyForm({ companies, initialValues = defaultValues, onSubmit, onCan
           onChange={(event) => handleChange('url', event.target.value)}
           placeholder="https://linkedin.com/jobs/123"
         />
+      </div>
+
+      <div className={styles['vacancy-form__field']}>
+        <label htmlFor="appliedAt">Application date</label>
+
+        <Input
+          id="appliedAt"
+          type="date"
+          value={values.appliedAt}
+          onChange={(event) => handleChange('appliedAt', event.target.value)}
+        />
+
+        {errors.appliedAt && (
+          <span className={styles['vacancy-form__error']}>{errors.appliedAt}</span>
+        )}
       </div>
 
       <div className={styles['vacancy-form__field']}>

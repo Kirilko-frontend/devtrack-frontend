@@ -27,6 +27,13 @@ export const vacancySchema = z.object({
     .trim()
     .max(100, 'Salary must be less than 100 characters'),
 
+  appliedAt: z
+  .string()
+  .refine(
+    (value) => !value || !Number.isNaN(Date.parse(value)),
+    'Enter a valid date',
+  ),
+
   companyId: z
     .number()
     .int()

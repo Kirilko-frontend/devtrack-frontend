@@ -46,4 +46,5 @@ export interface VacancyFormValues {
   url: string;
   salary: string;
   companyId: number | null;
+  appliedAt: string;
 }
