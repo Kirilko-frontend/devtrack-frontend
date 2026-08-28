@@ -1,0 +1,12 @@
+.create-vacancy-page {
+  @include flex-column-center;
+  gap: 4rem;
+}
+
+.create-vacancy-page__title {
+  align-self: self-start;
+  color: rgb(var(--color-white));
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-md);
+}

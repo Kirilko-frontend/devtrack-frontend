@@ -39,3 +39,11 @@ export interface VacanciesResponse {
     totalPages: number;
   };
 }
+
+export interface VacancyFormValues {
+  title: string;
+  description: string;
+  url: string;
+  salary: string;
+  companyId: number | null;
+}

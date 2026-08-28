@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { Plus } from 'lucide-react';
 
 import type { Vacancy } from '@/types/vacancy';
@@ -25,6 +27,8 @@ function VacanciesPage() {
 
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadVacancies = async () => {
@@ -62,12 +66,16 @@ function VacanciesPage() {
     setPage(1);
   };
 
+  const handleNavigate = () => {
+    navigate('/vacancies-create');
+  };
+
   return (
     <div className={styles['vacancies-page']}>
       <div className={styles['vacancies-page__header']}>
         <h1 className={styles['vacancies-page__title']}>Manage and track your job opportunities</h1>
 
-        <Button className={styles['vacancies-page__create-button']}>
+        <Button className={styles['vacancies-page__create-button']} onClick={handleNavigate}>
           <Plus className={styles['vacancies-page__create-button-icon']} size={18} />
           Add vacancy
         </Button>

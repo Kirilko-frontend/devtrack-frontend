@@ -1,11 +1,15 @@
 const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
 
-type RequestOptions = RequestInit & {
+type RequestOptions = Omit<RequestInit, 'body'> & {
   params?: Record<string, string | number>;
+  body?: unknown;
 };
 
-export async function api<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
-  const { params, ...fetchOptions } = options;
+export async function api<T>(
+  endpoint: string,
+  options: RequestOptions = {},
+): Promise<T> {
+  const { params, body, ...fetchOptions } = options;
 
   const url = new URL(`${API_URL}${endpoint}`);
 
@@ -22,6 +26,7 @@ export async function api<T>(endpoint: string, options: RequestOptions = {}): Pr
       'Content-Type': 'application/json',
       ...fetchOptions.headers,
     },
+    body: body !== undefined ? JSON.stringify(body) : undefined,
   });
 
   if (!response.ok) {

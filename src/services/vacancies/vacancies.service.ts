@@ -1,8 +1,10 @@
 import { api } from '../api';
 
-import type { VacanciesResponse } from '@/types/vacancy';
-import type { VacancySort, VacancyStatusFilter } from '@/shared/constants/vacancies';
-
+import type { VacanciesResponse, Vacancy } from '@/types/vacancy';
+import type {
+  VacancySort,
+  VacancyStatusFilter,
+} from '@/shared/constants/vacancies';
 
 export interface GetVacanciesParams {
   page?: number;
@@ -10,6 +12,14 @@ export interface GetVacanciesParams {
   search?: string;
   status?: VacancyStatusFilter;
   sort?: VacancySort;
+}
+
+export interface CreateVacancyData {
+  title: string;
+  description?: string;
+  url?: string;
+  salary?: string;
+  companyId: number;
 }
 
 export const vacanciesService = {
@@ -38,6 +48,15 @@ export const vacanciesService = {
 
     const query = searchParams.toString();
 
-    return api<VacanciesResponse>(`/vacancies${query ? `?${query}` : ''}`);
+    return api<VacanciesResponse>(
+      `/vacancies${query ? `?${query}` : ''}`,
+    );
+  },
+
+  createVacancy(data: CreateVacancyData) {
+    return api<Vacancy>('/vacancies', {
+      method: 'POST',
+      body: data,
+    });
   },
 };

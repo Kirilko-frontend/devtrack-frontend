@@ -1,0 +1,25 @@
+.vacancy-form {
+  @include flex-column;
+  gap: 3rem;
+  width: 35rem;
+
+  border-radius: 2rem;
+  padding: 1.5rem;
+
+  background: var(--gradient-surface-shine);
+}
+
+.vacancy-form__field {
+  @include flex-column;
+  gap: 0.5rem;
+}
+
+.vacancy-form__actions {
+  @include flex-center;
+  gap: 1rem;
+}
+
+.vacancy-from__actions-button {
+  width: 11rem;
+  height: 2rem;
+}
