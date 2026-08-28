@@ -63,6 +63,7 @@ export interface DashboardRecentVacancy {
     id: number;
     name: string;
   };
+  appliedAt: string;
   createdAt: string;
 }
 

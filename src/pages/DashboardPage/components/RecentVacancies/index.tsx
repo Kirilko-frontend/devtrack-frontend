@@ -97,6 +97,13 @@ function RecentVacancies({ vacancies }: IProps) {
                 '—'
               ),
           },
+          {
+            key: 'appliedAt',
+            label: 'Applied at',
+            width: '15%',
+            render: (vacancy) =>
+              vacancy.appliedAt ? new Date(vacancy.appliedAt).toLocaleDateString() : '—',
+          },
         ]}
       />
     </div>
