@@ -6,7 +6,7 @@ import type { VacancyFormValues } from '@/types/vacancy';
 
 import { companiesService, vacanciesService } from '@/services';
 
-import VacancyForm from './components/VacancyForm';
+import { VacancyForm } from '@/widgets';
 
 import styles from './styles.module.scss';
 

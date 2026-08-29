@@ -1,6 +1,6 @@
 import { api } from '../api';
 
-import type { VacanciesResponse, Vacancy } from '@/types/vacancy';
+import type { CreateVacancyData, UpdateVacancyData, VacanciesResponse, Vacancy } from '@/types/vacancy';
 import type {
   VacancySort,
   VacancyStatusFilter,
@@ -14,13 +14,6 @@ export interface GetVacanciesParams {
   sort?: VacancySort;
 }
 
-export interface CreateVacancyData {
-  title: string;
-  description?: string;
-  url?: string;
-  salary?: string;
-  companyId: number;
-}
 
 export const vacanciesService = {
   getVacancies(params: GetVacanciesParams = {}) {
@@ -59,4 +52,23 @@ export const vacanciesService = {
       body: data,
     });
   },
+
+  getVacancy(id: number) {
+    return api<Vacancy>(`/vacancies/${id}`, {
+      method: 'GET',
+    })
+  },
+
+  updateVacancy(id:number, data:UpdateVacancyData){
+    return api<Vacancy>(`/vacancies/${id}`, {
+      method: 'PATCH',
+      body: data
+    })
+  },
+
+deleteVacancy(id: number) {
+  return api<Vacancy>(`/vacancies/${id}`, {
+    method: 'DELETE',
+  });
+},
 };

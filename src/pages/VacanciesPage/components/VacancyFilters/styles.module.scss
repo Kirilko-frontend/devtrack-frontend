@@ -1,0 +1,13 @@
+.vacancy-fiters {
+  @include flex-center;
+}
+
+.vacancy-fiters__search {
+  height: 3rem;
+  width: 25rem;
+}
+
+.vacancy-fiters__actions {
+  display: flex;
+  gap: 1rem;
+}

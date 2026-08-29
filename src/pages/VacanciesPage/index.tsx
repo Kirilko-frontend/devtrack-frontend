@@ -1,25 +1,25 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { Plus } from 'lucide-react';
+
+import { type VacancySort, type VacancyStatusFilter } from '@/shared/constants/vacancies';
 
 import type { Vacancy } from '@/types/vacancy';
 
-import { Button, Input, Pagination, Select } from '@/shared/ui';
-import { Table } from '@/widgets';
 import { vacanciesService } from '@/services';
 
-import {
-  vacancySortOptions,
-  vacancyStatusOptions,
-  type VacancySort,
-  type VacancyStatusFilter,
-} from '@/shared/constants/vacancies';
+import { Button, Pagination } from '@/shared/ui';
+import { VacancyFilters, VacancyModal, VacancyTable } from './components';
 
 import styles from './styles.module.scss';
 
 function VacanciesPage() {
+  const navigate = useNavigate();
+
   const [vacancies, setVacancies] = useState<Vacancy[]>([]);
+  const [selectedVacancy, setSelectedVacancy] = useState<Vacancy | null>(null);
+
+  // const [isEditing, setIsEditing] = useState();
 
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<VacancyStatusFilter>('ALL');
@@ -27,8 +27,6 @@ function VacanciesPage() {
 
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const loadVacancies = async () => {
@@ -66,8 +64,16 @@ function VacanciesPage() {
     setPage(1);
   };
 
+  const handleSelectVacancy = (vacancy: Vacancy) => {
+    setSelectedVacancy(vacancy);
+  };
+
   const handleNavigate = () => {
     navigate('/vacancies-create');
+  };
+
+  const handleCloseModal = () => {
+    setSelectedVacancy(null);
   };
 
   return (
@@ -82,81 +88,23 @@ function VacanciesPage() {
       </div>
 
       <main className={styles['vacancies-page__main']}>
-        <div className={styles['vacancies-page__main-content']}>
-          <Input
-            type="search"
-            value={search}
-            onChange={(event) => handleSearchChange(event.target.value)}
-            placeholder="Search vacancies"
-            className={styles['vacancies-page__search']}
-          />
-          <div className={styles['vacancies-page__actions']}>
-            <Select
-              value={statusFilter}
-              options={vacancyStatusOptions}
-              onChange={handleStatusChange}
-              placeholder="Status"
-            />
-            <Select
-              value={sort}
-              options={vacancySortOptions}
-              onChange={handleSortChange}
-              placeholder="Sort by"
-            />
-          </div>
-        </div>
-        <div className={styles['vacancies-page__table']}>
-          <Table
-            data={vacancies}
-            getRowKey={(vacancy) => vacancy.id}
-            columns={[
-              {
-                key: 'title',
-                label: 'Title',
-                width: '30%',
-              },
-              {
-                key: 'company',
-                label: 'Company',
-                render: (vacancy) => vacancy.company.name,
-                width: '20%',
-              },
-              {
-                key: 'salary',
-                label: 'Salary',
-                width: '15%',
-              },
-              {
-                key: 'status',
-                label: 'Status',
-                width: '15%',
-              },
-              {
-                key: 'url',
-                label: 'Link',
-                width: '20%',
-                render: (vacancy) =>
-                  vacancy.url ? (
-                    <a href={vacancy.url} target="_blank" rel="noreferrer">
-                      View vacancy
-                    </a>
-                  ) : (
-                    '—'
-                  ),
-              },
-              {
-                key: 'appliedAt',
-                label: 'Applied at',
-                width: '15%',
-                render: (vacancy) =>
-                  vacancy.appliedAt ? new Date(vacancy.appliedAt).toLocaleDateString() : '—',
-              },
-            ]}
-          />
-        </div>
+        <VacancyFilters
+          search={search}
+          onSearchChange={handleSearchChange}
+          status={statusFilter}
+          onStatusChange={handleStatusChange}
+          sort={sort}
+          onSortChange={handleSortChange}
+        />
+
+        <VacancyTable vacancies={vacancies} onSelectVacancy={handleSelectVacancy} />
       </main>
 
       <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+
+      {selectedVacancy && (
+        <VacancyModal vacancy={selectedVacancy} onClose={handleCloseModal}></VacancyModal>
+      )}
     </div>
   );
 }

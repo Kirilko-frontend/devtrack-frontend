@@ -36,23 +36,3 @@
   flex: 1;
   min-height: 0;
 }
-
-.vacancies-page__main-content {
-  @include flex-center;
-}
-
-.vacancies-page__search {
-  height: 3rem;
-  width: 25rem;
-}
-
-.vacancies-page__actions {
-  display: flex;
-  gap: 1rem;
-}
-
-.vacancies-page__table {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-}

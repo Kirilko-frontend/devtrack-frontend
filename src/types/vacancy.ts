@@ -48,3 +48,22 @@ export interface VacancyFormValues {
   companyId: number | null;
   appliedAt: string;
 }
+
+
+export interface CreateVacancyData {
+  title: string;
+  description?: string;
+  url?: string;
+  salary?: string;
+  companyId: number;
+}
+
+export interface UpdateVacancyData {
+  title?: string;
+  description?: string;
+  url?: string;
+  status?: VacancyStatus;
+  salary?: string;
+  companyId?: number;
+}
+
