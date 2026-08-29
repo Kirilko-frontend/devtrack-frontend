@@ -10,14 +10,14 @@ export const authService = {
   login(data: LoginRequest) {
     return api<{ message: string }>('/auth/login', {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: data,
     });
   },
 
   register(data: RegisterRequest) {
     return api<{ message: string }>('/auth/register', {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: data,
     });
   },
 
