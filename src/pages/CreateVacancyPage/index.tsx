@@ -59,7 +59,12 @@ function CreateVacancyPage() {
         Add a new job opportunity to your vacancies.
       </h1>
 
-      <VacancyForm companies={companies} onSubmit={handleSubmit} onCancel={handleCancel} />
+      <VacancyForm
+        mode="create"
+        companies={companies}
+        onSubmit={handleSubmit}
+        onCancel={handleCancel}
+      />
     </div>
   );
 }

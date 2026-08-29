@@ -4,10 +4,12 @@ import { Plus } from 'lucide-react';
 
 import { type VacancySort, type VacancyStatusFilter } from '@/shared/constants/vacancies';
 
-import type { Vacancy } from '@/types/vacancy';
+import type { Vacancy, VacancyEditFormValues, VacancyFormValues } from '@/types/vacancy';
+import type { Company } from '@/types/company';
 
-import { vacanciesService } from '@/services';
+import { companiesService, vacanciesService } from '@/services';
 
+import { VacancyForm } from '@/widgets';
 import { Button, Pagination } from '@/shared/ui';
 import { VacancyFilters, VacancyModal, VacancyTable } from './components';
 
@@ -18,6 +20,7 @@ function VacanciesPage() {
 
   const [vacancies, setVacancies] = useState<Vacancy[]>([]);
   const [selectedVacancy, setSelectedVacancy] = useState<Vacancy | null>(null);
+  const [companies, setCompanies] = useState<Company[]>([]);
 
   // const [isEditing, setIsEditing] = useState();
 
@@ -49,6 +52,19 @@ function VacanciesPage() {
     void loadVacancies();
   }, [page, search, statusFilter, sort]);
 
+  useEffect(() => {
+    const loadCompanies = async () => {
+      try {
+        const response = await companiesService.getCompanies();
+        setCompanies(response);
+      } catch (error) {
+        console.error('Companies error:', error);
+      }
+    };
+
+    void loadCompanies();
+  }, []);
+
   const handleSearchChange = (value: string) => {
     setSearch(value);
     setPage(1);
@@ -68,6 +84,36 @@ function VacanciesPage() {
     setSelectedVacancy(vacancy);
   };
 
+  const handleUpdateVacancy = async (values: VacancyEditFormValues) => {
+    if (!selectedVacancy) {
+      return;
+    }
+
+    console.log('VALUES:', values);
+    console.log('STATUS:', values.status);
+
+    try {
+      const updatedVacancy = await vacanciesService.updateVacancy(selectedVacancy.id, {
+        title: values.title,
+        description: values.description,
+        url: values.url,
+        salary: values.salary,
+        companyId: values.companyId!,
+        appliedAt: values.appliedAt,
+        status: values.status,
+      });
+
+      console.log('UPDATED:', updatedVacancy);
+
+      setVacancies((current) =>
+        current.map((vacancy) => (vacancy.id === updatedVacancy.id ? updatedVacancy : vacancy))
+      );
+
+      setSelectedVacancy(null);
+    } catch (error) {
+      console.error('Update vacancy error:', error);
+    }
+  };
   const handleNavigate = () => {
     navigate('/vacancies-create');
   };
@@ -103,7 +149,23 @@ function VacanciesPage() {
       <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
 
       {selectedVacancy && (
-        <VacancyModal vacancy={selectedVacancy} onClose={handleCloseModal}></VacancyModal>
+        <VacancyModal onClose={handleCloseModal}>
+          <VacancyForm
+            mode="edit"
+            initialValues={{
+              title: selectedVacancy.title,
+              description: selectedVacancy.description ?? '',
+              url: selectedVacancy.url ?? '',
+              salary: selectedVacancy.salary ?? '',
+              companyId: selectedVacancy.companyId,
+              appliedAt: selectedVacancy.appliedAt ? selectedVacancy.appliedAt.split('T')[0] : '',
+              status: selectedVacancy.status,
+            }}
+            companies={companies}
+            onSubmit={handleUpdateVacancy}
+            onCancel={handleCloseModal}
+          />
+        </VacancyModal>
       )}
     </div>
   );

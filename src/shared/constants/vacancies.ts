@@ -13,6 +13,7 @@ const vacancySortOptions = [
   { value: 'TITLE', label: 'Title' },
 ] as const;
 
+
 type VacancyStatusFilter = (typeof vacancyStatusOptions)[number]['value'];
 type VacancySort = (typeof vacancySortOptions)[number]['value'];
 

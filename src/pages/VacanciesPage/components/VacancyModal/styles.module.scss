@@ -1,0 +1,158 @@
+.vacancy-modal {
+  @include flex-center;
+
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  padding: 1.5rem;
+
+  background-color: rgb(0 0 0 / 0.5);
+  backdrop-filter: blur(0.5rem);
+  -webkit-backdrop-filter: blur(0.5rem);
+
+  animation: vacancy-modal-overlay-in 0.25s ease;
+}
+
+.vacancy-modal--closing {
+  animation: vacancy-modal-overlay-out 0.25s ease forwards;
+}
+
+.vacancy-modal__dialog {
+  @include flex-column-center;
+  gap: 1rem;
+
+  width: 100%;
+  max-width: 44rem;
+
+  padding: 1.5rem;
+
+  overflow-y: auto;
+
+  background: var(--gradient-surface-shine);
+  border: 0.0625rem solid rgb(var(--color-white), 0.1);
+  border-radius: 1.25rem;
+
+  box-shadow: var(--shadow-lg);
+
+  animation: vacancy-modal-dialog-in 0.25s ease;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--color-white), 0.15) transparent;
+
+  &::-webkit-scrollbar {
+    width: 0.3rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--color-white), 0.15);
+    border-radius: 999px;
+  }
+
+  &:hover {
+    scrollbar-color: rgb(var(--color-white), 0.3) transparent;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--color-white), 0.3);
+  }
+}
+
+.vacancy-modal--closing .vacancy-modal__dialog {
+  animation: vacancy-modal-dialog-out 0.25s ease forwards;
+}
+
+.vacancy-modal__header {
+  @include flex-center;
+  gap: 27rem;
+  width: 100%;
+}
+
+.vacancy-modal__title {
+  margin: 0;
+
+  color: rgb(var(--color-white));
+
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-md);
+}
+
+.vacancy-modal__button {
+  @include flex-center;
+
+  width: 3rem;
+  height: 2.5rem;
+
+  flex-shrink: 0;
+
+  border: 0.0625rem solid rgb(var(--color-white), 0.1);
+  border-radius: 0.75rem;
+
+  background-color: rgb(var(--color-white), 0.06);
+  color: rgb(var(--color-muted));
+
+  cursor: pointer;
+
+  transition: var(--transition);
+
+  &:hover,
+  &:focus-visible {
+    background-color: rgb(var(--color-white), 0.12);
+    color: rgb(var(--color-white));
+
+    border-color: rgb(var(--color-white), 0.2);
+  }
+}
+
+@keyframes vacancy-modal-overlay-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes vacancy-modal-overlay-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes vacancy-modal-dialog-in {
+  from {
+    opacity: 0;
+
+    transform: translateY(1rem) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes vacancy-modal-dialog-out {
+  from {
+    opacity: 1;
+
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+
+    transform: translateY(1rem) scale(0.96);
+  }
+}

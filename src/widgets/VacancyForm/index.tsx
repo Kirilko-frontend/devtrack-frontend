@@ -1,19 +1,33 @@
 import { useState } from 'react';
 
 import type { Company } from '@/types/company';
-import type { VacancyFormValues } from '@/types/vacancy';
+import type { VacancyEditFormValues, VacancyFormValues } from '@/types/vacancy';
 
 import { Button, Input, Select } from '@/shared/ui';
+import { vacancyStatusOptions } from '@/shared/constants/vacancies';
 import { vacancySchema } from '@/shared/validation/vacancy';
 
 import styles from './styles.module.scss';
 
-interface IProps {
+type VacancyFormField = keyof VacancyFormValues | keyof VacancyEditFormValues;
+
+type CreateProps = {
   companies: Company[];
   initialValues?: VacancyFormValues;
+  mode: 'create';
   onSubmit: (values: VacancyFormValues) => void;
   onCancel: () => void;
-}
+};
+
+type EditProps = {
+  companies: Company[];
+  initialValues: VacancyEditFormValues;
+  mode: 'edit';
+  onSubmit: (values: VacancyEditFormValues) => void;
+  onCancel: () => void;
+};
+
+type IProps = CreateProps | EditProps;
 
 const defaultValues: VacancyFormValues = {
   title: '',
@@ -24,14 +38,23 @@ const defaultValues: VacancyFormValues = {
   appliedAt: new Date().toISOString().split('T')[0],
 };
 
-function VacancyForm({ companies, initialValues = defaultValues, onSubmit, onCancel }: IProps) {
-  const [values, setValues] = useState<VacancyFormValues>(initialValues);
-  const [errors, setErrors] = useState<Partial<Record<keyof VacancyFormValues, string>>>({});
+function VacancyForm(props: IProps) {
+  const { companies, mode, onCancel } = props;
+
+  const isEditMode = mode === 'edit';
+
+  const [values, setValues] = useState<VacancyFormValues | VacancyEditFormValues>(
+    props.initialValues ?? defaultValues
+  );
+
+  const [errors, setErrors] = useState<Partial<Record<VacancyFormField, string>>>({});
 
   const companyOptions = companies.map((company) => ({
     value: String(company.id),
     label: company.name,
   }));
+
+  const statusOptions = vacancyStatusOptions.filter((option) => option.value !== 'ALL');
 
   const handleChange = <K extends keyof VacancyFormValues>(
     field: K,
@@ -41,6 +64,23 @@ function VacancyForm({ companies, initialValues = defaultValues, onSubmit, onCan
       ...current,
       [field]: value,
     }));
+
+    setErrors((current) => ({
+      ...current,
+      [field]: undefined,
+    }));
+  };
+
+  const handleStatusChange = (value: VacancyEditFormValues['status']) => {
+    setValues((current) => ({
+      ...current,
+      status: value,
+    }));
+
+    setErrors((current) => ({
+      ...current,
+      status: undefined,
+    }));
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -49,10 +89,10 @@ function VacancyForm({ companies, initialValues = defaultValues, onSubmit, onCan
     const result = vacancySchema.safeParse(values);
 
     if (!result.success) {
-      const formErrors: Partial<Record<keyof VacancyFormValues, string>> = {};
+      const formErrors: Partial<Record<VacancyFormField, string>> = {};
 
       result.error.issues.forEach((issue) => {
-        const field = issue.path[0] as keyof VacancyFormValues;
+        const field = issue.path[0] as VacancyFormField;
 
         formErrors[field] = issue.message;
       });
@@ -64,7 +104,12 @@ function VacancyForm({ companies, initialValues = defaultValues, onSubmit, onCan
 
     setErrors({});
 
-    onSubmit(result.data);
+    if (isEditMode) {
+      props.onSubmit(result.data as VacancyEditFormValues);
+      return;
+    }
+
+    props.onSubmit(result.data as VacancyFormValues);
   };
 
   return (
@@ -82,18 +127,37 @@ function VacancyForm({ companies, initialValues = defaultValues, onSubmit, onCan
         {errors.title && <span className={styles['vacancy-form__error']}>{errors.title}</span>}
       </div>
 
-      <div className={styles['vacancy-form__field']}>
-        <label htmlFor="company">Company</label>
+      <div className={styles['vacancy-form__row']}>
+        <div className={styles['vacancy-form__field']}>
+          <label htmlFor="company">Company</label>
 
-        <Select
-          value={values.companyId ? String(values.companyId) : ''}
-          options={companyOptions}
-          onChange={(value) => handleChange('companyId', Number(value))}
-          placeholder="Select company"
-        />
+          <Select
+            value={values.companyId ? String(values.companyId) : ''}
+            options={companyOptions}
+            onChange={(value) => handleChange('companyId', Number(value))}
+            placeholder="Select company"
+          />
 
-        {errors.companyId && (
-          <span className={styles['vacancy-form__error']}>{errors.companyId}</span>
+          {errors.companyId && (
+            <span className={styles['vacancy-form__error']}>{errors.companyId}</span>
+          )}
+        </div>
+
+        {isEditMode && (
+          <div className={styles['vacancy-form__field']}>
+            <label htmlFor="status">Status</label>
+
+            <Select
+              value={(values as VacancyEditFormValues).status}
+              options={statusOptions}
+              onChange={handleStatusChange}
+              placeholder="Select status"
+            />
+
+            {errors.status && (
+              <span className={styles['vacancy-form__error']}>{errors.status}</span>
+            )}
+          </div>
         )}
       </div>
 
@@ -107,7 +171,7 @@ function VacancyForm({ companies, initialValues = defaultValues, onSubmit, onCan
           placeholder="2000-3000 USD"
         />
 
-        {errors.url && <span className={styles['vacancy-form__error']}>{errors.url}</span>}
+        {errors.salary && <span className={styles['vacancy-form__error']}>{errors.salary}</span>}
       </div>
 
       <div className={styles['vacancy-form__field']}>
@@ -119,6 +183,8 @@ function VacancyForm({ companies, initialValues = defaultValues, onSubmit, onCan
           onChange={(event) => handleChange('url', event.target.value)}
           placeholder="https://linkedin.com/jobs/123"
         />
+
+        {errors.url && <span className={styles['vacancy-form__error']}>{errors.url}</span>}
       </div>
 
       <div className={styles['vacancy-form__field']}>
@@ -127,7 +193,7 @@ function VacancyForm({ companies, initialValues = defaultValues, onSubmit, onCan
         <Input
           id="appliedAt"
           type="date"
-          value={values.appliedAt}
+          value={values.appliedAt ?? ''}
           onChange={(event) => handleChange('appliedAt', event.target.value)}
         />
 
@@ -145,6 +211,10 @@ function VacancyForm({ companies, initialValues = defaultValues, onSubmit, onCan
           onChange={(event) => handleChange('description', event.target.value)}
           placeholder="React + TypeScript position"
         />
+
+        {errors.description && (
+          <span className={styles['vacancy-form__error']}>{errors.description}</span>
+        )}
       </div>
 
       <div className={styles['vacancy-form__actions']}>
@@ -153,7 +223,7 @@ function VacancyForm({ companies, initialValues = defaultValues, onSubmit, onCan
         </Button>
 
         <Button className={styles['vacancy-from__actions-button']} type="submit">
-          Create Vacancy
+          {isEditMode ? 'Save changes' : 'Create Vacancy'}
         </Button>
       </div>
     </form>

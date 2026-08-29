@@ -49,6 +49,10 @@ export interface VacancyFormValues {
   appliedAt: string;
 }
 
+export interface VacancyEditFormValues extends VacancyFormValues {
+  status: VacancyStatus;
+}
+
 
 export interface CreateVacancyData {
   title: string;
@@ -65,5 +69,6 @@ export interface UpdateVacancyData {
   status?: VacancyStatus;
   salary?: string;
   companyId?: number;
+  appliedAt?: string;
 }
 
