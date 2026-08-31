@@ -41,6 +41,8 @@ function CreateVacancyPage() {
         url: values.url || undefined,
         salary: values.salary || undefined,
         companyId: values.companyId,
+        status: values.status,
+        appliedAt: values.appliedAt,
       });
 
       navigate('/vacancies');
@@ -59,12 +61,7 @@ function CreateVacancyPage() {
         Add a new job opportunity to your vacancies.
       </h1>
 
-      <VacancyForm
-        mode="create"
-        companies={companies}
-        onSubmit={handleSubmit}
-        onCancel={handleCancel}
-      />
+      <VacancyForm companies={companies} onSubmit={handleSubmit} onCancel={handleCancel} />
     </div>
   );
 }

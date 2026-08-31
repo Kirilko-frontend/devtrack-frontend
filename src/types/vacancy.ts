@@ -1,9 +1,13 @@
-export type VacancyStatus =
-  | 'SAVED'
-  | 'APPLIED'
-  | 'INTERVIEWING'
-  | 'OFFERED'
-  | 'REJECTED';
+export const vacancyStatuses = [
+  'SAVED',
+  'APPLIED',
+  'INTERVIEWING',
+  'OFFERED',
+  'REJECTED',
+] as const;
+
+export type VacancyStatus = (typeof vacancyStatuses)[number];
+
 
 export interface Vacancy {
   id: number;
@@ -46,13 +50,9 @@ export interface VacancyFormValues {
   url: string;
   salary: string;
   companyId: number | null;
+  status: VacancyStatus;
   appliedAt: string;
 }
-
-export interface VacancyEditFormValues extends VacancyFormValues {
-  status: VacancyStatus;
-}
-
 
 export interface CreateVacancyData {
   title: string;
@@ -60,15 +60,17 @@ export interface CreateVacancyData {
   url?: string;
   salary?: string;
   companyId: number;
+  status?: VacancyStatus;
+  appliedAt?: string;
 }
 
 export interface UpdateVacancyData {
   title?: string;
   description?: string;
   url?: string;
-  status?: VacancyStatus;
   salary?: string;
   companyId?: number;
+  status?: VacancyStatus;
   appliedAt?: string;
 }
 

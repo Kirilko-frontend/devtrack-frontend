@@ -4,7 +4,7 @@ import { Plus } from 'lucide-react';
 
 import { type VacancySort, type VacancyStatusFilter } from '@/shared/constants/vacancies';
 
-import type { Vacancy, VacancyEditFormValues, VacancyFormValues } from '@/types/vacancy';
+import type { Vacancy, VacancyFormValues } from '@/types/vacancy';
 import type { Company } from '@/types/company';
 
 import { companiesService, vacanciesService } from '@/services';
@@ -21,8 +21,6 @@ function VacanciesPage() {
   const [vacancies, setVacancies] = useState<Vacancy[]>([]);
   const [selectedVacancy, setSelectedVacancy] = useState<Vacancy | null>(null);
   const [companies, setCompanies] = useState<Company[]>([]);
-
-  // const [isEditing, setIsEditing] = useState();
 
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<VacancyStatusFilter>('ALL');
@@ -84,13 +82,10 @@ function VacanciesPage() {
     setSelectedVacancy(vacancy);
   };
 
-  const handleUpdateVacancy = async (values: VacancyEditFormValues) => {
+  const handleUpdateVacancy = async (values: VacancyFormValues) => {
     if (!selectedVacancy) {
       return;
     }
-
-    console.log('VALUES:', values);
-    console.log('STATUS:', values.status);
 
     try {
       const updatedVacancy = await vacanciesService.updateVacancy(selectedVacancy.id, {
@@ -103,8 +98,6 @@ function VacanciesPage() {
         status: values.status,
       });
 
-      console.log('UPDATED:', updatedVacancy);
-
       setVacancies((current) =>
         current.map((vacancy) => (vacancy.id === updatedVacancy.id ? updatedVacancy : vacancy))
       );
@@ -114,6 +107,7 @@ function VacanciesPage() {
       console.error('Update vacancy error:', error);
     }
   };
+
   const handleNavigate = () => {
     navigate('/vacancies-create');
   };
@@ -151,7 +145,6 @@ function VacanciesPage() {
       {selectedVacancy && (
         <VacancyModal onClose={handleCloseModal}>
           <VacancyForm
-            mode="edit"
             initialValues={{
               title: selectedVacancy.title,
               description: selectedVacancy.description ?? '',

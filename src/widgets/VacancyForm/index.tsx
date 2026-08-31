@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import type { Company } from '@/types/company';
-import type { VacancyEditFormValues, VacancyFormValues } from '@/types/vacancy';
+import type { VacancyFormValues } from '@/types/vacancy';
 
 import { Button, Input, Select } from '@/shared/ui';
 import { vacancyStatusOptions } from '@/shared/constants/vacancies';
@@ -9,25 +9,14 @@ import { vacancySchema } from '@/shared/validation/vacancy';
 
 import styles from './styles.module.scss';
 
-type VacancyFormField = keyof VacancyFormValues | keyof VacancyEditFormValues;
-
-type CreateProps = {
+interface IProps {
   companies: Company[];
   initialValues?: VacancyFormValues;
-  mode: 'create';
-  onSubmit: (values: VacancyFormValues) => void;
+  onSubmit: (values: VacancyFormValues) => void | Promise<void>;
   onCancel: () => void;
-};
+}
 
-type EditProps = {
-  companies: Company[];
-  initialValues: VacancyEditFormValues;
-  mode: 'edit';
-  onSubmit: (values: VacancyEditFormValues) => void;
-  onCancel: () => void;
-};
-
-type IProps = CreateProps | EditProps;
+type VacancyFormField = keyof VacancyFormValues;
 
 const defaultValues: VacancyFormValues = {
   title: '',
@@ -35,17 +24,12 @@ const defaultValues: VacancyFormValues = {
   url: '',
   salary: '',
   companyId: null,
+  status: 'APPLIED',
   appliedAt: new Date().toISOString().split('T')[0],
 };
 
-function VacancyForm(props: IProps) {
-  const { companies, mode, onCancel } = props;
-
-  const isEditMode = mode === 'edit';
-
-  const [values, setValues] = useState<VacancyFormValues | VacancyEditFormValues>(
-    props.initialValues ?? defaultValues
-  );
+function VacancyForm({ companies, initialValues, onSubmit, onCancel }: IProps) {
+  const [values, setValues] = useState<VacancyFormValues>(initialValues ?? defaultValues);
 
   const [errors, setErrors] = useState<Partial<Record<VacancyFormField, string>>>({});
 
@@ -71,18 +55,6 @@ function VacancyForm(props: IProps) {
     }));
   };
 
-  const handleStatusChange = (value: VacancyEditFormValues['status']) => {
-    setValues((current) => ({
-      ...current,
-      status: value,
-    }));
-
-    setErrors((current) => ({
-      ...current,
-      status: undefined,
-    }));
-  };
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -104,12 +76,7 @@ function VacancyForm(props: IProps) {
 
     setErrors({});
 
-    if (isEditMode) {
-      props.onSubmit(result.data as VacancyEditFormValues);
-      return;
-    }
-
-    props.onSubmit(result.data as VacancyFormValues);
+    onSubmit(result.data);
   };
 
   return (
@@ -143,22 +110,18 @@ function VacancyForm(props: IProps) {
           )}
         </div>
 
-        {isEditMode && (
-          <div className={styles['vacancy-form__field']}>
-            <label htmlFor="status">Status</label>
+        <div className={styles['vacancy-form__field']}>
+          <label htmlFor="status">Status</label>
 
-            <Select
-              value={(values as VacancyEditFormValues).status}
-              options={statusOptions}
-              onChange={handleStatusChange}
-              placeholder="Select status"
-            />
+          <Select
+            value={values.status}
+            options={statusOptions}
+            onChange={(value) => handleChange('status', value as VacancyFormValues['status'])}
+            placeholder="Select status"
+          />
 
-            {errors.status && (
-              <span className={styles['vacancy-form__error']}>{errors.status}</span>
-            )}
-          </div>
-        )}
+          {errors.status && <span className={styles['vacancy-form__error']}>{errors.status}</span>}
+        </div>
       </div>
 
       <div className={styles['vacancy-form__field']}>
@@ -218,12 +181,12 @@ function VacancyForm(props: IProps) {
       </div>
 
       <div className={styles['vacancy-form__actions']}>
-        <Button className={styles['vacancy-from__actions-button']} type="button" onClick={onCancel}>
+        <Button className={styles['vacancy-form__actions-button']} type="button" onClick={onCancel}>
           Cancel
         </Button>
 
-        <Button className={styles['vacancy-from__actions-button']} type="submit">
-          {isEditMode ? 'Save changes' : 'Create Vacancy'}
+        <Button className={styles['vacancy-form__actions-button']} type="submit">
+          Save
         </Button>
       </div>
     </form>

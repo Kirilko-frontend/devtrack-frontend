@@ -1,6 +1,9 @@
 import { z } from 'zod';
 
-import type { VacancyFormValues } from '@/types/vacancy';
+import {
+  type VacancyFormValues,
+  vacancyStatuses,
+} from '@/types/vacancy';
 
 export const vacancySchema = z.object({
   title: z
@@ -28,16 +31,20 @@ export const vacancySchema = z.object({
     .max(100, 'Salary must be less than 100 characters'),
 
   appliedAt: z
-  .string()
-  .refine(
-    (value) => !value || !Number.isNaN(Date.parse(value)),
-    'Enter a valid date',
-  ),
+    .string()
+    .refine(
+      (value) => !value || !Number.isNaN(Date.parse(value)),
+      'Enter a valid date',
+    ),
 
   companyId: z
     .number()
     .int()
     .positive('Company is required'),
+
+  status: z.enum(vacancyStatuses, {
+    message: 'Status is required',
+  }),
 });
 
 export type VacancyFormErrors = Partial<
