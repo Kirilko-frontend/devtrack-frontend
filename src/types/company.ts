@@ -1,5 +1,9 @@
 export interface Company {
-    id: string,
-    name: string,
-    website?: string;
+  id: number;
+  name: string;
+  website?: string;
+}
+
+export interface CreateCompanyData {
+  name: string;
 }

@@ -154,3 +154,32 @@
   background-color: rgb(var(--color-white), 0.1);
   color: rgb(var(--color-white));
 }
+
+.select__action-item {
+  @include flex-start;
+}
+
+.select__action {
+  @include flex-start;
+  gap: 0.5rem;
+}
+
+.select__adding {
+  @include flex-column;
+  gap: 0.5rem;
+  width: 10rem;
+}
+
+.select__adding-input {
+  height: 1rem;
+}
+
+.select__adding-actions {
+  @include flex-center;
+  gap: 0.5rem;
+}
+
+.select__adding-action {
+  width: 5rem;
+  height: 1rem;
+}

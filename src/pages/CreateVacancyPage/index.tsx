@@ -51,6 +51,16 @@ function CreateVacancyPage() {
     }
   };
 
+  const handleCreateCompany = async (name: string) => {
+    const company = await companiesService.createCompany({
+      name,
+    });
+
+    setCompanies((current) => [...current, company]);
+
+    return company;
+  };
+
   const handleCancel = () => {
     navigate('/vacancies');
   };
@@ -61,7 +71,12 @@ function CreateVacancyPage() {
         Add a new job opportunity to your vacancies.
       </h1>
 
-      <VacancyForm companies={companies} onSubmit={handleSubmit} onCancel={handleCancel} />
+      <VacancyForm
+        companies={companies}
+        onSubmit={handleSubmit}
+        onCancel={handleCancel}
+        onCreateItem={handleCreateCompany}
+      />
     </div>
   );
 }

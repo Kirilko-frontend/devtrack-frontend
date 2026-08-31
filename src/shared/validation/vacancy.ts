@@ -37,10 +37,10 @@ export const vacancySchema = z.object({
       'Enter a valid date',
     ),
 
-  companyId: z
-    .number()
-    .int()
-    .positive('Company is required'),
+  companyId: z.preprocess(
+    (value) => (value === null ? undefined : value),
+    z.number().int().positive('Company is required'),
+  ),
 
   status: z.enum(vacancyStatuses, {
     message: 'Status is required',

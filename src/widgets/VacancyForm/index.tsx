@@ -14,6 +14,7 @@ interface IProps {
   initialValues?: VacancyFormValues;
   onSubmit: (values: VacancyFormValues) => void | Promise<void>;
   onCancel: () => void;
+  onCreateItem?: (name: string) => Promise<Company>;
 }
 
 type VacancyFormField = keyof VacancyFormValues;
@@ -28,7 +29,7 @@ const defaultValues: VacancyFormValues = {
   appliedAt: new Date().toISOString().split('T')[0],
 };
 
-function VacancyForm({ companies, initialValues, onSubmit, onCancel }: IProps) {
+function VacancyForm({ companies, initialValues, onSubmit, onCancel, onCreateItem }: IProps) {
   const [values, setValues] = useState<VacancyFormValues>(initialValues ?? defaultValues);
 
   const [errors, setErrors] = useState<Partial<Record<VacancyFormField, string>>>({});
@@ -70,13 +71,21 @@ function VacancyForm({ companies, initialValues, onSubmit, onCancel }: IProps) {
       });
 
       setErrors(formErrors);
-
       return;
     }
 
     setErrors({});
+    void onSubmit(result.data);
+  };
 
-    onSubmit(result.data);
+  const handleCreateCompany = async (name: string) => {
+    if (!onCreateItem) {
+      return;
+    }
+
+    const company = await onCreateItem(name);
+
+    handleChange('companyId', company.id);
   };
 
   return (
@@ -99,10 +108,16 @@ function VacancyForm({ companies, initialValues, onSubmit, onCancel }: IProps) {
           <label htmlFor="company">Company</label>
 
           <Select
-            value={values.companyId ? String(values.companyId) : ''}
+            value={values.companyId !== null ? String(values.companyId) : ''}
             options={companyOptions}
-            onChange={(value) => handleChange('companyId', Number(value))}
+            onChange={(value) => {
+              handleChange('companyId', Number(value));
+            }}
             placeholder="Select company"
+            action={{
+              label: 'Add company',
+              onClick: handleCreateCompany,
+            }}
           />
 
           {errors.companyId && (
@@ -116,7 +131,7 @@ function VacancyForm({ companies, initialValues, onSubmit, onCancel }: IProps) {
           <Select
             value={values.status}
             options={statusOptions}
-            onChange={(value) => handleChange('status', value as VacancyFormValues['status'])}
+            onChange={(value) => handleChange('status', value)}
             placeholder="Select status"
           />
 
