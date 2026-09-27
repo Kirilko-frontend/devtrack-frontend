@@ -10,8 +10,8 @@ import type { Company } from '@/types/company';
 import { companiesService, vacanciesService } from '@/services';
 
 import { VacancyForm } from '@/widgets';
-import { Button, Pagination } from '@/shared/ui';
-import { VacancyFilters, VacancyModal, VacancyTable } from './components';
+import { Button, Modal, Pagination } from '@/shared/ui';
+import { VacancyFilters, VacancyTable } from './components';
 
 import styles from './styles.module.scss';
 
@@ -153,7 +153,7 @@ function VacanciesPage() {
       <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
 
       {selectedVacancy && (
-        <VacancyModal onClose={handleCloseModal}>
+        <Modal onClose={handleCloseModal} title="Edit Vacancy">
           <VacancyForm
             initialValues={{
               title: selectedVacancy.title,
@@ -169,7 +169,7 @@ function VacanciesPage() {
             onCancel={handleCloseModal}
             onCreateItem={handleCreateCompany}
           />
-        </VacancyModal>
+        </Modal>
       )}
     </div>
   );

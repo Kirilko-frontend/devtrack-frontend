@@ -1,4 +1,4 @@
-.vacancy-modal {
+.modal {
   @include flex-center;
 
   position: fixed;
@@ -14,11 +14,11 @@
   animation: vacancy-modal-overlay-in 0.25s ease;
 }
 
-.vacancy-modal--closing {
+.modal--closing {
   animation: vacancy-modal-overlay-out 0.25s ease forwards;
 }
 
-.vacancy-modal__dialog {
+.modal__dialog {
   @include flex-column-center;
   gap: 1rem;
 
@@ -66,13 +66,13 @@
   animation: vacancy-modal-dialog-out 0.25s ease forwards;
 }
 
-.vacancy-modal__header {
-  @include flex-center;
-  gap: 27rem;
+.modal__header {
+  @include flex-space-between;
   width: 100%;
+  padding-inline: 4rem;
 }
 
-.vacancy-modal__title {
+.modal__title {
   margin: 0;
 
   color: rgb(var(--color-white));
@@ -82,7 +82,7 @@
   line-height: var(--line-height-md);
 }
 
-.vacancy-modal__button {
+.modal__button {
   @include flex-center;
 
   width: 3rem;

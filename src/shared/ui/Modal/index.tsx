@@ -2,17 +2,19 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { X } from 'lucide-react';
 
-import styles from './styles.module.scss';
 import { Button } from '@/shared/ui';
+
+import styles from './styles.module.scss';
 
 interface IProps {
   onClose: () => void;
+  title?: string;
   children: React.ReactNode;
 }
 
 const CLOSE_ANIMATION_DURATION = 250;
 
-function VacancyModal({ onClose, children }: IProps) {
+function Modal({ onClose, title, children }: IProps) {
   const [isClosing, setIsClosing] = useState(false);
 
   const handleClose = useCallback(() => {
@@ -53,20 +55,20 @@ function VacancyModal({ onClose, children }: IProps) {
 
   return (
     <div
-      className={`${styles['vacancy-modal']} ${isClosing ? styles['vacancy-modal--closing'] : ''}`}
+      className={`${styles['modal']} ${isClosing ? styles['modal--closing'] : ''}`}
       onMouseDown={handleClose}
     >
       <div
-        className={styles['vacancy-modal__dialog']}
+        className={styles['modal__dialog']}
         role="dialog"
         aria-modal="true"
         onMouseDown={(event) => event.stopPropagation()}
       >
-        <div className={styles['vacancy-modal__header']}>
-          <h2 className={styles['vacancy-modal__title']}>Vacancy</h2>
+        <div className={styles['modal__header']}>
+          {title && <h2 className={styles['modal__title']}>{title}</h2>}
 
           <Button
-            className={styles['vacancy-modal__button']}
+            className={styles['modal__button']}
             type="button"
             aria-label="Close"
             onClick={handleClose}
@@ -81,4 +83,4 @@ function VacancyModal({ onClose, children }: IProps) {
   );
 }
 
-export default VacancyModal;
+export default Modal;
