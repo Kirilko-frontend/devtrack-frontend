@@ -7,16 +7,21 @@ import Empty from '@/shared/ui/Empty';
 
 interface IProps {
   companies: Company[];
+  onSelectCompany?: (company: Company) => void;
 }
 
-function CompaniesList({ companies }: IProps) {
+function CompaniesList({ companies, onSelectCompany }: IProps) {
   return (
     <div className={styles['companies-list']}>
       <h1 className={styles['companies-list__title']}>Companies List</h1>
 
       <div className={styles['companies-list__grid']}>
         {companies.map((company) => (
-          <CompanyCard key={company.id} company={company} />
+          <CompanyCard
+            key={company.id}
+            company={company}
+            onClick={() => onSelectCompany && onSelectCompany(company)}
+          />
         ))}
       </div>
 

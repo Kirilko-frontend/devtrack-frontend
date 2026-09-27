@@ -7,3 +7,7 @@ export interface Company {
 export interface CreateCompanyData {
   name: string;
 }
+
+export interface UpdateCompanyData {
+  name: string;
+}

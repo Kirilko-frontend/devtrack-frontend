@@ -5,11 +5,12 @@ import styles from './styles.module.scss';
 
 interface IProps {
   company: Company;
+  onClick?: () => void;
 }
 
-function CompanyCard({ company }: IProps) {
+function CompanyCard({ company, onClick }: IProps) {
   return (
-    <div className={styles['company-card']}>
+    <div className={styles['company-card']} onClick={onClick}>
       <h1 className={styles['company-card__title']}>{company.name}</h1>
       {company.website ? (
         <a

@@ -1,4 +1,3 @@
-
 const pageTitles: Record<string, string> = {
   '/dashboard': 'Dashboard',
   '/companies': 'Companies',
@@ -6,6 +5,7 @@ const pageTitles: Record<string, string> = {
   '/interviews': 'Interviews',
   '/resumes': 'Resumes',
   '/vacancies-create': 'Create Vacancy',
+  '/companies-create': 'Create Company',
 };
 
 export { pageTitles };

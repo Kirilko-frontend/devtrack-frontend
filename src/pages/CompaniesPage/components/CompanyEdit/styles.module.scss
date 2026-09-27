@@ -1,0 +1,12 @@
+.company-edit {
+  @include flex-column;
+
+  gap: 1.5rem;
+
+  width: 100%;
+}
+
+.company-edit__actions {
+  @include flex-center;
+  gap: 2rem;
+}

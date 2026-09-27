@@ -1,4 +1,5 @@
 import CompaniesList from './CompaniesList';
 import CompanyCard from './CompanyCard';
+import CompanyEdit from './CompanyEdit';
 
-export { CompaniesList, CompanyCard };
+export { CompaniesList, CompanyCard, CompanyEdit };
