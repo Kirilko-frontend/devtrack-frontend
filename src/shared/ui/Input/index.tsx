@@ -4,17 +4,14 @@ import type { InputHTMLAttributes } from 'react';
 import styles from './styles.module.scss';
 
 interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
   error?: string;
 }
 
-function Input({ label, error, className, type = 'text', ...props }: IInputProps) {
+function Input({ error, className, type = 'text', ...props }: IInputProps) {
   const isSearch = type === 'search';
 
   return (
     <div className={styles['input']}>
-      {label && <label className={styles['input__label']}>{label}</label>}
-
       <div
         className={`${styles['input__wrapper']} ${
           isSearch ? styles['input__wrapper--search'] : ''

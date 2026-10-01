@@ -1,0 +1,67 @@
+.create-company-page {
+  @include flex-center;
+
+  width: 100%;
+  height: 100%;
+
+  padding: 2rem;
+}
+
+.create-company-page__card {
+  @include flex-column;
+
+  width: 100%;
+  max-width: 32rem;
+
+  gap: 2rem;
+
+  padding: 2rem;
+
+  border: 0.0625rem solid rgb(var(--color-white), 0.08);
+  border-radius: 1.25rem;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  backdrop-filter: blur(1.5rem);
+  -webkit-backdrop-filter: blur(1.5rem);
+
+  box-shadow: var(--shadow-xl), var(--shadow-inset-top);
+}
+
+.create-company-page__header {
+  @include flex-column;
+
+  gap: 0.5rem;
+}
+
+.create-company-page__title {
+  margin: 0;
+
+  color: rgb(var(--color-white));
+
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-md);
+}
+
+.create-company-page__description {
+  margin: 0;
+
+  color: rgb(var(--color-muted));
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-md);
+}
+
+.create-company-page__form {
+  @include flex-column;
+
+  gap: 1.25rem;
+}
+
+.create-company-page__actions {
+  @include flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}

@@ -6,8 +6,10 @@ export interface Company {
 
 export interface CreateCompanyData {
   name: string;
+  website?: string;
 }
 
 export interface UpdateCompanyData {
   name: string;
+  website?: string;
 }
