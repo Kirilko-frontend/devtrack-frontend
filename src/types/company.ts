@@ -11,5 +11,5 @@ export interface CreateCompanyData {
 
 export interface UpdateCompanyData {
   name: string;
-  website?: string;
+  website?: string | null;
 }
