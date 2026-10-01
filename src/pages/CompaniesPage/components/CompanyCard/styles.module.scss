@@ -1,4 +1,5 @@
 .company-card {
+  position: relative;
   @include flex-column;
 
   gap: 0.5rem;
@@ -11,6 +12,7 @@
   border-radius: 0.75rem;
 
   transition: var(--transition);
+  z-index: 1;
 
   &:hover {
     box-shadow: var(--shadow-sm);
@@ -50,4 +52,12 @@
   line-height: var(--line-height-sm);
 
   color: rgb(var(--color-muted));
+}
+
+.company-card__delete-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  cursor: pointer;
 }

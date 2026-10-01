@@ -60,6 +60,15 @@ function CompaniesPage() {
     }
   };
 
+  const handleDeleteCompany = async (companyId: number) => {
+    try {
+      await companiesService.deleteCompany(companyId);
+      setCompanies((current) => current.filter((company) => company.id !== companyId));
+    } catch (error) {
+      console.error('Error deleting company:', error);
+    }
+  };
+
   return (
     <div className={styles['companies-page']}>
       <div className={styles['companies-page__header']}>
@@ -79,7 +88,11 @@ function CompaniesPage() {
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
       />
-      <CompaniesList companies={filteredCompanies} onSelectCompany={handleSelectCompany} />
+      <CompaniesList
+        companies={filteredCompanies}
+        onSelectCompany={handleSelectCompany}
+        onDeleteCompany={handleDeleteCompany}
+      />
       {selectedCompany && (
         <Modal title="Edit Company" onClose={() => setSelectedCompany(null)}>
           <CompanyEdit
