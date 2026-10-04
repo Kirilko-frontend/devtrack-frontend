@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
@@ -17,6 +17,35 @@ interface IProps {
 
 function ApplicationsChart({ data }: IProps) {
   const [period, setPeriod] = useState<ApplicationPeriod>('30D');
+
+  const filteredData = useMemo(() => {
+    const now = new Date();
+    const from = new Date(now);
+
+    switch (period) {
+      case '7D':
+        from.setDate(now.getDate() - 7);
+        break;
+
+      case '30D':
+        from.setDate(now.getDate() - 30);
+        break;
+
+      case '3M':
+        from.setMonth(now.getMonth() - 3);
+        break;
+
+      case '1Y':
+        from.setFullYear(now.getFullYear() - 1);
+        break;
+    }
+
+    return data.filter(({ date }) => {
+      const applicationDate = new Date(date);
+
+      return applicationDate >= from && applicationDate <= now;
+    });
+  }, [data, period]);
 
   return (
     <div className={styles['applications-chart']}>
@@ -45,7 +74,7 @@ function ApplicationsChart({ data }: IProps) {
 
       <div className={styles['applications-chart__chart']}>
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data}>
+          <BarChart data={filteredData}>
             <CartesianGrid stroke="rgb(var(--color-white))" strokeOpacity={0.06} vertical={false} />
 
             <XAxis
