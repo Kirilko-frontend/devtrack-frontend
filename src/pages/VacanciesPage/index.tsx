@@ -89,12 +89,12 @@ function VacanciesPage() {
 
     try {
       const updatedVacancy = await vacanciesService.updateVacancy(selectedVacancy.id, {
-        title: values.title,
-        description: values.description,
-        url: values.url,
-        salary: values.salary,
+        title: values.title.trim(),
+        description: values.description.trim(),
+        url: values.url.trim() || undefined,
+        salary: values.salary.trim(),
         companyId: values.companyId!,
-        appliedAt: values.appliedAt,
+        appliedAt: values.appliedAt || undefined,
         status: values.status,
       });
 
@@ -104,7 +104,7 @@ function VacanciesPage() {
 
       setSelectedVacancy(null);
     } catch (error) {
-      console.error('Update vacancy error:', error);
+      console.error('Update vacancy error:', JSON.stringify(error, null, 2));
     }
   };
 
