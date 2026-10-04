@@ -3,7 +3,7 @@ import type { Company } from '@/types/company';
 import CompanyCard from '../CompanyCard';
 
 import styles from './styles.module.scss';
-import Empty from '@/shared/ui/Empty';
+import { Empty } from '@/shared/ui';
 
 interface IProps {
   companies: Company[];

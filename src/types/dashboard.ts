@@ -1,11 +1,6 @@
-import type { InterviewType } from './interview';
+import type { InterviewType } from './interviews';
 
-type VacancyStatus =
-  | 'SAVED'
-  | 'APPLIED'
-  | 'INTERVIEWING'
-  | 'OFFERED'
-  | 'REJECTED';
+type VacancyStatus = 'SAVED' | 'APPLIED' | 'INTERVIEWING' | 'OFFERED' | 'REJECTED';
 
 export interface DashboardStats {
   totalVacancies: number;
@@ -73,6 +68,5 @@ export interface DashboardResponse {
   vacancyStatuses: DashboardVacancyStatuses;
   upcomingInterviews: DashboardInterview[];
   applicationActivity: DashboardApplicationActivity[];
-  recentVacancies: DashboardRecentVacancy[]
+  recentVacancies: DashboardRecentVacancy[];
 }
-

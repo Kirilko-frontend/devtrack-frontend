@@ -1,0 +1,33 @@
+.interviews-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.interviews-stats__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  padding: 1.25rem;
+
+  border: 0.0625rem solid rgb(var(--color-white), 0.08);
+  border-radius: 1rem;
+
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(1rem);
+  -webkit-backdrop-filter: blur(1rem);
+
+  box-shadow: var(--shadow-md), var(--shadow-inset-top);
+}
+
+.interviews-stats__label {
+  color: rgb(var(--color-white), 0.5);
+  font-size: 0.875rem;
+}
+
+.interviews-stats__value {
+  color: rgb(var(--color-white));
+  font-size: 1.75rem;
+  line-height: 1;
+}
