@@ -1,0 +1,13 @@
+.interviews-filters {
+  @include flex-center;
+  gap: 1rem;
+
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.interviews-filters__search {
+  width: 25rem;
+  height: 3rem;
+}
+

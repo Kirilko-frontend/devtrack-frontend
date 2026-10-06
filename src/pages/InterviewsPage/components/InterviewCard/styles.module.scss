@@ -3,45 +3,43 @@
   grid-template-columns: 5rem 1fr;
   gap: 1.25rem;
 
+  flex-shrink: 0;
+
   padding: 1.25rem;
 
   border: 0.0625rem solid rgb(var(--color-white), 0.08);
   border-radius: 1rem;
 
-  background: rgba(255, 255, 255, 0.04);
+  background-color: rgb(var(--color-white), 0.04);
   backdrop-filter: blur(1rem);
   -webkit-backdrop-filter: blur(1rem);
 
-  box-shadow: var(--shadow-md), var(--shadow-inset-top);
+  box-shadow: var(--shadow-md);
 
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
+  transition: var(--transition);
 
   &:hover {
     border-color: rgb(var(--color-white), 0.12);
-    background: rgba(255, 255, 255, 0.055);
+    background-color: rgb(var(--color-white), 0.055);
   }
 }
 
 .interview-card__date {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  @include flex-column-center;
 
   padding: 0.75rem;
 
   border-radius: 0.75rem;
-  background: rgb(var(--color-white), 0.04);
+  background-color: rgb(var(--color-white), 0.04);
 
   text-align: center;
 }
 
 .interview-card__month {
-  color: rgb(var(--color-white), 0.5);
-  font-size: 0.75rem;
-  font-weight: 600;
+  color: rgb(var(--color-muted));
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-sm);
   text-transform: uppercase;
 }
 
@@ -56,17 +54,19 @@
 .interview-card__time {
   margin-top: 0.375rem;
 
-  color: rgb(var(--color-white), 0.5);
-  font-size: 0.75rem;
+  color: rgb(var(--color-muted));
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-sm);
 }
 
 .interview-card__content {
+  @include flex-column;
+
   min-width: 0;
 }
 
 .interview-card__top {
-  display: flex;
-  align-items: center;
+  @include flex-start;
 }
 
 .interview-card__type {
@@ -74,11 +74,12 @@
 
   border-radius: 0.5rem;
 
-  background: rgb(var(--color-accent), 0.1);
+  background-color: rgb(var(--color-accent), 0.1);
   color: rgb(var(--color-accent));
 
-  font-size: 0.6875rem;
-  font-weight: 600;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-sm);
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
@@ -90,9 +91,9 @@
 
   color: rgb(var(--color-white));
 
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 1.4;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-md);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -100,14 +101,17 @@
 .interview-card__company {
   margin: 0.25rem 0 0;
 
-  color: rgb(var(--color-white), 0.55);
-  font-size: 0.875rem;
+  color: rgb(var(--color-muted));
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-md);
 }
 
 .interview-card__notes {
   margin: 0.75rem 0 0;
 
-  color: rgb(var(--color-white), 0.4);
+  color: rgb(var(--color-muted));
   font-size: 0.8125rem;
-  line-height: 1.5;
+  line-height: var(--line-height-lg);
 }
+

@@ -38,6 +38,7 @@ function InterviewsFilters({
   return (
     <div className={styles['interviews-filters']}>
       <Input
+        className={styles['interviews-filters__search']}
         type="search"
         value={search}
         placeholder="Search interviews..."

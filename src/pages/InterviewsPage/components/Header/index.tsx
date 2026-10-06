@@ -19,8 +19,8 @@ function Header({ onCreate }: IProps) {
         </p>
       </div>
 
-      <Button onClick={onCreate}>
-        <Plus />
+      <Button className={styles['interviews-header__create-button']} onClick={onCreate}>
+        <Plus size={18} />
         Add interview
       </Button>
     </div>

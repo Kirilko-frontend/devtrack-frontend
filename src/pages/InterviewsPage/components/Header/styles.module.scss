@@ -1,0 +1,31 @@
+.interviews-header {
+  @include flex-space-between;
+  gap: 1rem;
+
+  flex-shrink: 0;
+}
+
+.interviews-header__title {
+  color: rgb(var(--color-white));
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-md);
+}
+
+.interviews-header__description {
+  margin: 0.25rem 0 0;
+
+  color: rgb(var(--color-muted));
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-md);
+}
+
+.interviews-header__create-button {
+  @include flex-center;
+  gap: 0.5rem;
+
+  width: 11rem;
+  height: 2.25rem;
+}
+
