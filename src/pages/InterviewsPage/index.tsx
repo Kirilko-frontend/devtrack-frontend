@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import type { Interview } from '@/types/interviews';
 
@@ -19,6 +20,11 @@ function InterviewsPage() {
   const [typeFilter, setTypeFilter] = useState<InterviewTypeFilter>('ALL');
   const [dateFilter, setDateFilter] = useState<InterviewDateFilter>('ALL');
   const [sort, setSort] = useState<InterviewSort>('SOONEST');
+
+  const navigate = useNavigate();
+  const handleCreateInterview = () => {
+    navigate('/interviews-create');
+  };
 
   useEffect(() => {
     const loadInterviews = async () => {
@@ -79,7 +85,7 @@ function InterviewsPage() {
 
   return (
     <div className={styles['interviews-page']}>
-      <Header />
+      <Header onCreate={handleCreateInterview} />
 
       <main className={styles['interviews-page__main']}>
         <InterviewsStats interviews={interviews} />

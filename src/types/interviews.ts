@@ -17,3 +17,10 @@ export interface Interview {
     };
   };
 }
+
+export interface CreateInterviewData {
+  date: string;
+  notes?: string;
+  types: InterviewType;
+  vacancyId: number;
+}

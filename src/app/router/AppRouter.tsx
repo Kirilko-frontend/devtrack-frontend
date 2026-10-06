@@ -4,13 +4,14 @@ import AppLayout from '../layouts/AppLayout';
 import {
   CompaniesPage,
   CreateCompanyPage,
+  CreateInterviewsPage,
   CreateVacancyPage,
   DashboardPage,
+  InterviewsPage,
   LoginPage,
   RegisterPage,
   VacanciesPage,
 } from '@/pages';
-import InterviewsPage from '@/pages/InterviewsPage';
 
 function AppRouter() {
   return (
@@ -27,6 +28,7 @@ function AppRouter() {
           <Route path="/vacancies-create" element={<CreateVacancyPage />} />
           <Route path="/companies-create" element={<CreateCompanyPage />} />
           <Route path="/interviews" element={<InterviewsPage />} />
+          <Route path="/interviews-create" element={<CreateInterviewsPage />} />
           {/* <Route path="/resumes" element={<ResumesPage />} /> */}
         </Route>
       </Route>
