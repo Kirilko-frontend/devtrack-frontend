@@ -1,0 +1,60 @@
+.resumes-list {
+  @include flex-column;
+
+  gap: 1rem;
+}
+
+.resumes-list__header {
+  @include flex-start;
+  gap: 0.625rem;
+}
+
+.resumes-list__title {
+  color: rgb(var(--color-white));
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.resumes-list__count {
+  @include flex-center;
+  @include square(1.5rem);
+
+  border-radius: 50%;
+  background-color: rgb(var(--color-white), 0.08);
+  color: rgb(var(--color-muted));
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+.resumes-list__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.resumes-list__empty {
+  @include flex-center;
+
+  min-height: 12rem;
+  padding: 2rem;
+
+  border: 0.0625rem dashed rgb(var(--color-white), 0.12);
+  border-radius: 1rem;
+
+  color: rgb(var(--color-muted));
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+@media (max-width: 1024px) {
+  .resumes-list__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .resumes-list__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

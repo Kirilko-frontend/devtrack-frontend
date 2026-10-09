@@ -10,6 +10,7 @@ import {
   InterviewsPage,
   LoginPage,
   RegisterPage,
+  ResumesPage,
   VacanciesPage,
 } from '@/pages';
 
@@ -29,7 +30,7 @@ function AppRouter() {
           <Route path="/companies-create" element={<CreateCompanyPage />} />
           <Route path="/interviews" element={<InterviewsPage />} />
           <Route path="/interviews-create" element={<CreateInterviewsPage />} />
-          {/* <Route path="/resumes" element={<ResumesPage />} /> */}
+          <Route path="/resumes" element={<ResumesPage />} />
         </Route>
       </Route>
 

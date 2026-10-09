@@ -29,6 +29,11 @@
     border-color: rgb(var(--color-white), 0.2);
     color: rgb(var(--color-white));
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 }
 
 .select__trigger--open {
@@ -73,7 +78,6 @@
 
   position: absolute;
   z-index: 10;
-  top: calc(100% + 0.4rem);
   left: 0;
 
   min-width: 10rem;
@@ -117,6 +121,14 @@
   &:hover::-webkit-scrollbar-thumb {
     background-color: rgb(var(--color-white), 0.3);
   }
+}
+
+.select__options--bottom {
+  top: calc(100% + 0.4rem);
+}
+
+.select__options--top {
+  bottom: calc(100% + 0.4rem);
 }
 
 .select__option-item {

@@ -1,0 +1,145 @@
+.resume-card {
+  @include flex-column;
+
+  min-width: 0;
+  padding: 1.125rem;
+
+  border: 0.0625rem solid rgb(var(--color-white), 0.08);
+  border-radius: 1rem;
+
+  background-color: rgb(var(--color-white), 0.04);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+
+  &:hover {
+    border-color: rgb(var(--color-white), 0.14);
+    background-color: rgb(var(--color-white), 0.055);
+    transform: translateY(-0.125rem);
+  }
+}
+
+.resume-card__top {
+  @include flex-space-between;
+}
+
+.resume-card__file-icon {
+  @include flex-center;
+  @include square(2.75rem);
+
+  border-radius: 0.875rem;
+  background-color: rgb(var(--color-accent), 0.14);
+  color: rgb(var(--color-accent));
+}
+
+.resume-card__actions {
+  @include flex-start;
+  gap: 0.25rem;
+}
+
+.resume-card__action,
+.resume-card__download {
+  @include flex-center;
+  @include square(2rem);
+
+  flex-shrink: 0;
+
+  border-radius: 0.625rem;
+  color: rgb(var(--color-muted));
+  transition: var(--transition);
+
+  &:hover,
+  &:focus-visible {
+    background-color: rgb(var(--color-white), 0.08);
+    color: rgb(var(--color-white));
+  }
+}
+
+.resume-card__body {
+  min-width: 0;
+  margin-top: 1rem;
+}
+
+.resume-card__name {
+  overflow: hidden;
+
+  color: rgb(var(--color-white));
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-md);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resume-card__file {
+  margin-top: 0.375rem;
+
+  color: rgb(var(--color-muted));
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-md);
+}
+
+.resume-card__vacancy {
+  @include flex-start;
+  gap: 0.625rem;
+
+  min-height: 3rem;
+  margin-top: 1rem;
+  padding: 0.625rem 0.75rem;
+
+  border-radius: 0.75rem;
+  background-color: rgb(var(--color-white), 0.04);
+  color: rgb(var(--color-muted));
+
+  font-size: var(--font-size-xs);
+
+  > svg {
+    flex-shrink: 0;
+    color: rgb(var(--color-accent));
+  }
+}
+
+.resume-card__vacancy-copy {
+  @include flex-column;
+  gap: 0.125rem;
+
+  min-width: 0;
+
+  strong {
+    overflow: hidden;
+
+    color: rgb(var(--color-white), 0.88);
+    font-weight: var(--font-weight-medium);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.resume-card__company,
+.resume-card__unlinked {
+  color: rgb(var(--color-muted));
+}
+
+.resume-card__footer {
+  @include flex-space-between;
+  gap: 0.5rem;
+
+  margin-top: 1rem;
+  padding-top: 0.875rem;
+
+  border-top: 0.0625rem solid rgb(var(--color-white), 0.08);
+}
+
+.resume-card__updated {
+  @include flex-start;
+  gap: 0.375rem;
+
+  min-width: 0;
+
+  color: rgb(var(--color-muted));
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-md);
+
+  svg {
+    flex-shrink: 0;
+  }
+}

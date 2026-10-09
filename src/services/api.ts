@@ -5,10 +5,7 @@ type RequestOptions = Omit<RequestInit, 'body'> & {
   body?: unknown;
 };
 
-export async function api<T>(
-  endpoint: string,
-  options: RequestOptions = {},
-): Promise<T> {
+async function request(endpoint: string, options: RequestOptions = {}) {
   const { params, body, ...fetchOptions } = options;
 
   const url = new URL(`${API_URL}${endpoint}`);
@@ -19,14 +16,20 @@ export async function api<T>(
     });
   }
 
+  const headers = new Headers(fetchOptions.headers);
+  const isFormData = body instanceof FormData;
+
+  if (isFormData) {
+    headers.delete('Content-Type');
+  } else if (!headers.has('Content-Type')) {
+    headers.set('Content-Type', 'application/json');
+  }
+
   const response = await fetch(url, {
     ...fetchOptions,
     credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      ...fetchOptions.headers,
-    },
-    body: body !== undefined ? JSON.stringify(body) : undefined,
+    headers,
+    body: body === undefined ? undefined : isFormData ? body : JSON.stringify(body),
   });
 
   if (!response.ok) {
@@ -44,9 +47,37 @@ export async function api<T>(
     };
   }
 
+  return response;
+}
+
+export async function api<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
+  const response = await request(endpoint, options);
+
   if (response.status === 204) {
     return undefined as T;
   }
 
   return response.json() as Promise<T>;
+}
+
+export async function apiFile(endpoint: string): Promise<{ blob: Blob; filename: string | null }> {
+  const response = await request(endpoint);
+  const contentDisposition = response.headers.get('Content-Disposition');
+  const encodedFilename = contentDisposition?.match(/filename\*=UTF-8''([^;]+)/i)?.[1];
+  const quotedFilename = contentDisposition?.match(/filename="([^"]+)"/i)?.[1];
+  const plainFilename = contentDisposition?.match(/filename=([^;]+)/i)?.[1]?.trim();
+  let filename = encodedFilename ?? quotedFilename ?? plainFilename ?? null;
+
+  if (encodedFilename) {
+    try {
+      filename = decodeURIComponent(encodedFilename);
+    } catch {
+      filename = encodedFilename;
+    }
+  }
+
+  return {
+    blob: await response.blob(),
+    filename,
+  };
 }

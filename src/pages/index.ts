@@ -7,6 +7,7 @@ import CompaniesPage from './CompaniesPage';
 import CreateCompanyPage from './CreateCompanyPage';
 import InterviewsPage from './InterviewsPage';
 import CreateInterviewsPage from './CreateInterviewsPage';
+import ResumesPage from './ResumesPage';
 
 export {
   LoginPage,
@@ -18,4 +19,5 @@ export {
   CreateCompanyPage,
   InterviewsPage,
   CreateInterviewsPage,
+  ResumesPage,
 };

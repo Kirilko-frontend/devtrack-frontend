@@ -3,5 +3,13 @@ import { dashboardService } from './dashboard/dashboard.service';
 import { vacanciesService } from './vacancies/vacancies.service';
 import { companiesService } from './companies/companiesService';
 import { interviewsService } from './interviews/interviews.service';
+import { resumesService } from './resumes/resumes.service';
 
-export { authService, dashboardService, vacanciesService, companiesService, interviewsService };
+export {
+  authService,
+  dashboardService,
+  vacanciesService,
+  companiesService,
+  interviewsService,
+  resumesService,
+};

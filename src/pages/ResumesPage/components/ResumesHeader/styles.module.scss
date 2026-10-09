@@ -1,0 +1,52 @@
+.resumes-header {
+  @include flex-space-between;
+  gap: 1rem;
+
+  flex-shrink: 0;
+}
+
+.resumes-header__title {
+  color: rgb(var(--color-white));
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-md);
+}
+
+.resumes-header__description {
+  margin-top: 0.25rem;
+
+  color: rgb(var(--color-muted));
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-md);
+}
+
+.resumes-header__upload-button {
+  @include flex-center;
+  gap: 0.5rem;
+
+  width: 11rem;
+  min-height: 2.5rem;
+  flex-shrink: 0;
+
+  border-color: rgb(var(--color-accent), 0.45);
+  background-color: rgb(var(--color-accent));
+  color: rgb(var(--color-white));
+
+  &:hover,
+  &:focus-visible {
+    border-color: rgb(var(--color-accent));
+    background-color: rgb(var(--color-accent), 0.85);
+    color: rgb(var(--color-white));
+  }
+}
+
+@media (max-width: 640px) {
+  .resumes-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .resumes-header__upload-button {
+    width: 100%;
+  }
+}

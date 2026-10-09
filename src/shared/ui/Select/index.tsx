@@ -18,6 +18,8 @@ interface IProps<T extends string> {
   placeholder?: string;
   icon?: ReactNode;
   className?: string;
+  disabled?: boolean;
+  placement?: 'top' | 'bottom';
   action?: {
     label: string;
     onClick: (value: string) => void | Promise<void>;
@@ -31,6 +33,8 @@ function Select<T extends string>({
   placeholder = 'Select',
   icon,
   className,
+  disabled = false,
+  placement = 'bottom',
   action,
 }: IProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
@@ -96,6 +100,7 @@ function Select<T extends string>({
         <button
           className={`${styles['select__trigger']} ${isOpen ? styles['select__trigger--open'] : ''}`}
           type="button"
+          disabled={disabled}
           onClick={() => setIsOpen((current) => !current)}
         >
           {icon && <span className={styles['select__icon']}>{icon}</span>}
@@ -106,8 +111,10 @@ function Select<T extends string>({
         </button>
       )}
 
-      {isOpen && (
-        <ul className={styles['select__options']}>
+      {isOpen && !disabled && (
+        <ul
+          className={`${styles['select__options']} ${styles[`select__options--${placement}`]}`}
+        >
           {options.map((option) => (
             <li className={styles['select__option-item']} key={option.value}>
               <button
