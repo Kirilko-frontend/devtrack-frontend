@@ -1,7 +1,7 @@
-import Header from './Header';
-import InterviewCard from './InterviewCard';
+import InterviewsHeader from './InterviewHeader';
+import InterviewCard from './InterviewsCard';
 import InterviewsFilters from './InterviewsFilters';
 import InterviewsList from './InterviewsList';
 import InterviewsStats from './InterviewsStats';
 
-export { Header, InterviewCard, InterviewsFilters, InterviewsList, InterviewsStats };
+export { InterviewsHeader, InterviewCard, InterviewsFilters, InterviewsList, InterviewsStats };

@@ -45,23 +45,23 @@ function InterviewsFilters({
         onChange={(event) => onSearchChange(event.target.value)}
       />
 
-      <Select
-        value={type}
-        options={interviewTypeFilters}
-        onChange={(value) => onTypeChange(value as InterviewTypeFilter)}
-      />
-
-      <Select
-        value={date}
-        options={interviewDateFilters}
-        onChange={(value) => onDateChange(value as InterviewDateFilter)}
-      />
-
-      <Select
-        value={sort}
-        options={interviewSortOptions}
-        onChange={(value) => onSortChange(value as InterviewSort)}
-      />
+      <div className={styles['interviews-filters-actions']}>
+        <Select
+          value={type}
+          options={interviewTypeFilters}
+          onChange={(value) => onTypeChange(value as InterviewTypeFilter)}
+        />
+        <Select
+          value={date}
+          options={interviewDateFilters}
+          onChange={(value) => onDateChange(value as InterviewDateFilter)}
+        />
+        <Select
+          value={sort}
+          options={interviewSortOptions}
+          onChange={(value) => onSortChange(value as InterviewSort)}
+        />
+      </div>
     </div>
   );
 }

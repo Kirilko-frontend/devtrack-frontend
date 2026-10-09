@@ -8,7 +8,7 @@ interface IProps {
   onCreate?: () => void;
 }
 
-function Header({ onCreate }: IProps) {
+function InterviewsHeader({ onCreate }: IProps) {
   return (
     <div className={styles['interviews-header']}>
       <div>
@@ -27,4 +27,4 @@ function Header({ onCreate }: IProps) {
   );
 }
 
-export default Header;
+export default InterviewsHeader;

@@ -10,7 +10,7 @@ import type {
   InterviewTypeFilter,
 } from './components/InterviewsFilters/config';
 
-import { Header, InterviewsFilters, InterviewsList, InterviewsStats } from './components';
+import { InterviewsHeader, InterviewsFilters, InterviewsList, InterviewsStats } from './components';
 
 import styles from './styles.module.scss';
 
@@ -85,7 +85,7 @@ function InterviewsPage() {
 
   return (
     <div className={styles['interviews-page']}>
-      <Header onCreate={handleCreateInterview} />
+      <InterviewsHeader onCreate={handleCreateInterview} />
 
       <main className={styles['interviews-page__main']}>
         <InterviewsStats interviews={interviews} />

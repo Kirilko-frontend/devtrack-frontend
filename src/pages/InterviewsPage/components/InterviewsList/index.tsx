@@ -1,7 +1,7 @@
 import type { Interview } from '@/types/interviews';
 
 import styles from './styles.module.scss';
-import InterviewCard from '../InterviewCard';
+import InterviewCard from '../InterviewsCard';
 import { Empty } from '@/shared/ui';
 
 interface IProps {
