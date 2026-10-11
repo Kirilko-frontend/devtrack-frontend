@@ -1,4 +1,4 @@
-import { BriefcaseBusiness, Clock3, Download, Eye, FileText, Pencil, Trash2 } from 'lucide-react';
+import { BriefcaseBusiness, Clock3, Download, FileText } from 'lucide-react';
 
 import { actionButtons, type ResumeAction } from './config';
 
