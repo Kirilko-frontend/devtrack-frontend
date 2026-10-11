@@ -27,6 +27,7 @@ function ResumesPage() {
     closeDialog,
     saveResume,
     deleteResume,
+    previewResume,
     downloadResume,
   } = useResumes();
 
@@ -54,6 +55,7 @@ function ResumesPage() {
             hasLoadError={hasLoadError}
             onEdit={openEditDialog}
             onDelete={(resume) => void deleteResume(resume)}
+            onPreview={(resume) => void previewResume(resume)}
             onDownload={(resume) => void downloadResume(resume)}
           />
         </div>

@@ -195,6 +195,41 @@ function useResumes() {
     }
   };
 
+  const previewResume = async (resume: Resume) => {
+    setError('');
+
+    const previewWindow = window.open('about:blank', '_blank');
+
+    if (!previewWindow) {
+      setError('Allow pop-ups to preview this resume in a new tab.');
+      return;
+    }
+
+    try {
+      previewWindow.document.title = resume.name;
+
+      const { blob } = await resumesService.downloadResume(resume.id);
+      const isPdf = (await blob.slice(0, 5).text()) === '%PDF-';
+      const previewBlob =
+        isPdf && blob.type !== 'application/pdf'
+          ? new Blob([blob], { type: 'application/pdf' })
+          : blob;
+      const url = URL.createObjectURL(previewBlob);
+
+      previewWindow.location.href = url;
+
+      const cleanupInterval = window.setInterval(() => {
+        if (previewWindow.closed) {
+          window.clearInterval(cleanupInterval);
+          URL.revokeObjectURL(url);
+        }
+      }, 1000);
+    } catch (previewError) {
+      previewWindow.close();
+      setError(getErrorMessage(previewError));
+    }
+  };
+
   return {
     resumes,
     sortedResumes,
@@ -211,6 +246,7 @@ function useResumes() {
     closeDialog,
     saveResume,
     deleteResume,
+    previewResume,
     downloadResume,
   };
 }

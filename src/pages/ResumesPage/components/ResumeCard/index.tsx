@@ -1,4 +1,12 @@
-import { BriefcaseBusiness, Clock3, Download, FileText, Pencil, Trash2 } from 'lucide-react';
+import {
+  BriefcaseBusiness,
+  Clock3,
+  Download,
+  Eye,
+  FileText,
+  Pencil,
+  Trash2,
+} from 'lucide-react';
 
 import type { Resume } from '@/types/resume';
 import type { Vacancy } from '@/types/vacancy';
@@ -10,6 +18,7 @@ interface IProps {
   vacancy?: Vacancy;
   onEdit: (resume: Resume) => void;
   onDelete: (resume: Resume) => void;
+  onPreview: (resume: Resume) => void;
   onDownload: (resume: Resume) => void;
 }
 
@@ -21,7 +30,7 @@ function formatDate(value: string) {
   });
 }
 
-function ResumeCard({ resume, vacancy, onEdit, onDelete, onDownload }: IProps) {
+function ResumeCard({ resume, vacancy, onEdit, onDelete, onPreview, onDownload }: IProps) {
   return (
     <div className={styles['resume-card']}>
       <div className={styles['resume-card__top']}>
@@ -32,6 +41,17 @@ function ResumeCard({ resume, vacancy, onEdit, onDelete, onDownload }: IProps) {
           <button
             className={styles['resume-card__action']}
             type="button"
+            aria-label={`View ${resume.name}`}
+            title="View resume"
+            onClick={() => onPreview(resume)}
+          >
+            <Eye size={16} />
+          </button>
+          <button
+            className={styles['resume-card__action']}
+            type="button"
+            aria-label={`Edit ${resume.name}`}
+            title="Edit resume"
             onClick={() => onEdit(resume)}
           >
             <Pencil size={16} />
@@ -39,6 +59,8 @@ function ResumeCard({ resume, vacancy, onEdit, onDelete, onDownload }: IProps) {
           <button
             className={styles['resume-card__action']}
             type="button"
+            aria-label={`Delete ${resume.name}`}
+            title="Delete resume"
             onClick={() => onDelete(resume)}
           >
             <Trash2 size={16} />
@@ -75,6 +97,8 @@ function ResumeCard({ resume, vacancy, onEdit, onDelete, onDownload }: IProps) {
         <button
           className={styles['resume-card__download']}
           type="button"
+          aria-label={`Download ${resume.name}`}
+          title="Download resume"
           onClick={() => onDownload(resume)}
         >
           <Download size={16} />

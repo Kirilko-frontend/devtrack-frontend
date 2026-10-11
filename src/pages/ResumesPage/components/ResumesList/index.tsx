@@ -13,6 +13,7 @@ interface IProps {
   hasLoadError: boolean;
   onEdit: (resume: Resume) => void;
   onDelete: (resume: Resume) => void;
+  onPreview: (resume: Resume) => void;
   onDownload: (resume: Resume) => void;
 }
 
@@ -23,6 +24,7 @@ function ResumesList({
   hasLoadError,
   onEdit,
   onDelete,
+  onPreview,
   onDownload,
 }: IProps) {
   return (
@@ -48,6 +50,7 @@ function ResumesList({
               vacancy={resume.vacancyId ? vacanciesById.get(resume.vacancyId) : undefined}
               onEdit={onEdit}
               onDelete={onDelete}
+              onPreview={onPreview}
               onDownload={onDownload}
             />
           ))}
