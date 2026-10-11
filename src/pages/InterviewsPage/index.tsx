@@ -16,6 +16,7 @@ import styles from './styles.module.scss';
 
 function InterviewsPage() {
   const [interviews, setInterviews] = useState<Interview[]>([]);
+  const [deleteError, setDeleteError] = useState('');
   const [search, setSearch] = useState('');
   const [typeFilter, setTypeFilter] = useState<InterviewTypeFilter>('ALL');
   const [dateFilter, setDateFilter] = useState<InterviewDateFilter>('ALL');
@@ -24,6 +25,22 @@ function InterviewsPage() {
   const navigate = useNavigate();
   const handleCreateInterview = () => {
     navigate('/interviews-create');
+  };
+
+  const handleDeleteInterview = async (interview: Interview) => {
+    if (!window.confirm(`Delete the interview for "${interview.vacancy.title}"?`)) {
+      return;
+    }
+
+    setDeleteError('');
+
+    try {
+      await interviewsService.deleteInterview(interview.id);
+      setInterviews((current) => current.filter((item) => item.id !== interview.id));
+    } catch (error) {
+      console.error('Error deleting interview:', error);
+      setDeleteError('Could not delete the interview. Please try again.');
+    }
   };
 
   useEffect(() => {
@@ -88,6 +105,12 @@ function InterviewsPage() {
       <InterviewsHeader onCreate={handleCreateInterview} />
 
       <main className={styles['interviews-page__main']}>
+        {deleteError && (
+          <div className={styles['interviews-page__error']} role="alert">
+            {deleteError}
+          </div>
+        )}
+
         <InterviewsStats interviews={interviews} />
 
         <InterviewsFilters
@@ -101,7 +124,10 @@ function InterviewsPage() {
           onSortChange={setSort}
         />
 
-        <InterviewsList interviews={filteredInterviews} />
+        <InterviewsList
+          interviews={filteredInterviews}
+          onDelete={(interview) => void handleDeleteInterview(interview)}
+        />
       </main>
     </div>
   );

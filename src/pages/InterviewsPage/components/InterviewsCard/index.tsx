@@ -1,12 +1,15 @@
+import { Trash2 } from 'lucide-react';
+
 import type { Interview } from '@/types/interviews';
 
 import styles from './styles.module.scss';
 
 interface IProps {
   interview: Interview;
+  onDelete: (interview: Interview) => void;
 }
 
-function InterviewCard({ interview }: IProps) {
+function InterviewCard({ interview, onDelete }: IProps) {
   const date = new Date(interview.date);
 
   return (
@@ -31,6 +34,15 @@ function InterviewCard({ interview }: IProps) {
       <div className={styles['interview-card__content']}>
         <div className={styles['interview-card__top']}>
           <span className={styles['interview-card__type']}>{interview.types}</span>
+          <button
+            className={styles['interview-card__delete']}
+            type="button"
+            aria-label={`Delete interview for ${interview.vacancy.title}`}
+            title="Delete interview"
+            onClick={() => onDelete(interview)}
+          >
+            <Trash2 size={16} />
+          </button>
         </div>
 
         <h3 className={styles['interview-card__title']}>{interview.vacancy.title}</h3>

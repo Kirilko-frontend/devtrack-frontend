@@ -13,4 +13,10 @@ export const interviewsService = {
       body: data,
     });
   },
+
+  deleteInterview(id: number) {
+    return api<Interview>(`/interviews/${id}`, {
+      method: 'DELETE',
+    });
+  },
 };

@@ -6,9 +6,10 @@ import { Empty } from '@/shared/ui';
 
 interface IProps {
   interviews: Interview[];
+  onDelete: (interview: Interview) => void;
 }
 
-function InterviewsList({ interviews }: IProps) {
+function InterviewsList({ interviews, onDelete }: IProps) {
   if (!interviews.length) {
     return <Empty title="No interviews found" description="Try changing your search or filters." />;
   }
@@ -23,7 +24,11 @@ function InterviewsList({ interviews }: IProps) {
 
       <div className={styles['interviews-list__items']}>
         {interviews.map((interview) => (
-          <InterviewCard key={interview.id} interview={interview} />
+          <InterviewCard
+            key={interview.id}
+            interview={interview}
+            onDelete={onDelete}
+          />
         ))}
       </div>
     </section>

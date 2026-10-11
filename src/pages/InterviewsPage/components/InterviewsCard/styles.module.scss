@@ -66,7 +66,28 @@
 }
 
 .interview-card__top {
-  @include flex-start;
+  @include flex-space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.interview-card__delete {
+  @include flex-center;
+
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+
+  border-radius: 0.5rem;
+  color: rgb(var(--color-muted));
+
+  transition: var(--transition);
+
+  &:hover,
+  &:focus-visible {
+    background-color: rgb(var(--color-danger), 0.12);
+    color: rgb(var(--color-danger));
+  }
 }
 
 .interview-card__type {
@@ -114,4 +135,3 @@
   font-size: 0.8125rem;
   line-height: var(--line-height-lg);
 }
-
