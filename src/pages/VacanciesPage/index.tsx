@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus } from 'lucide-react';
 
 import { type VacancySort, type VacancyStatusFilter } from '@/shared/constants/vacancies';
 
@@ -10,8 +9,8 @@ import type { Company } from '@/types/company';
 import { companiesService, vacanciesService } from '@/services';
 
 import { VacancyForm } from '@/widgets';
-import { Button, Modal, Pagination } from '@/shared/ui';
-import { VacancyFilters, VacancyTable } from './components';
+import { Modal, Pagination } from '@/shared/ui';
+import { VacanciesHeader, VacancyFilters, VacancyTable } from './components';
 
 import styles from './styles.module.scss';
 
@@ -128,14 +127,7 @@ function VacanciesPage() {
 
   return (
     <div className={styles['vacancies-page']}>
-      <div className={styles['vacancies-page__header']}>
-        <h1 className={styles['vacancies-page__title']}>Manage and track your job opportunities</h1>
-
-        <Button className={styles['vacancies-page__create-button']} onClick={handleNavigate}>
-          <Plus className={styles['vacancies-page__create-button-icon']} />
-          Add vacancy
-        </Button>
-      </div>
+      <VacanciesHeader onCreate={handleNavigate} />
 
       <main className={styles['vacancies-page__main']}>
         <VacancyFilters

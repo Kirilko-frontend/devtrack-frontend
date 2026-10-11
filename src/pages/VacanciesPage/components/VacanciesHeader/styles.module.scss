@@ -1,0 +1,19 @@
+.vacancies-header {
+  @include flex-space-between;
+}
+
+.vacancies-header__title {
+  color: rgb(var(--color-white));
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-md);
+}
+
+.vacancies-header__create-button-icon {
+  margin-right: 0.5rem;
+}
+
+.vacancies-header__create-button {
+  width: 11rem;
+  height: 2rem;
+}
