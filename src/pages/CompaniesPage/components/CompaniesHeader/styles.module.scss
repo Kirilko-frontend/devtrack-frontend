@@ -11,8 +11,7 @@
 
 .companies-header__create-button {
   @include flex-center;
-  gap: 1rem;
-
-  width: 13rem;
-  height: 2rem;
+  width: 12rem;
+  height: 2.5rem;
+  gap: 0.5rem;
 }

@@ -70,7 +70,12 @@ function CreateCompanyPage() {
               Cancel
             </Button>
 
-            <Button type="submit" disabled={!name.trim() || isSubmitting}>
+            <Button
+              className={styles['create-company-page__submit-button']}
+              type="submit"
+              variant="accent"
+              disabled={!name.trim() || isSubmitting}
+            >
               {isSubmitting ? 'Creating...' : 'Create Company'}
             </Button>
           </div>

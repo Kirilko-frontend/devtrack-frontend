@@ -23,9 +23,7 @@
 
 .interviews-header__create-button {
   @include flex-center;
+  width: 12rem;
+  height: 2.5rem;
   gap: 0.5rem;
-
-  width: 11rem;
-  height: 2.25rem;
 }
-

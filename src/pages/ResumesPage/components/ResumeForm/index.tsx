@@ -118,6 +118,7 @@ function ResumeForm({
         <Button
           className={styles['resume-form__submit']}
           type="button"
+          variant="accent"
           onClick={handleSubmit}
           disabled={isSaving || !name.trim() || (mode === 'upload' && !file)}
         >

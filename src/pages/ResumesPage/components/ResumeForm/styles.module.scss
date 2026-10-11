@@ -76,25 +76,17 @@
   margin-top: 0.25rem;
 }
 
-.resume-form__cancel,
-.resume-form__submit {
+.resume-form__cancel {
   width: auto;
   min-width: 7rem;
+}
+
+.resume-form__submit {
+  width: 11rem;
+  height: 2.5rem;
 }
 
 .resume-form__cancel {
   border-color: rgb(var(--color-white), 0.12);
   background-color: rgb(var(--color-white), 0.06);
-}
-
-.resume-form__submit {
-  border-color: rgb(var(--color-accent), 0.45);
-  background-color: rgb(var(--color-accent));
-
-  &:hover,
-  &:focus-visible {
-    border-color: rgb(var(--color-accent));
-    background-color: rgb(var(--color-accent), 0.85);
-    color: rgb(var(--color-white));
-  }
 }

@@ -18,7 +18,12 @@ function ResumesHeader({ onUpload }: IProps) {
         </p>
       </div>
 
-      <Button className={styles['resumes-header__upload-button']} type="button" onClick={onUpload}>
+      <Button
+        className={styles['resumes-header__upload-button']}
+        variant="accent"
+        type="button"
+        onClick={onUpload}
+      >
         <Plus size={18} />
         Upload resume
       </Button>

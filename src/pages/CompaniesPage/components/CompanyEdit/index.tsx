@@ -66,7 +66,12 @@ function CompanyEdit({ company, onSubmit, onCancel }: IProps) {
           Cancel
         </Button>
 
-        <Button type="submit" disabled={isSubmitDisabled}>
+        <Button
+          className={styles['company-edit__submit-button']}
+          type="submit"
+          variant="accent"
+          disabled={isSubmitDisabled}
+        >
           {isSubmitting ? 'Saving...' : 'Save'}
         </Button>
       </div>

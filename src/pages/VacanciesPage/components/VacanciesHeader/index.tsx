@@ -15,7 +15,11 @@ function VacanciesHeader({ onCreate }: IProps) {
         Manage and track your job opportunities
       </h1>
 
-      <Button className={styles['vacancies-header__create-button']} onClick={onCreate}>
+      <Button
+        className={styles['vacancies-header__create-button']}
+        variant="accent"
+        onClick={onCreate}
+      >
         <Plus className={styles['vacancies-header__create-button-icon']} />
         Add vacancy
       </Button>

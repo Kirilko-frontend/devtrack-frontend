@@ -19,7 +19,11 @@ function InterviewsHeader({ onCreate }: IProps) {
         </p>
       </div>
 
-      <Button className={styles['interviews-header__create-button']} onClick={onCreate}>
+      <Button
+        className={styles['interviews-header__create-button']}
+        variant="accent"
+        onClick={onCreate}
+      >
         <Plus size={18} />
         Add interview
       </Button>

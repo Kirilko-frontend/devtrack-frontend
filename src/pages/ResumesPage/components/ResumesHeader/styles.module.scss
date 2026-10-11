@@ -22,31 +22,7 @@
 
 .resumes-header__upload-button {
   @include flex-center;
+  width: 12rem;
+  height: 2.5rem;
   gap: 0.5rem;
-
-  width: 11rem;
-  min-height: 2.5rem;
-  flex-shrink: 0;
-
-  border-color: rgb(var(--color-accent), 0.45);
-  background-color: rgb(var(--color-accent));
-  color: rgb(var(--color-white));
-
-  &:hover,
-  &:focus-visible {
-    border-color: rgb(var(--color-accent));
-    background-color: rgb(var(--color-accent), 0.85);
-    color: rgb(var(--color-white));
-  }
-}
-
-@media (max-width: 640px) {
-  .resumes-header {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .resumes-header__upload-button {
-    width: 100%;
-  }
 }

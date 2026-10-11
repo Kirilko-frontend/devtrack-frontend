@@ -143,7 +143,9 @@ function CreateInterviewsPage() {
             </Button>
 
             <Button
+              className={styles['create-interview-page__submit-button']}
               type="submit"
+              variant="accent"
               disabled={vacancyId === null || !interviewType || !date.trim() || isSubmitting}
             >
               {isSubmitting ? 'Creating...' : 'Create Interview'}
@@ -156,4 +158,3 @@ function CreateInterviewsPage() {
 }
 
 export default CreateInterviewsPage;
-

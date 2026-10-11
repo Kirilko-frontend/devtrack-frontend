@@ -196,11 +196,21 @@ function VacancyForm({ companies, initialValues, onSubmit, onCancel, onCreateIte
       </div>
 
       <div className={styles['vacancy-form__actions']}>
-        <Button className={styles['vacancy-form__actions-button']} type="button" onClick={onCancel}>
+        <Button
+          className={`${styles['vacancy-form__actions-button']} ${
+            styles['vacancy-form__actions-button--cancel']
+          }`}
+          type="button"
+          onClick={onCancel}
+        >
           Cancel
         </Button>
 
-        <Button className={styles['vacancy-form__actions-button']} type="submit">
+        <Button
+          className={styles['vacancy-form__actions-button']}
+          type="submit"
+          variant="accent"
+        >
           Save
         </Button>
       </div>
