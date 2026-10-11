@@ -54,6 +54,14 @@
   }
 }
 
+.resume-card__action--delete {
+  &:hover,
+  &:focus-visible {
+    background-color: rgb(var(--color-danger), 0.12);
+    color: rgb(var(--color-danger));
+  }
+}
+
 .resume-card__body {
   min-width: 0;
   margin-top: 1rem;

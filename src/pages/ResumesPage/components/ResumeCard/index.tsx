@@ -1,12 +1,6 @@
-import {
-  BriefcaseBusiness,
-  Clock3,
-  Download,
-  Eye,
-  FileText,
-  Pencil,
-  Trash2,
-} from 'lucide-react';
+import { BriefcaseBusiness, Clock3, Download, Eye, FileText, Pencil, Trash2 } from 'lucide-react';
+
+import { actionButtons, type ResumeAction } from './config';
 
 import type { Resume } from '@/types/resume';
 import type { Vacancy } from '@/types/vacancy';
@@ -31,6 +25,11 @@ function formatDate(value: string) {
 }
 
 function ResumeCard({ resume, vacancy, onEdit, onDelete, onPreview, onDownload }: IProps) {
+  const handlers: Record<ResumeAction, () => void> = {
+    view: () => onPreview(resume),
+    edit: () => onEdit(resume),
+    delete: () => onDelete(resume),
+  };
   return (
     <div className={styles['resume-card']}>
       <div className={styles['resume-card__top']}>
@@ -38,33 +37,18 @@ function ResumeCard({ resume, vacancy, onEdit, onDelete, onPreview, onDownload }
           <FileText size={22} />
         </div>
         <div className={styles['resume-card__actions']}>
-          <button
-            className={styles['resume-card__action']}
-            type="button"
-            aria-label={`View ${resume.name}`}
-            title="View resume"
-            onClick={() => onPreview(resume)}
-          >
-            <Eye size={16} />
-          </button>
-          <button
-            className={styles['resume-card__action']}
-            type="button"
-            aria-label={`Edit ${resume.name}`}
-            title="Edit resume"
-            onClick={() => onEdit(resume)}
-          >
-            <Pencil size={16} />
-          </button>
-          <button
-            className={styles['resume-card__action']}
-            type="button"
-            aria-label={`Delete ${resume.name}`}
-            title="Delete resume"
-            onClick={() => onDelete(resume)}
-          >
-            <Trash2 size={16} />
-          </button>
+          {actionButtons.map(({ name, icon: Icon, title }) => (
+            <button
+              key={name}
+              className={`${styles['resume-card__action']} ${styles[`resume-card__action--${name}`] ?? ''}`}
+              type="button"
+              aria-label={`${title.replace('resume', resume.name)}`}
+              title={title}
+              onClick={handlers[name]}
+            >
+              <Icon size={16} />
+            </button>
+          ))}
         </div>
       </div>
 
@@ -84,7 +68,9 @@ function ResumeCard({ resume, vacancy, onEdit, onDelete, onPreview, onDownload }
           </>
         ) : (
           <span className={styles['resume-card__unlinked']}>
-            {resume.vacancyId === null ? 'Not linked to a vacancy' : 'Linked vacancy is unavailable'}
+            {resume.vacancyId === null
+              ? 'Not linked to a vacancy'
+              : 'Linked vacancy is unavailable'}
           </span>
         )}
       </div>
