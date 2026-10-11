@@ -60,4 +60,10 @@
   right: 1rem;
   z-index: 2;
   cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    background-color: rgb(var(--color-danger), 0.12);
+    color: rgb(var(--color-danger));
+  }
 }
