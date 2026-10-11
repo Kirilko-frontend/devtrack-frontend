@@ -66,12 +66,17 @@ function CreateCompanyPage() {
           />
 
           <div className={styles['create-company-page__actions']}>
-            <Button type="button" onClick={() => navigate('/companies')} disabled={isSubmitting}>
+            <Button
+              className={`${styles['create-company-page__action']} ${styles['create-company-page__action-cancel']}`}
+              type="button"
+              onClick={() => navigate('/companies')}
+              disabled={isSubmitting}
+            >
               Cancel
             </Button>
 
             <Button
-              className={styles['create-company-page__submit-button']}
+              className={`${styles['create-company-page__action']} ${styles['create-company-page__action-sumbit']}`}
               type="submit"
               variant="accent"
               disabled={!name.trim() || isSubmitting}

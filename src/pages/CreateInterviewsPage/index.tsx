@@ -138,12 +138,17 @@ function CreateInterviewsPage() {
           </div>
 
           <div className={styles['create-interview-page__actions']}>
-            <Button type="button" onClick={() => navigate('/interviews')} disabled={isSubmitting}>
+            <Button
+              className={`${styles['create-interview-page__action']} ${styles['create-interview-page__action-cancel']}`}
+              type="button"
+              onClick={() => navigate('/interviews')}
+              disabled={isSubmitting}
+            >
               Cancel
             </Button>
 
             <Button
-              className={styles['create-interview-page__submit-button']}
+              className={`${styles['create-interview-page__action']} ${styles['create-interview-page__action-submit']}`}
               type="submit"
               variant="accent"
               disabled={vacancyId === null || !interviewType || !date.trim() || isSubmitting}

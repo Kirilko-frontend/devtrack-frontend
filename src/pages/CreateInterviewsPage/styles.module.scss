@@ -115,12 +115,11 @@
 }
 
 .create-interview-page__actions {
-  @include flex-end;
+  @include flex-center;
   gap: 0.75rem;
-  margin-top: 0.5rem;
 }
 
-.create-interview-page__submit-button {
+.create-interview-page__action {
   width: 11rem;
   height: 2.5rem;
 }

@@ -61,12 +61,11 @@
 }
 
 .create-company-page__actions {
-  @include flex-end;
+  @include flex-center;
   gap: 0.75rem;
-  margin-top: 0.5rem;
 }
 
-.create-company-page__submit-button {
-  width: 11rem;
+.create-company-page__action {
   height: 2.5rem;
+  width: 11rem;
 }

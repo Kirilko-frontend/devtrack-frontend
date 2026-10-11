@@ -207,7 +207,7 @@ function VacancyForm({ companies, initialValues, onSubmit, onCancel, onCreateIte
         </Button>
 
         <Button
-          className={styles['vacancy-form__actions-button']}
+          className={`${styles['vacancy-form__actions-button']} ${styles['vacancy-form__actions-button--submit']}`}
           type="submit"
           variant="accent"
         >
