@@ -162,10 +162,6 @@ function useResumes() {
   };
 
   const deleteResume = async (resume: Resume) => {
-    if (!window.confirm(`Delete "${resume.name}"?`)) {
-      return;
-    }
-
     setError('');
 
     try {

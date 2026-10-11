@@ -28,10 +28,6 @@ function InterviewsPage() {
   };
 
   const handleDeleteInterview = async (interview: Interview) => {
-    if (!window.confirm(`Delete the interview for "${interview.vacancy.title}"?`)) {
-      return;
-    }
-
     setDeleteError('');
 
     try {
