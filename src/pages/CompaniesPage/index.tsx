@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus } from 'lucide-react';
 
 import type { Company, UpdateCompanyData } from '@/types/company';
 import { companiesService } from '@/services';
 
-import { Button, Input, Modal } from '@/shared/ui';
-import { CompaniesList, CompanyEdit } from './components';
+import { Input, Modal } from '@/shared/ui';
+import { CompaniesHeader, CompaniesList, CompanyEdit } from './components';
 
 import styles from './styles.module.scss';
 
@@ -71,16 +70,7 @@ function CompaniesPage() {
 
   return (
     <div className={styles['companies-page']}>
-      <div className={styles['companies-page__header']}>
-        <h1 className={styles['companies-page__title']}>Your Companies</h1>
-        <Button
-          className={styles['companies-page__create-button']}
-          onClick={() => navigate('/companies-create')}
-        >
-          <Plus size={18} />
-          Create Company
-        </Button>
-      </div>
+      <CompaniesHeader onCreate={() => navigate('/companies-create')} />
       <Input
         className={styles['companies-page__search-input']}
         placeholder="Search companies..."

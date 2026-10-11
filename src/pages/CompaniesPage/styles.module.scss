@@ -12,24 +12,6 @@
   overflow: hidden;
 }
 
-.companies-page__header {
-  @include flex-space-between;
-}
-
-.companies-page__title {
-  color: rgb(var(--color-white));
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-md);
-}
-
-.companies-page__create-button {
-  @include flex-center;
-  gap: 1rem;
-  width: 13rem;
-  height: 2rem;
-}
-
 .companies-page__search-input {
   width: 15rem;
   height: 3rem;
