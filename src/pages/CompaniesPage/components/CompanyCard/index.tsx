@@ -2,7 +2,7 @@ import type { Company } from '@/types/company';
 import { formatDate } from '@/shared/utils';
 
 import styles from './styles.module.scss';
-import { Trash } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 
 interface IProps {
   company: Company;
@@ -36,7 +36,7 @@ function CompanyCard({ company, onClick, onDelete }: IProps) {
           onDelete?.();
         }}
       >
-        <Trash className={styles['company-card__delete-icon']} size={20} />
+        <Trash2 className={styles['company-card__delete-icon']} size={20} />
       </button>
     </div>
   );
