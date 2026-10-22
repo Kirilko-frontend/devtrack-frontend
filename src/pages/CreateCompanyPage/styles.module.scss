@@ -57,15 +57,5 @@
 .create-company-page__form {
   @include flex-column;
 
-  gap: 1.25rem;
-}
-
-.create-company-page__actions {
-  @include flex-center;
-  gap: 0.75rem;
-}
-
-.create-company-page__action {
-  height: 2.5rem;
-  width: 11rem;
+  gap: 1.5rem;
 }

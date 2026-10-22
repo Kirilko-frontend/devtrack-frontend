@@ -5,13 +5,3 @@
 
   width: 100%;
 }
-
-.company-edit__actions {
-  @include flex-center;
-  gap: 2rem;
-}
-
-.company-edit__submit-button {
-  width: 11rem;
-  height: 2.5rem;
-}

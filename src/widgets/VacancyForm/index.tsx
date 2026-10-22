@@ -3,7 +3,7 @@ import { useState } from 'react';
 import type { Company } from '@/types/company';
 import type { VacancyFormValues } from '@/types/vacancy';
 
-import { Button, Input, Select } from '@/shared/ui';
+import { ActionButtons, Input, Select } from '@/shared/ui';
 import { vacancyStatusOptions } from '@/shared/constants/vacancies';
 import { vacancySchema } from '@/shared/validation/vacancy';
 
@@ -31,7 +31,7 @@ const defaultValues: VacancyFormValues = {
 
 function VacancyForm({ companies, initialValues, onSubmit, onCancel, onCreateItem }: IProps) {
   const [values, setValues] = useState<VacancyFormValues>(initialValues ?? defaultValues);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Partial<Record<VacancyFormField, string>>>({});
 
   const companyOptions = companies.map((company) => ({
@@ -40,6 +40,17 @@ function VacancyForm({ companies, initialValues, onSubmit, onCancel, onCreateIte
   }));
 
   const statusOptions = vacancyStatusOptions.filter((option) => option.value !== 'ALL');
+  const isEditing = initialValues !== undefined;
+  const hasRequiredFields = values.title.trim().length >= 2 && (values.companyId ?? 0) > 0;
+  const hasChanges =
+    !isEditing ||
+    values.title.trim() !== initialValues.title.trim() ||
+    values.description.trim() !== initialValues.description.trim() ||
+    values.url.trim() !== initialValues.url.trim() ||
+    values.salary.trim() !== initialValues.salary.trim() ||
+    values.companyId !== initialValues.companyId ||
+    values.status !== initialValues.status ||
+    values.appliedAt !== initialValues.appliedAt;
 
   const handleChange = <K extends keyof VacancyFormValues>(
     field: K,
@@ -56,8 +67,14 @@ function VacancyForm({ companies, initialValues, onSubmit, onCancel, onCreateIte
     }));
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const isSubmitDisabled = !hasRequiredFields || !hasChanges;
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (isSubmitting) {
+      return;
+    }
 
     const result = vacancySchema.safeParse(values);
 
@@ -75,7 +92,12 @@ function VacancyForm({ companies, initialValues, onSubmit, onCancel, onCreateIte
     }
 
     setErrors({});
-    void onSubmit(result.data);
+    setIsSubmitting(true);
+    try {
+      await onSubmit(result.data);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleCreateCompany = async (name: string) => {
@@ -195,25 +217,13 @@ function VacancyForm({ companies, initialValues, onSubmit, onCancel, onCreateIte
         )}
       </div>
 
-      <div className={styles['vacancy-form__actions']}>
-        <Button
-          className={`${styles['vacancy-form__actions-button']} ${
-            styles['vacancy-form__actions-button--cancel']
-          }`}
-          type="button"
-          onClick={onCancel}
-        >
-          Cancel
-        </Button>
-
-        <Button
-          className={`${styles['vacancy-form__actions-button']} ${styles['vacancy-form__actions-button--submit']}`}
-          type="submit"
-          variant="accent"
-        >
-          Save
-        </Button>
-      </div>
+      <ActionButtons
+        onCancel={onCancel}
+        isSubmitting={isSubmitting}
+        isSubmitDisabled={isSubmitDisabled}
+        submitText={isEditing ? 'Save Changes' : 'Create Vacancy'}
+        submittingText={isEditing ? 'Saving Changes...' : 'Creating Vacancy...'}
+      />
     </form>
   );
 }

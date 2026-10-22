@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import type { InterviewType } from '@/types/interviews';
@@ -6,7 +6,7 @@ import type { Vacancy } from '@/types/vacancy';
 
 import { interviewsService, vacanciesService } from '@/services';
 
-import { Button, Input, Select } from '@/shared/ui';
+import { ActionButtons, Input, Select } from '@/shared/ui';
 
 import styles from './styles.module.scss';
 
@@ -137,25 +137,13 @@ function CreateInterviewsPage() {
             />
           </div>
 
-          <div className={styles['create-interview-page__actions']}>
-            <Button
-              className={`${styles['create-interview-page__action']} ${styles['create-interview-page__action-cancel']}`}
-              type="button"
-              onClick={() => navigate('/interviews')}
-              disabled={isSubmitting}
-            >
-              Cancel
-            </Button>
-
-            <Button
-              className={`${styles['create-interview-page__action']} ${styles['create-interview-page__action-submit']}`}
-              type="submit"
-              variant="accent"
-              disabled={vacancyId === null || !interviewType || !date.trim() || isSubmitting}
-            >
-              {isSubmitting ? 'Creating...' : 'Create Interview'}
-            </Button>
-          </div>
+          <ActionButtons
+            onCancel={() => navigate('/interviews')}
+            isSubmitting={isSubmitting}
+            isSubmitDisabled={vacancyId === null || !interviewType || !date.trim()}
+            submitText="Create Interview"
+            submittingText="Creating..."
+          />
         </form>
       </div>
     </div>

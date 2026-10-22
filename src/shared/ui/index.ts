@@ -4,5 +4,6 @@ import Select from './Select';
 import Pagination from './Pagination';
 import Modal from './Modal';
 import Empty from './Empty';
+import ActionButtons from './ActionButtons';
 
-export { Input, Button, Select, Pagination, Modal, Empty };
+export { Input, Button, Select, Pagination, Modal, Empty, ActionButtons };

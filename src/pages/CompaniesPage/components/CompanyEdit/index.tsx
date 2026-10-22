@@ -1,7 +1,7 @@
-import { FormEvent, useState } from 'react';
+import { useState, type FormEvent } from 'react';
 
 import type { Company, UpdateCompanyData } from '@/types/company';
-import { Button, Input } from '@/shared/ui';
+import { ActionButtons, Input } from '@/shared/ui';
 
 import styles from './styles.module.scss';
 
@@ -61,20 +61,13 @@ function CompanyEdit({ company, onSubmit, onCancel }: IProps) {
         disabled={isSubmitting}
       />
 
-      <div className={styles['company-edit__actions']}>
-        <Button type="button" onClick={onCancel} disabled={isSubmitting}>
-          Cancel
-        </Button>
-
-        <Button
-          className={styles['company-edit__submit-button']}
-          type="submit"
-          variant="accent"
-          disabled={isSubmitDisabled}
-        >
-          {isSubmitting ? 'Saving...' : 'Save'}
-        </Button>
-      </div>
+      <ActionButtons
+        onCancel={onCancel}
+        isSubmitDisabled={isSubmitDisabled}
+        isSubmitting={isSubmitting}
+        submitText="Save Changes"
+        submittingText="Saving Changes..."
+      />
     </form>
   );
 }

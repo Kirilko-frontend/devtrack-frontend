@@ -17,13 +17,3 @@
 .vacancy-form__row {
   @include flex-space-between;
 }
-
-.vacancy-form__actions {
-  @include flex-center;
-  gap: 1rem;
-}
-
-.vacancy-form__actions-button {
-  width: 11rem;
-  height: 2.5rem;
-}

@@ -113,13 +113,3 @@
     opacity: 0.5;
   }
 }
-
-.create-interview-page__actions {
-  @include flex-center;
-  gap: 0.75rem;
-}
-
-.create-interview-page__action {
-  width: 11rem;
-  height: 2.5rem;
-}

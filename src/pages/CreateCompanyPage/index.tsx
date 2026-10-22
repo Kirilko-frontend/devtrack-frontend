@@ -1,7 +1,7 @@
-import { FormEvent, useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Input } from '@/shared/ui';
+import { ActionButtons, Input } from '@/shared/ui';
 import { companiesService } from '@/services';
 
 import styles from './styles.module.scss';
@@ -36,6 +36,10 @@ function CreateCompanyPage() {
     }
   };
 
+  const handleCancel = () => {
+    navigate('/companies');
+  };
+
   return (
     <div className={styles['create-company-page']}>
       <div className={styles['create-company-page__card']}>
@@ -65,25 +69,13 @@ function CreateCompanyPage() {
             disabled={isSubmitting}
           />
 
-          <div className={styles['create-company-page__actions']}>
-            <Button
-              className={`${styles['create-company-page__action']} ${styles['create-company-page__action-cancel']}`}
-              type="button"
-              onClick={() => navigate('/companies')}
-              disabled={isSubmitting}
-            >
-              Cancel
-            </Button>
-
-            <Button
-              className={`${styles['create-company-page__action']} ${styles['create-company-page__action-sumbit']}`}
-              type="submit"
-              variant="accent"
-              disabled={!name.trim() || isSubmitting}
-            >
-              {isSubmitting ? 'Creating...' : 'Create Company'}
-            </Button>
-          </div>
+          <ActionButtons
+            onCancel={handleCancel}
+            isSubmitting={isSubmitting}
+            isSubmitDisabled={!name.trim()}
+            submitText="Create Company"
+            submittingText="Creating..."
+          />
         </form>
       </div>
     </div>

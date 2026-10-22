@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 
 import type { CreateResumeData, Resume, UpdateResumeData } from '@/types/resume';
 import type { Vacancy } from '@/types/vacancy';
 
-import { Button, Input, Select } from '@/shared/ui';
+import { ActionButtons, Input, Select } from '@/shared/ui';
 
 import styles from './styles.module.scss';
 
@@ -43,12 +43,22 @@ function ResumeForm({
     })),
   ];
 
-  const handleSubmit = () => {
-    const trimmedName = name.trim();
+  const hasChanges =
+    mode === 'upload' ||
+    (resume !== undefined &&
+      (name.trim() !== resume.name ||
+        (vacancyId ? Number(vacancyId) : null) !== resume.vacancyId));
+  const isSubmitDisabled =
+    isSaving || !name.trim() || (mode === 'upload' && !file) || !hasChanges;
 
-    if (!trimmedName || (mode === 'upload' && !file)) {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (isSubmitDisabled) {
       return;
     }
+
+    const trimmedName = name.trim();
 
     if (mode === 'upload' && file) {
       onSubmit({
@@ -66,7 +76,7 @@ function ResumeForm({
   };
 
   return (
-    <div className={styles['resume-form']}>
+    <form className={styles['resume-form']} onSubmit={handleSubmit}>
       <div className={styles['resume-form__field']}>
         <span className={styles['resume-form__label']}>Resume name</span>
         <Input
@@ -106,26 +116,14 @@ function ResumeForm({
         </p>
       )}
 
-      <div className={styles['resume-form__actions']}>
-        <Button
-          className={styles['resume-form__cancel']}
-          type="button"
-          onClick={onCancel}
-          disabled={isSaving}
-        >
-          Cancel
-        </Button>
-        <Button
-          className={styles['resume-form__submit']}
-          type="button"
-          variant="accent"
-          onClick={handleSubmit}
-          disabled={isSaving || !name.trim() || (mode === 'upload' && !file)}
-        >
-          {isSaving ? 'Saving...' : mode === 'upload' ? 'Upload resume' : 'Save changes'}
-        </Button>
-      </div>
-    </div>
+      <ActionButtons
+        onCancel={onCancel}
+        isSubmitting={isSaving}
+        isSubmitDisabled={isSubmitDisabled}
+        submitText={mode === 'upload' ? 'Upload resume' : 'Save changes'}
+        submittingText={mode === 'upload' ? 'Uploading...' : 'Saving changes...'}
+      />
+    </form>
   );
 }
 
