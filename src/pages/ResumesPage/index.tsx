@@ -1,8 +1,8 @@
 import { Modal } from '@/shared/ui';
+import { Header } from '@/widgets';
 
 import {
   ResumeForm,
-  ResumesHeader,
   ResumesList,
   ResumesOverview,
 } from './components';
@@ -33,7 +33,12 @@ function ResumesPage() {
 
   return (
     <div className={styles['resumes-page']}>
-      <ResumesHeader onUpload={openUploadDialog} />
+      <Header
+        title="Your resume library"
+        subtitle="Tailor a resume for every role and keep all your versions in one place."
+        actionText="Upload resume"
+        onAction={openUploadDialog}
+      />
 
       <div className={styles['resumes-page__main']}>
         {error && !dialog && <div className={styles['resumes-page__error']}>{error}</div>}
