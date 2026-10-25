@@ -1,8 +1,8 @@
 import type { Company } from '@/types/company';
 import { formatDate } from '@/shared/utils';
+import { Pencil, Trash2 } from 'lucide-react';
 
 import styles from './styles.module.scss';
-import { Trash2 } from 'lucide-react';
 
 interface IProps {
   company: Company;
@@ -12,7 +12,7 @@ interface IProps {
 
 function CompanyCard({ company, onClick, onDelete }: IProps) {
   return (
-    <div className={styles['company-card']} onClick={onClick}>
+    <div className={styles['company-card']}>
       <h1 className={styles['company-card__title']}>{company.name}</h1>
       {company.website ? (
         <a
@@ -29,15 +29,32 @@ function CompanyCard({ company, onClick, onDelete }: IProps) {
       <p
         className={styles['company-card__created-at']}
       >{`You added this company on ${formatDate(company.createdAt)}`}</p>
-      <button
-        className={styles['company-card__delete-button']}
-        onClick={(event) => {
-          event.stopPropagation();
-          onDelete?.();
-        }}
-      >
-        <Trash2 className={styles['company-card__delete-icon']} size={20} />
-      </button>
+      <div className={styles['company-card__actions']}>
+        <button
+          className={styles['company-card__action']}
+          type="button"
+          aria-label={`Edit ${company.name}`}
+          title="Edit company"
+          onClick={(event) => {
+            event.stopPropagation();
+            onClick?.();
+          }}
+        >
+          <Pencil size={16} />
+        </button>
+        <button
+          className={`${styles['company-card__action']} ${styles['company-card__action--delete']}`}
+          type="button"
+          aria-label={`Delete ${company.name}`}
+          title="Delete company"
+          onClick={(event) => {
+            event.stopPropagation();
+            onDelete?.();
+          }}
+        >
+          <Trash2 size={16} />
+        </button>
+      </div>
     </div>
   );
 }
