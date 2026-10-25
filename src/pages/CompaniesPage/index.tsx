@@ -4,7 +4,8 @@ import type { Company, CreateCompanyData, UpdateCompanyData } from '@/types/comp
 import { companiesService } from '@/services';
 
 import { Input, Modal } from '@/shared/ui';
-import { CompaniesHeader, CompaniesList, CompanyCreateForm, CompanyEdit } from './components';
+import { Header } from '@/widgets';
+import { CompaniesList, CompanyCreateForm, CompanyEdit } from './components';
 
 import styles from './styles.module.scss';
 
@@ -83,8 +84,11 @@ function CompaniesPage() {
 
   return (
     <div className={styles['companies-page']}>
-      <CompaniesHeader
-        onCreate={() => {
+      <Header
+        title="Your Companies"
+        subtitle="Manage the companies you work with."
+        actionText="Create Company"
+        onAction={() => {
           setCreateError('');
           setIsCreateModalOpen(true);
         }}

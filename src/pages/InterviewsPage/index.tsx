@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-import type { Interview, UpdateInterviewData } from '@/types/interviews';
+import type { CreateInterviewData, Interview, UpdateInterviewData } from '@/types/interviews';
 import type { Vacancy } from '@/types/vacancy';
 
 import { interviewsService, vacanciesService } from '@/services';
@@ -18,6 +17,7 @@ import {
   InterviewsList,
   InterviewsStats,
   InterviewEditForm,
+  InterviewCreateForm,
 } from './components';
 
 import styles from './styles.module.scss';
@@ -26,6 +26,8 @@ function InterviewsPage() {
   const [interviews, setInterviews] = useState<Interview[]>([]);
   const [vacancies, setVacancies] = useState<Vacancy[]>([]);
   const [selectedInterview, setSelectedInterview] = useState<Interview | null>(null);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [createError, setCreateError] = useState('');
   const [deleteError, setDeleteError] = useState('');
   const [editError, setEditError] = useState('');
   const [search, setSearch] = useState('');
@@ -33,9 +35,9 @@ function InterviewsPage() {
   const [dateFilter, setDateFilter] = useState<InterviewDateFilter>('ALL');
   const [sort, setSort] = useState<InterviewSort>('SOONEST');
 
-  const navigate = useNavigate();
   const handleCreateInterview = () => {
-    navigate('/interviews-create');
+    setCreateError('');
+    setIsCreateModalOpen(true);
   };
 
   const handleDeleteInterview = async (interview: Interview) => {
@@ -71,6 +73,23 @@ function InterviewsPage() {
     } catch (error) {
       console.error('Error updating interview:', error);
       setEditError('Could not update the interview. Please try again.');
+    }
+  };
+
+  const handleCreateInterviewSubmit = async (data: CreateInterviewData) => {
+    setCreateError('');
+
+    try {
+      const createdInterview = await interviewsService.createInterview(data);
+      setInterviews((current) => [createdInterview, ...current]);
+      setSearch('');
+      setTypeFilter('ALL');
+      setDateFilter('ALL');
+      setSort('SOONEST');
+      setIsCreateModalOpen(false);
+    } catch (error) {
+      console.error('Error creating interview:', error);
+      setCreateError('Could not create the interview. Please try again.');
     }
   };
 
@@ -172,6 +191,17 @@ function InterviewsPage() {
           onDelete={(interview) => void handleDeleteInterview(interview)}
         />
       </main>
+
+      {isCreateModalOpen && (
+        <Modal title="Create Interview" onClose={() => setIsCreateModalOpen(false)}>
+          <InterviewCreateForm
+            vacancies={vacancies.map(({ id, title }) => ({ id, title }))}
+            error={createError}
+            onCancel={() => setIsCreateModalOpen(false)}
+            onSubmit={handleCreateInterviewSubmit}
+          />
+        </Modal>
+      )}
 
       {selectedInterview && (
         <Modal

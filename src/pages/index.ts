@@ -4,7 +4,6 @@ import DashboardPage from './DashboardPage';
 import VacanciesPage from './VacanciesPage';
 import CompaniesPage from './CompaniesPage';
 import InterviewsPage from './InterviewsPage';
-import CreateInterviewsPage from './CreateInterviewsPage';
 import ResumesPage from './ResumesPage';
 
 export {
@@ -14,6 +13,5 @@ export {
   VacanciesPage,
   CompaniesPage,
   InterviewsPage,
-  CreateInterviewsPage,
   ResumesPage,
 };
