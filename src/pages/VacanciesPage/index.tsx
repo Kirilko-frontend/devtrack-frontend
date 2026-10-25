@@ -7,9 +7,9 @@ import type { Company } from '@/types/company';
 
 import { companiesService, vacanciesService } from '@/services';
 
-import { VacancyForm } from '@/widgets';
+import { Header, VacancyForm } from '@/widgets';
 import { Modal, Pagination } from '@/shared/ui';
-import { VacanciesHeader, VacancyFilters, VacancyTable } from './components';
+import { VacancyFilters, VacancyTable } from './components';
 
 import styles from './styles.module.scss';
 
@@ -172,7 +172,12 @@ function VacanciesPage() {
 
   return (
     <div className={styles['vacancies-page']}>
-      <VacanciesHeader onCreate={handleOpenCreateModal} />
+      <Header
+        title="Vacancies"
+        subtitle="Manage and track your job opportunities."
+        actionText="Add vacancy"
+        onAction={handleOpenCreateModal}
+      />
 
       <main className={styles['vacancies-page__main']}>
         <VacancyFilters
