@@ -87,7 +87,7 @@ function CompaniesPage() {
       <Header
         title="Your Companies"
         subtitle="Manage the companies you work with."
-        actionText="Create Company"
+        actionText="Add Company"
         onAction={() => {
           setCreateError('');
           setIsCreateModalOpen(true);

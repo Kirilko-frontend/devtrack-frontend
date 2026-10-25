@@ -4,13 +4,14 @@ import styles from './styles.module.scss';
 
 interface IProps {
   label: string;
+  ariaLabel: string;
   value: number;
   change: number;
   icon: React.ReactNode;
   className?: string;
 }
 
-function StatCard({ label, value, change, icon, className }: IProps) {
+function StatCard({ label, ariaLabel, value, change, icon, className }: IProps) {
   const isPositive = change > 0;
   const isNegative = change < 0;
 
@@ -23,7 +24,12 @@ function StatCard({ label, value, change, icon, className }: IProps) {
           <p className={styles['stat-card__header-label']}>{label}</p>
         </div>
 
-        <Info className={styles['stat-card__header-details-icon']} />
+        <span className={styles['stat-card__header-details']} tabIndex={0} aria-label={ariaLabel}>
+          <Info className={styles['stat-card__header-details-icon']} size={20} aria-hidden="true" />
+          <span className={styles['stat-card__tooltip']} role="tooltip">
+            {ariaLabel}
+          </span>
+        </span>
       </div>
 
       <p className={styles['stat-card__value']}>{value}</p>

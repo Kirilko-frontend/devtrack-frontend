@@ -32,13 +32,14 @@ function DashboardPage() {
   return (
     <div className={styles['dashboard-page']}>
       <div className={styles['dashboard-page__stats']}>
-        {dashboardStats.map(({ key, changeKey, label, icon: Icon }) => (
+        {dashboardStats.map(({ key, changeKey, label, ariaLabel, icon: Icon }) => (
           <StatCard
             key={key}
             label={label}
+            ariaLabel={ariaLabel}
             value={dashboard.stats[key]}
             change={dashboard.statsChanges[changeKey]}
-            icon={<Icon size={20} />}
+            icon={<Icon size={20} color="rgb(var(--color-accent))" />}
           />
         ))}
       </div>

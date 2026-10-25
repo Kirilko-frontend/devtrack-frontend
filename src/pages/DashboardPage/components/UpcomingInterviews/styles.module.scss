@@ -46,7 +46,7 @@
 }
 
 .upcoming-interviews__header-icon {
-  color: rgb(var(--color-muted));
+  color: rgb(var(--color-accent));
 }
 
 .upcoming-interviews__list {
@@ -215,4 +215,8 @@
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-md);
+}
+
+.upcoming-interviews__empty-icon {
+  color: rgb(var(--color-accent));
 }
