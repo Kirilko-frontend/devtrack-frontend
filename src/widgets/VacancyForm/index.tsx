@@ -15,6 +15,7 @@ interface IProps {
   onSubmit: (values: VacancyFormValues) => void | Promise<void>;
   onCancel: () => void;
   onCreateItem?: (name: string) => Promise<Company>;
+  error?: string;
 }
 
 type VacancyFormField = keyof VacancyFormValues;
@@ -29,7 +30,14 @@ const defaultValues: VacancyFormValues = {
   appliedAt: new Date().toISOString().split('T')[0],
 };
 
-function VacancyForm({ companies, initialValues, onSubmit, onCancel, onCreateItem }: IProps) {
+function VacancyForm({
+  companies,
+  initialValues,
+  onSubmit,
+  onCancel,
+  onCreateItem,
+  error,
+}: IProps) {
   const [values, setValues] = useState<VacancyFormValues>(initialValues ?? defaultValues);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Partial<Record<VacancyFormField, string>>>({});
@@ -216,6 +224,12 @@ function VacancyForm({ companies, initialValues, onSubmit, onCancel, onCreateIte
           <span className={styles['vacancy-form__error']}>{errors.description}</span>
         )}
       </div>
+
+      {error && (
+        <p className={styles['vacancy-form__error']} role="alert">
+          {error}
+        </p>
+      )}
 
       <ActionButtons
         onCancel={onCancel}

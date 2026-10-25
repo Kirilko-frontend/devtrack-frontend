@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { type VacancySort, type VacancyStatusFilter } from '@/shared/constants/vacancies';
 
@@ -15,10 +14,10 @@ import { VacanciesHeader, VacancyFilters, VacancyTable } from './components';
 import styles from './styles.module.scss';
 
 function VacanciesPage() {
-  const navigate = useNavigate();
-
   const [vacancies, setVacancies] = useState<Vacancy[]>([]);
   const [selectedVacancy, setSelectedVacancy] = useState<Vacancy | null>(null);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [createError, setCreateError] = useState('');
   const [companies, setCompanies] = useState<Company[]>([]);
 
   const [search, setSearch] = useState('');
@@ -107,6 +106,51 @@ function VacanciesPage() {
     }
   };
 
+  const handleCreateVacancy = async (values: VacancyFormValues) => {
+    setCreateError('');
+
+    try {
+      const createdVacancy = await vacanciesService.createVacancy({
+        title: values.title.trim(),
+        description: values.description.trim() || undefined,
+        url: values.url.trim() || undefined,
+        salary: values.salary.trim() || undefined,
+        companyId: values.companyId!,
+        status: values.status,
+        appliedAt: values.appliedAt || undefined,
+      });
+
+      setSearch('');
+      setStatusFilter('ALL');
+      setSort('NEWEST');
+      setPage(1);
+      setVacancies((current) =>
+        [createdVacancy, ...current.filter((vacancy) => vacancy.id !== createdVacancy.id)].slice(
+          0,
+          10
+        )
+      );
+
+      try {
+        const response = await vacanciesService.getVacancies({
+          page: 1,
+          limit: 10,
+          status: 'ALL',
+          sort: 'NEWEST',
+        });
+        setVacancies(response.data);
+        setTotalPages(response.meta.totalPages);
+      } catch (error) {
+        console.error('Error refreshing vacancies after creation:', error);
+      }
+
+      setIsCreateModalOpen(false);
+    } catch (error) {
+      console.error('Create vacancy error:', error);
+      setCreateError('Could not create the vacancy. Please try again.');
+    }
+  };
+
   const handleCreateCompany = async (name: string) => {
     const company = await companiesService.createCompany({
       name,
@@ -117,17 +161,18 @@ function VacanciesPage() {
     return company;
   };
 
-  const handleNavigate = () => {
-    navigate('/vacancies-create');
-  };
-
   const handleCloseModal = () => {
     setSelectedVacancy(null);
   };
 
+  const handleOpenCreateModal = () => {
+    setCreateError('');
+    setIsCreateModalOpen(true);
+  };
+
   return (
     <div className={styles['vacancies-page']}>
-      <VacanciesHeader onCreate={handleNavigate} />
+      <VacanciesHeader onCreate={handleOpenCreateModal} />
 
       <main className={styles['vacancies-page__main']}>
         <VacancyFilters
@@ -143,6 +188,18 @@ function VacanciesPage() {
       </main>
 
       <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+
+      {isCreateModalOpen && (
+        <Modal onClose={() => setIsCreateModalOpen(false)} title="Create Vacancy">
+          <VacancyForm
+            companies={companies}
+            onSubmit={handleCreateVacancy}
+            onCancel={() => setIsCreateModalOpen(false)}
+            onCreateItem={handleCreateCompany}
+            error={createError}
+          />
+        </Modal>
+      )}
 
       {selectedVacancy && (
         <Modal onClose={handleCloseModal} title="Edit Vacancy">

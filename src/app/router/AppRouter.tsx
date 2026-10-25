@@ -5,7 +5,6 @@ import {
   CompaniesPage,
   CreateCompanyPage,
   CreateInterviewsPage,
-  CreateVacancyPage,
   DashboardPage,
   InterviewsPage,
   LoginPage,
@@ -26,7 +25,6 @@ function AppRouter() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/companies" element={<CompaniesPage />} />
           <Route path="/vacancies" element={<VacanciesPage />} />
-          <Route path="/vacancies-create" element={<CreateVacancyPage />} />
           <Route path="/companies-create" element={<CreateCompanyPage />} />
           <Route path="/interviews" element={<InterviewsPage />} />
           <Route path="/interviews-create" element={<CreateInterviewsPage />} />
