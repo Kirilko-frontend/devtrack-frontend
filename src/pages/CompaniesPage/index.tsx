@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-import type { Company, UpdateCompanyData } from '@/types/company';
+import type { Company, CreateCompanyData, UpdateCompanyData } from '@/types/company';
 import { companiesService } from '@/services';
 
 import { Input, Modal } from '@/shared/ui';
-import { CompaniesHeader, CompaniesList, CompanyEdit } from './components';
+import { CompaniesHeader, CompaniesList, CompanyCreateForm, CompanyEdit } from './components';
 
 import styles from './styles.module.scss';
 
@@ -13,8 +12,8 @@ function CompaniesPage() {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [searchValue, setSearchValue] = useState('');
   const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
-
-  const navigate = useNavigate();
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [createError, setCreateError] = useState('');
 
   const filteredCompanies = companies.filter((company) =>
     company.name.toLowerCase().includes(searchValue.toLowerCase())
@@ -59,6 +58,20 @@ function CompaniesPage() {
     }
   };
 
+  const handleCreateCompany = async (data: CreateCompanyData) => {
+    setCreateError('');
+
+    try {
+      const createdCompany = await companiesService.createCompany(data);
+      setCompanies((current) => [createdCompany, ...current]);
+      setSearchValue('');
+      setIsCreateModalOpen(false);
+    } catch (error) {
+      console.error('Error creating company:', error);
+      setCreateError('Could not create the company. Please try again.');
+    }
+  };
+
   const handleDeleteCompany = async (companyId: number) => {
     try {
       await companiesService.deleteCompany(companyId);
@@ -70,7 +83,12 @@ function CompaniesPage() {
 
   return (
     <div className={styles['companies-page']}>
-      <CompaniesHeader onCreate={() => navigate('/companies-create')} />
+      <CompaniesHeader
+        onCreate={() => {
+          setCreateError('');
+          setIsCreateModalOpen(true);
+        }}
+      />
       <Input
         className={styles['companies-page__search-input']}
         placeholder="Search companies..."
@@ -83,6 +101,15 @@ function CompaniesPage() {
         onSelectCompany={handleSelectCompany}
         onDeleteCompany={handleDeleteCompany}
       />
+      {isCreateModalOpen && (
+        <Modal title="Create Company" onClose={() => setIsCreateModalOpen(false)}>
+          <CompanyCreateForm
+            error={createError}
+            onCancel={() => setIsCreateModalOpen(false)}
+            onSubmit={handleCreateCompany}
+          />
+        </Modal>
+      )}
       {selectedCompany && (
         <Modal title="Edit Company" onClose={() => setSelectedCompany(null)}>
           <CompanyEdit

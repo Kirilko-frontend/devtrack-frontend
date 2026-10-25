@@ -3,7 +3,6 @@ import ProtectedRoute from './ProtectedRoute';
 import AppLayout from '../layouts/AppLayout';
 import {
   CompaniesPage,
-  CreateCompanyPage,
   CreateInterviewsPage,
   DashboardPage,
   InterviewsPage,
@@ -25,7 +24,6 @@ function AppRouter() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/companies" element={<CompaniesPage />} />
           <Route path="/vacancies" element={<VacanciesPage />} />
-          <Route path="/companies-create" element={<CreateCompanyPage />} />
           <Route path="/interviews" element={<InterviewsPage />} />
           <Route path="/interviews-create" element={<CreateInterviewsPage />} />
           <Route path="/resumes" element={<ResumesPage />} />
