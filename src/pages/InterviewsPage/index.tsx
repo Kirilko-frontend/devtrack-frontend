@@ -5,6 +5,7 @@ import type { Vacancy } from '@/types/vacancy';
 
 import { interviewsService, vacanciesService } from '@/services';
 import { Modal } from '@/shared/ui';
+import { Header } from '@/widgets';
 import type {
   InterviewDateFilter,
   InterviewSort,
@@ -12,7 +13,6 @@ import type {
 } from './components/InterviewsFilters/config';
 
 import {
-  InterviewsHeader,
   InterviewsFilters,
   InterviewsList,
   InterviewsStats,
@@ -163,7 +163,12 @@ function InterviewsPage() {
 
   return (
     <div className={styles['interviews-page']}>
-      <InterviewsHeader onCreate={handleCreateInterview} />
+      <Header
+        title="Interviews"
+        subtitle="Manage and prepare for your upcoming interviews."
+        actionText="Add interview"
+        onAction={handleCreateInterview}
+      />
 
       <main className={styles['interviews-page__main']}>
         {deleteError && (
