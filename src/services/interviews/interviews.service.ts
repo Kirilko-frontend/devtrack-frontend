@@ -1,6 +1,6 @@
 import { api } from '../api';
 
-import type { CreateInterviewData, Interview } from '@/types/interviews';
+import type { CreateInterviewData, Interview, UpdateInterviewData } from '@/types/interviews';
 
 export const interviewsService = {
   getInterviews() {
@@ -10,6 +10,13 @@ export const interviewsService = {
   createInterview(data: CreateInterviewData) {
     return api<Interview>('/interviews', {
       method: 'POST',
+      body: data,
+    });
+  },
+
+  updateInterview(id: number, data: UpdateInterviewData) {
+    return api<Interview>(`/interviews/${id}`, {
+      method: 'PATCH',
       body: data,
     });
   },

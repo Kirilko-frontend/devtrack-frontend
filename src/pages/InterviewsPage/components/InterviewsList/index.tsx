@@ -6,10 +6,11 @@ import { Empty } from '@/shared/ui';
 
 interface IProps {
   interviews: Interview[];
+  onEdit: (interview: Interview) => void;
   onDelete: (interview: Interview) => void;
 }
 
-function InterviewsList({ interviews, onDelete }: IProps) {
+function InterviewsList({ interviews, onEdit, onDelete }: IProps) {
   if (!interviews.length) {
     return <Empty title="No interviews found" description="Try changing your search or filters." />;
   }
@@ -27,6 +28,7 @@ function InterviewsList({ interviews, onDelete }: IProps) {
           <InterviewCard
             key={interview.id}
             interview={interview}
+            onEdit={onEdit}
             onDelete={onDelete}
           />
         ))}

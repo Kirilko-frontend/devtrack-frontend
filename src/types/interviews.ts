@@ -24,3 +24,5 @@ export interface CreateInterviewData {
   types: InterviewType;
   vacancyId: number;
 }
+
+export type UpdateInterviewData = Partial<CreateInterviewData>;

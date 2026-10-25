@@ -1,22 +1,33 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import type { Interview } from '@/types/interviews';
+import type { Interview, UpdateInterviewData } from '@/types/interviews';
+import type { Vacancy } from '@/types/vacancy';
 
-import { interviewsService } from '@/services';
+import { interviewsService, vacanciesService } from '@/services';
+import { Modal } from '@/shared/ui';
 import type {
   InterviewDateFilter,
   InterviewSort,
   InterviewTypeFilter,
 } from './components/InterviewsFilters/config';
 
-import { InterviewsHeader, InterviewsFilters, InterviewsList, InterviewsStats } from './components';
+import {
+  InterviewsHeader,
+  InterviewsFilters,
+  InterviewsList,
+  InterviewsStats,
+  InterviewEditForm,
+} from './components';
 
 import styles from './styles.module.scss';
 
 function InterviewsPage() {
   const [interviews, setInterviews] = useState<Interview[]>([]);
+  const [vacancies, setVacancies] = useState<Vacancy[]>([]);
+  const [selectedInterview, setSelectedInterview] = useState<Interview | null>(null);
   const [deleteError, setDeleteError] = useState('');
+  const [editError, setEditError] = useState('');
   const [search, setSearch] = useState('');
   const [typeFilter, setTypeFilter] = useState<InterviewTypeFilter>('ALL');
   const [dateFilter, setDateFilter] = useState<InterviewDateFilter>('ALL');
@@ -39,6 +50,30 @@ function InterviewsPage() {
     }
   };
 
+  const handleEditInterview = (interview: Interview) => {
+    setEditError('');
+    setSelectedInterview(interview);
+  };
+
+  const handleUpdateInterview = async (data: UpdateInterviewData) => {
+    if (!selectedInterview) {
+      return;
+    }
+
+    setEditError('');
+
+    try {
+      const updatedInterview = await interviewsService.updateInterview(selectedInterview.id, data);
+      setInterviews((current) =>
+        current.map((item) => (item.id === updatedInterview.id ? updatedInterview : item))
+      );
+      setSelectedInterview(null);
+    } catch (error) {
+      console.error('Error updating interview:', error);
+      setEditError('Could not update the interview. Please try again.');
+    }
+  };
+
   useEffect(() => {
     const loadInterviews = async () => {
       try {
@@ -50,6 +85,17 @@ function InterviewsPage() {
     };
 
     void loadInterviews();
+
+    const loadVacancies = async () => {
+      try {
+        const response = await vacanciesService.getVacancies({ limit: 100 });
+        setVacancies(response.data);
+      } catch (error) {
+        console.error('Error fetching vacancies:', error);
+      }
+    };
+
+    void loadVacancies();
   }, []);
 
   const filteredInterviews = useMemo(() => {
@@ -122,9 +168,36 @@ function InterviewsPage() {
 
         <InterviewsList
           interviews={filteredInterviews}
+          onEdit={handleEditInterview}
           onDelete={(interview) => void handleDeleteInterview(interview)}
         />
       </main>
+
+      {selectedInterview && (
+        <Modal
+          title="Edit Interview"
+          onClose={() => setSelectedInterview(null)}
+        >
+          <InterviewEditForm
+            key={selectedInterview.id}
+            interview={selectedInterview}
+            vacancies={[
+              ...vacancies.map(({ id, title }) => ({ id, title })),
+              ...(vacancies.some((vacancy) => vacancy.id === selectedInterview.vacancyId)
+                ? []
+                : [
+                    {
+                      id: selectedInterview.vacancyId,
+                      title: selectedInterview.vacancy.title,
+                    },
+                  ]),
+            ]}
+            error={editError}
+            onCancel={() => setSelectedInterview(null)}
+            onSubmit={handleUpdateInterview}
+          />
+        </Modal>
+      )}
     </div>
   );
 }

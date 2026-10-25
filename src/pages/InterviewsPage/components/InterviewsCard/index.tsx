@@ -1,4 +1,4 @@
-import { Trash2 } from 'lucide-react';
+import { Pencil, Trash2 } from 'lucide-react';
 
 import type { Interview } from '@/types/interviews';
 
@@ -6,10 +6,11 @@ import styles from './styles.module.scss';
 
 interface IProps {
   interview: Interview;
+  onEdit: (interview: Interview) => void;
   onDelete: (interview: Interview) => void;
 }
 
-function InterviewCard({ interview, onDelete }: IProps) {
+function InterviewCard({ interview, onEdit, onDelete }: IProps) {
   const date = new Date(interview.date);
 
   return (
@@ -34,15 +35,26 @@ function InterviewCard({ interview, onDelete }: IProps) {
       <div className={styles['interview-card__content']}>
         <div className={styles['interview-card__top']}>
           <span className={styles['interview-card__type']}>{interview.types}</span>
-          <button
-            className={styles['interview-card__delete']}
-            type="button"
-            aria-label={`Delete interview for ${interview.vacancy.title}`}
-            title="Delete interview"
-            onClick={() => onDelete(interview)}
-          >
-            <Trash2 size={16} />
-          </button>
+          <div className={styles['interview-card__actions']}>
+            <button
+              className={styles['interview-card__action']}
+              type="button"
+              aria-label={`Edit interview for ${interview.vacancy.title}`}
+              title="Edit interview"
+              onClick={() => onEdit(interview)}
+            >
+              <Pencil size={16} />
+            </button>
+            <button
+              className={`${styles['interview-card__action']} ${styles['interview-card__action--delete']}`}
+              type="button"
+              aria-label={`Delete interview for ${interview.vacancy.title}`}
+              title="Delete interview"
+              onClick={() => onDelete(interview)}
+            >
+              <Trash2 size={16} />
+            </button>
+          </div>
         </div>
 
         <h3 className={styles['interview-card__title']}>{interview.vacancy.title}</h3>
