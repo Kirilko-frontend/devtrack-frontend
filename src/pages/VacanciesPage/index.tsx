@@ -139,7 +139,7 @@ function VacanciesPage() {
           onSortChange={handleSortChange}
         />
 
-        <VacancyTable vacancies={vacancies} onSelectVacancy={handleSelectVacancy} />
+        <VacancyTable vacancies={vacancies} onEditVacancy={handleSelectVacancy} />
       </main>
 
       <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />

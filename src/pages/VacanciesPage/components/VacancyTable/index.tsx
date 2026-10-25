@@ -1,4 +1,5 @@
 import type { Vacancy } from '@/types/vacancy';
+import { Pencil } from 'lucide-react';
 
 import { Table } from '@/widgets';
 
@@ -6,42 +7,41 @@ import styles from './styles.module.scss';
 
 interface IProps {
   vacancies: Vacancy[];
-  onSelectVacancy: (vacancy: Vacancy) => void;
+  onEditVacancy: (vacancy: Vacancy) => void;
 }
 
-function VacancyTable({ vacancies, onSelectVacancy }: IProps) {
+function VacancyTable({ vacancies, onEditVacancy }: IProps) {
   return (
     <div className={styles['vacancy-table']}>
       <Table
         data={vacancies}
         getRowKey={(vacancy) => vacancy.id}
-        onRowClick={onSelectVacancy}
         columns={[
           {
             key: 'title',
             label: 'Title',
-            width: '30%',
+            width: '25%',
           },
           {
             key: 'company',
             label: 'Company',
             render: (vacancy) => vacancy.company.name,
-            width: '20%',
+            width: '17%',
           },
           {
             key: 'salary',
             label: 'Salary',
-            width: '15%',
+            width: '12%',
           },
           {
             key: 'status',
             label: 'Status',
-            width: '15%',
+            width: '13%',
           },
           {
             key: 'url',
             label: 'Link',
-            width: '20%',
+            width: '15%',
             render: (vacancy) =>
               vacancy.url ? (
                 <a href={vacancy.url} target="_blank" rel="noreferrer">
@@ -54,9 +54,25 @@ function VacancyTable({ vacancies, onSelectVacancy }: IProps) {
           {
             key: 'appliedAt',
             label: 'Applied at',
-            width: '15%',
+            width: '12%',
             render: (vacancy) =>
               vacancy.appliedAt ? new Date(vacancy.appliedAt).toLocaleDateString() : '—',
+          },
+          {
+            key: 'id',
+            label: '',
+            width: '6%',
+            render: (vacancy) => (
+              <button
+                className={styles['vacancy-table__edit-button']}
+                type="button"
+                aria-label={`Edit ${vacancy.title}`}
+                title="Edit vacancy"
+                onClick={() => onEditVacancy(vacancy)}
+              >
+                <Pencil size={16} />
+              </button>
+            ),
           },
         ]}
       />

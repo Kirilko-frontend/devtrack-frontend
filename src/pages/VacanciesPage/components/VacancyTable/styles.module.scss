@@ -1,5 +1,23 @@
 .vacancy-table {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
+  flex: 0 0 auto;
+
+  :global(.table__wrapper) {
+    scrollbar-gutter: auto;
+    overflow-y: hidden;
+  }
+}
+
+.vacancy-table__edit-button {
+  @include flex-center;
+  @include square(2rem);
+
+  border-radius: 0.625rem;
+  color: rgb(var(--color-muted));
+  transition: var(--transition);
+
+  &:hover,
+  &:focus-visible {
+    background-color: rgb(var(--color-white), 0.08);
+    color: rgb(var(--color-white));
+  }
 }

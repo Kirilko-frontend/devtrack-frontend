@@ -13,7 +13,7 @@ interface IProps<T> {
   columns: TableColumn<T>[];
   data: T[];
   getRowKey: (item: T) => string | number;
-  onRowClick: (item: T) => void;
+  onRowClick?: (item: T) => void;
 }
 
 function Table<T>({ columns, data, getRowKey, onRowClick }: IProps<T>) {
@@ -41,7 +41,7 @@ function Table<T>({ columns, data, getRowKey, onRowClick }: IProps<T>) {
             <tr
               className={styles['table__row']}
               key={getRowKey(item)}
-              onClick={() => onRowClick?.(item)}
+              onClick={onRowClick ? () => onRowClick(item) : undefined}
             >
               {columns.map((column) => (
                 <td className={styles['table__cell']} key={String(column.key)}>
