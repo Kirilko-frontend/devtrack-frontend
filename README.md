@@ -1,75 +1,100 @@
-# React + TypeScript + Vite
+# DevTrack Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Web client for **DevTrack**, a job application tracker: manage companies, vacancies and interviews, and see your job search progress on a dashboard.
 
-Currently, two official plugins are available:
+- **Live app:** https://devtrack-frontend-e0ru.onrender.com/
+- **Backend repository:** https://github.com/Kirilko-frontend/devtrack-backend
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+> The backend runs on Render's free plan and sleeps after 15 minutes of inactivity. The first request after a pause can take 30-60 seconds.
 
-## React Compiler
+**Demo account:** `<email>` / `<password>`
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Screenshots
+<img width="1906" height="901" alt="image" src="https://github.com/user-attachments/assets/4de921b7-1d7e-487c-9545-57963ef42360" />
+<img width="1913" height="904" alt="image" src="https://github.com/user-attachments/assets/d1d45d06-b1cd-4909-b33e-0f76edb41a72" />
+<img width="1913" height="905" alt="image" src="https://github.com/user-attachments/assets/370dac2d-c85f-4fdf-a15a-cc4c13207489" />
+<img width="1912" height="906" alt="image" src="https://github.com/user-attachments/assets/abc73048-c4f9-4114-b071-a6f0f775ead9" />
+<img width="1912" height="906" alt="image" src="https://github.com/user-attachments/assets/9715ee69-e101-4c08-8efc-65933e14b5b8" />
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Features
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Registration and login (cookie-based session)
+- **Dashboard** with charts of applications over time and statuses
+- **Vacancies:** create and edit, link to an existing company or create a new one, track status
+- **Companies:** grid of companies, create and edit
+- **Interviews:** schedule and edit interviews linked to vacancies
+- File downloads handled through a dedicated API helper
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Tech stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **React** + **TypeScript**
+- **Vite**
+- **Recharts** for dashboard charts
+- Typed API client built on `fetch` with `credentials: 'include'`
+- Feature-oriented structure with path aliases (`@app`, `@features`, `@pages`, `@shared`, `@widgets`)
+- Deployed on **Render** (Static Site)
 
+## Getting started
+
+### Prerequisites
+
+- Node.js 20+
+- Running https://devtrack-backend-314v.onrender.com
+
+### Installation
+
+```bash
+git clone <repo-url>
+cd devtrack-frontend
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Environment variables
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Create `.env.local` in the project root (optional locally, since the app falls back to `http://localhost:3000`):
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```env
+VITE_API_URL=http://localhost:3000
 ```
+
+| Variable | Description |
+|---|---|
+| `VITE_API_URL` | Base URL of the API. On production it is `/api` (proxied to the backend). |
+
+### Run
+
+```bash
+# development
+npm run dev
+
+# type-check and production build
+npm run build
+```
+
+## Deployment (Render Static Site)
+
+- **Build command:** `npm install && npm run build`
+- **Publish directory:** `dist`
+- **Environment variable:** `VITE_API_URL=/api`
+- **Redirects/Rewrites** (order matters):
+
+| Source | Destination | Action |
+|---|---|---|
+| `/api/*` | `https://<your-backend>.onrender.com/*` | Rewrite |
+| `/*` | `/index.html` | Rewrite |
+
+The first rule proxies API calls through the frontend domain, so the auth cookie is first-party and is not blocked by browsers. The second rule makes client-side routing work on page refresh.
+
+`VITE_API_URL` is baked into the bundle at build time, so changing it requires a redeploy.
+
+## Project status
+
+Actively developed. Planned: notification manager, more dashboard analytics.
+
+## Author
+
+**Kyrylo Kakulia**, Frontend / Fullstack Developer
+https://github.com/Kirilko-frontend
+https://www.linkedin.com/in/kyrylo-kakulia-3557b9371/
+kkir614@gmail.com
