@@ -1,3 +1,4 @@
+import type { FormEvent } from 'react';
 import { useState } from 'react';
 
 import { Link, useNavigate } from 'react-router-dom';
@@ -127,7 +128,6 @@ function AuthForm({ type }: IProps) {
 
       <form className={styles['auth-form__form']} onSubmit={handleSubmit}>
         <Input
-          label="Email"
           placeholder="Enter your email"
           type="email"
           value={form.email}
@@ -136,7 +136,6 @@ function AuthForm({ type }: IProps) {
         />
 
         <Input
-          label="Password"
           placeholder="Enter your password"
           type="password"
           value={form.password}
@@ -146,7 +145,6 @@ function AuthForm({ type }: IProps) {
 
         {isRegister && (
           <Input
-            label="Confirm password"
             placeholder="Confirm your password"
             type="password"
             value={form.confirmPassword}

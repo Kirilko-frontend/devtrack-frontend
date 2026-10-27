@@ -102,7 +102,7 @@ function ApplicationsChart({ data }: IProps) {
             />
 
             <Tooltip
-              content={<ApplicationsTooltip />}
+              content={(props) => <ApplicationsTooltip {...props} />}
               cursor={{
                 fill: 'rgb(var(--color-white))',
                 fillOpacity: 0.03,

@@ -2,6 +2,7 @@ export interface Company {
   id: number;
   name: string;
   website?: string;
+  createdAt: string;
 }
 
 export interface CreateCompanyData {

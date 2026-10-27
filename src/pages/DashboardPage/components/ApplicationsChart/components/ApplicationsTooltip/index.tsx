@@ -1,8 +1,9 @@
+import type { ValueType, NameType } from 'recharts/types/component/DefaultTooltipContent';
 import type { TooltipContentProps } from 'recharts';
 
 import styles from './styles.module.scss';
 
-interface IProps extends TooltipContentProps<number, string> {}
+type IProps = TooltipContentProps<ValueType, NameType>;
 
 const formatDate = (date: string) => {
   return new Date(date).toLocaleDateString('en-US', {
