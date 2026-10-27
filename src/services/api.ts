@@ -8,7 +8,7 @@ type RequestOptions = Omit<RequestInit, 'body'> & {
 async function request(endpoint: string, options: RequestOptions = {}) {
   const { params, body, ...fetchOptions } = options;
 
-  const url = new URL(`${API_URL}${endpoint}`);
+  const url = new URL(`${API_URL}${endpoint}`, window.location.origin);
 
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
