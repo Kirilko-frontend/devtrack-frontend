@@ -18,11 +18,27 @@
   --notification-info-bg: rgb(31, 29, 25);
   --notification-info-border: rgba(234, 114, 35, 0.5);
   --notification-info-text: rgb(var(--color-white));
+
+  --notification-close-bg: rgb(38, 38, 38);
+  --notification-close-border: rgb(82, 82, 82);
+  --notification-close-text: rgb(230, 230, 230);
 }
 
 .toast {
   font-family: var(--font-family);
   box-shadow: var(--shadow-md);
+}
+
+.toaster :global([data-sonner-toast] [data-close-button]) {
+  background-color: var(--notification-close-bg) !important;
+  border-color: var(--notification-close-border) !important;
+  color: var(--notification-close-text) !important;
+
+  &:hover {
+    background-color: rgb(58, 58, 58) !important;
+    border-color: rgb(110, 110, 110) !important;
+    color: rgb(var(--color-white)) !important;
+  }
 }
 
 .error {
