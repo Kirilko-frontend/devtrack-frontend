@@ -25,13 +25,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   const logout = useCallback(async () => {
-    try {
-      await authService.logout();
-    } catch (error) {
-      console.error('Failed to logout:', error);
-    } finally {
-      setUser(null);
-    }
+    await authService.logout();
+    setUser(null);
   }, []);
 
   useEffect(() => {
