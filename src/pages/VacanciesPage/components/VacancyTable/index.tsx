@@ -1,5 +1,5 @@
 import type { Vacancy } from '@/types/vacancy';
-import { Pencil } from 'lucide-react';
+import { Pencil, Trash2 } from 'lucide-react';
 
 import { Table } from '@/widgets';
 
@@ -8,9 +8,10 @@ import styles from './styles.module.scss';
 interface IProps {
   vacancies: Vacancy[];
   onEditVacancy: (vacancy: Vacancy) => void;
+  onDeleteVacancy: (vacancy: Vacancy) => void;
 }
 
-function VacancyTable({ vacancies, onEditVacancy }: IProps) {
+function VacancyTable({ vacancies, onEditVacancy, onDeleteVacancy }: IProps) {
   return (
     <div className={styles['vacancy-table']}>
       <Table
@@ -61,17 +62,28 @@ function VacancyTable({ vacancies, onEditVacancy }: IProps) {
           {
             key: 'id',
             label: '',
-            width: '6%',
+            width: '8%',
             render: (vacancy) => (
-              <button
-                className={styles['vacancy-table__edit-button']}
-                type="button"
-                aria-label={`Edit ${vacancy.title}`}
-                title="Edit vacancy"
-                onClick={() => onEditVacancy(vacancy)}
-              >
-                <Pencil size={16} />
-              </button>
+              <div className={styles['vacancy-table__actions']}>
+                <button
+                  className={styles['vacancy-table__edit-button']}
+                  type="button"
+                  aria-label={`Edit ${vacancy.title}`}
+                  title="Edit vacancy"
+                  onClick={() => onEditVacancy(vacancy)}
+                >
+                  <Pencil size={16} />
+                </button>
+                <button
+                  className={styles['vacancy-table__delete-button']}
+                  type="button"
+                  aria-label={`Delete ${vacancy.title}`}
+                  title="Delete vacancy"
+                  onClick={() => onDeleteVacancy(vacancy)}
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
             ),
           },
         ]}

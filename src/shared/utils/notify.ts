@@ -27,7 +27,7 @@ const notify = {
           borderColor: 'var(--notification-created-border)',
           color: 'var(--notification-created-text)',
         },
-      }),
+      })
     ),
   deleted: (message: string, description?: string) =>
     toast(
@@ -44,7 +44,7 @@ const notify = {
           borderColor: 'var(--notification-deleted-border)',
           color: 'var(--notification-deleted-text)',
         },
-      }),
+      })
     ),
   updated: (message: string, description?: string) =>
     toast.info(
@@ -54,10 +54,9 @@ const notify = {
         style: {
           backgroundColor: 'var(--notification-updated-bg)',
           borderColor: 'var(--notification-updated-border)',
-          borderLeft: '0.25rem solid var(--notification-updated-accent)',
           color: 'var(--notification-updated-text)',
         },
-      }),
+      })
     ),
   error: (message: string, description?: string) =>
     toast.error(
@@ -69,7 +68,7 @@ const notify = {
           borderColor: 'var(--notification-error-border)',
           color: 'var(--notification-error-text)',
         },
-      }),
+      })
     ),
   info: (message: string, description?: string) =>
     toast.info(
@@ -81,7 +80,7 @@ const notify = {
           borderColor: 'var(--notification-info-border)',
           color: 'var(--notification-info-text)',
         },
-      }),
+      })
     ),
 };
 
