@@ -155,12 +155,18 @@ function useResumes() {
       }
 
       setDialog(null);
-      notify.success(
-        dialog.mode === 'upload' ? 'Resume uploaded' : 'Resume updated',
+      const message =
+        dialog.mode === 'upload' ? 'Resume uploaded' : 'Resume updated';
+      const description =
         dialog.mode === 'upload'
           ? 'Your resume has been added to your library.'
-          : 'Your resume details have been saved.'
-      );
+          : 'Your resume details have been saved.';
+
+      if (dialog.mode === 'upload') {
+        notify.created(message, description);
+      } else {
+        notify.updated(message, description);
+      }
     } catch (saveError) {
       setError(getErrorMessage(saveError));
       notify.error(
@@ -178,7 +184,7 @@ function useResumes() {
     try {
       await resumesService.deleteResume(resume.id);
       setResumes((current) => current.filter((item) => item.id !== resume.id));
-      notify.success('Resume deleted', 'The resume was removed from your library.');
+      notify.deleted('Resume deleted', 'The resume was removed from your library.');
     } catch (deleteError) {
       setError(getErrorMessage(deleteError));
       notify.error('Could not delete resume', getErrorMessage(deleteError));
@@ -199,7 +205,7 @@ function useResumes() {
       link.click();
       link.remove();
       window.setTimeout(() => URL.revokeObjectURL(url), 1000);
-      notify.success('Resume downloaded', `${resume.name} is ready.`);
+      notify.info('Resume downloaded', `${resume.name} is ready.`);
     } catch (downloadError) {
       setError(getErrorMessage(downloadError));
       notify.error('Could not download resume', getErrorMessage(downloadError));
@@ -229,7 +235,7 @@ function useResumes() {
       const url = URL.createObjectURL(previewBlob);
 
       previewWindow.location.href = url;
-      notify.success('Resume preview opened', resume.name);
+      notify.info('Resume preview opened', resume.name);
 
       const cleanupInterval = window.setInterval(() => {
         if (previewWindow.closed) {

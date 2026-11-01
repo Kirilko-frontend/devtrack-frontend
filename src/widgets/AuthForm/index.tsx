@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { Link, useNavigate } from 'react-router-dom';
 
-import { useAuth } from '@/app/providers/AuthProvider';
+import useAuth from '@/app/providers/useAuth';
 import { getErrorMessage, notify } from '@/shared/utils';
 import { authService } from '@/services';
 
@@ -105,7 +105,7 @@ function AuthForm({ type }: IProps) {
 
         resetForm();
         navigate('/login');
-        notify.success('Account created', 'You can now log in to DevTrack.');
+        notify.created('Account created', 'You can now log in to DevTrack.');
 
         return;
       }
@@ -114,7 +114,7 @@ function AuthForm({ type }: IProps) {
 
       resetForm();
       navigate('/');
-      notify.success('Welcome back', 'You are now logged in.');
+      notify.info('Welcome back', 'You are now logged in.');
     } catch (error) {
       const message = getErrorMessage(error);
 

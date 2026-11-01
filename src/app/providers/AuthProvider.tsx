@@ -1,18 +1,9 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { authService } from '@/services';
 import type { AuthUser } from '@/types/auth';
 
-interface AuthContextValue {
-  user: AuthUser | null;
-  loading: boolean;
-  isAuthenticated: boolean;
-  checkAuth: () => Promise<void>;
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
-}
-
-const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+import AuthContext, { type AuthContextValue } from './AuthContext';
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -21,29 +12,6 @@ interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
-
-  const checkAuth = useCallback(async () => {
-    setLoading(true);
-
-    try {
-      const currentUser = await authService.me();
-
-      setUser(currentUser);
-    } catch (error) {
-      if (
-        typeof error === 'object' &&
-        error !== null &&
-        'status' in error &&
-        error.status === 401
-      ) {
-        setUser(null);
-      } else {
-        console.error('Failed to check authentication:', error);
-      }
-    } finally {
-      setLoading(false);
-    }
-  }, []);
 
   const login = useCallback(async (email: string, password: string) => {
     await authService.login({
@@ -67,30 +35,52 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   useEffect(() => {
-    void checkAuth();
-  }, [checkAuth]);
+    let isMounted = true;
+
+    void authService
+      .me()
+      .then((currentUser) => {
+        if (isMounted) {
+          setUser(currentUser);
+        }
+      })
+      .catch((error: unknown) => {
+        if (!isMounted) {
+          return;
+        }
+
+        if (
+          typeof error === 'object' &&
+          error !== null &&
+          'status' in error &&
+          error.status === 401
+        ) {
+          setUser(null);
+        } else {
+          console.error('Failed to check authentication:', error);
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const value = useMemo<AuthContextValue>(
     () => ({
       user,
       loading,
       isAuthenticated: user !== null,
-      checkAuth,
       login,
       logout,
     }),
-    [user, loading, checkAuth, logout]
+    [user, loading, login, logout]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
-
-export function useAuth(): AuthContextValue {
-  const context = useContext(AuthContext);
-
-  if (!context) {
-    throw new Error('useAuth must be used inside AuthProvider');
-  }
-
-  return context;
 }

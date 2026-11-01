@@ -1,7 +1,7 @@
 import { BriefcaseBusiness, User } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 
-import { useAuth } from '@/app/providers/AuthProvider';
+import useAuth from '@/app/providers/useAuth';
 
 import { pageTitles } from './config';
 
