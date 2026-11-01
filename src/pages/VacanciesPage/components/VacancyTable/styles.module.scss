@@ -7,17 +7,29 @@
   }
 }
 
-.vacancy-table__edit-button {
+.vacancy-table__actions {
+  @include flex-center;
+  gap: 0.25rem;
+}
+
+.vacancy-table__edit-button,
+.vacancy-table__delete-button {
   @include flex-center;
   @include square(2rem);
 
   border-radius: 0.625rem;
   color: rgb(var(--color-muted));
   transition: var(--transition);
+}
 
-  &:hover,
-  &:focus-visible {
-    background-color: rgb(var(--color-white), 0.08);
-    color: rgb(var(--color-white));
-  }
+.vacancy-table__edit-button:hover,
+.vacancy-table__edit-button:focus-visible {
+  background-color: rgb(var(--color-white), 0.08);
+  color: rgb(var(--color-white));
+}
+
+.vacancy-table__delete-button:hover,
+.vacancy-table__delete-button:focus-visible {
+  background-color: rgb(var(--color-danger), 0.15);
+  color: rgb(var(--color-danger));
 }

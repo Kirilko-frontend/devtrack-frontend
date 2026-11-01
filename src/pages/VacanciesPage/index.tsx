@@ -109,6 +109,22 @@ function VacanciesPage() {
     }
   };
 
+  const handleDeleteVacancy = async (vacancy: Vacancy) => {
+    try {
+      await vacanciesService.deleteVacancy(vacancy.id);
+      setVacancies((current) => current.filter((item) => item.id !== vacancy.id));
+
+      if (vacancies.length === 1 && page > 1) {
+        setPage((current) => current - 1);
+      }
+
+      notify.deleted('Vacancy deleted', `${vacancy.title} was removed from your vacancies.`);
+    } catch (error) {
+      console.error('Delete vacancy error:', error);
+      notify.error('Could not delete vacancy', 'Please try again.');
+    }
+  };
+
   const handleCreateVacancy = async (values: VacancyFormValues) => {
     setCreateError('');
 
@@ -195,7 +211,11 @@ function VacanciesPage() {
           onSortChange={handleSortChange}
         />
 
-        <VacancyTable vacancies={vacancies} onEditVacancy={handleSelectVacancy} />
+        <VacancyTable
+          vacancies={vacancies}
+          onEditVacancy={handleSelectVacancy}
+          onDeleteVacancy={(vacancy) => void handleDeleteVacancy(vacancy)}
+        />
       </main>
 
       <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
