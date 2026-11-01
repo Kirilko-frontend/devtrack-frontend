@@ -4,6 +4,7 @@ import type { Company, CreateCompanyData, UpdateCompanyData } from '@/types/comp
 import { companiesService } from '@/services';
 
 import { Input, Modal } from '@/shared/ui';
+import { notify } from '@/shared/utils';
 import { Header } from '@/widgets';
 import { CompaniesList, CompanyCreateForm, CompanyEdit } from './components';
 
@@ -54,8 +55,10 @@ function CompaniesPage() {
       );
 
       setSelectedCompany(null);
+      notify.success('Company updated', 'Your company details have been saved.');
     } catch (error) {
       console.error('Error updating company:', error);
+      notify.error('Could not update company', 'Please try again.');
     }
   };
 
@@ -67,9 +70,11 @@ function CompaniesPage() {
       setCompanies((current) => [createdCompany, ...current]);
       setSearchValue('');
       setIsCreateModalOpen(false);
+      notify.success('Company created', `${createdCompany.name} was added to your companies.`);
     } catch (error) {
       console.error('Error creating company:', error);
       setCreateError('Could not create the company. Please try again.');
+      notify.error('Could not create company', 'Please check the form and try again.');
     }
   };
 
@@ -77,8 +82,10 @@ function CompaniesPage() {
     try {
       await companiesService.deleteCompany(companyId);
       setCompanies((current) => current.filter((company) => company.id !== companyId));
+      notify.success('Company deleted', 'The company was removed from your list.');
     } catch (error) {
       console.error('Error deleting company:', error);
+      notify.error('Could not delete company', 'Please try again.');
     }
   };
 

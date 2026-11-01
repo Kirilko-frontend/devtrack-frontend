@@ -9,6 +9,7 @@ import { companiesService, vacanciesService } from '@/services';
 
 import { Header, VacancyForm } from '@/widgets';
 import { Modal, Pagination } from '@/shared/ui';
+import { notify } from '@/shared/utils';
 import { VacancyFilters, VacancyTable } from './components';
 
 import styles from './styles.module.scss';
@@ -101,8 +102,10 @@ function VacanciesPage() {
       );
 
       setSelectedVacancy(null);
+      notify.success('Vacancy updated', 'Your vacancy details have been saved.');
     } catch (error) {
       console.error('Update vacancy error:', JSON.stringify(error, null, 2));
+      notify.error('Could not update vacancy', 'Please try again.');
     }
   };
 
@@ -145,9 +148,11 @@ function VacanciesPage() {
       }
 
       setIsCreateModalOpen(false);
+      notify.success('Vacancy created', `${createdVacancy.title} was added to your vacancies.`);
     } catch (error) {
       console.error('Create vacancy error:', error);
       setCreateError('Could not create the vacancy. Please try again.');
+      notify.error('Could not create vacancy', 'Please check the form and try again.');
     }
   };
 
@@ -157,6 +162,7 @@ function VacanciesPage() {
     });
 
     setCompanies((current) => [...current, company]);
+    notify.success('Company created', `${company.name} is ready to use for this vacancy.`);
 
     return company;
   };

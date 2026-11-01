@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '@/app/providers/AuthProvider';
-import { getErrorMessage } from '@/shared/utils';
+import { getErrorMessage, notify } from '@/shared/utils';
 import { authService } from '@/services';
 
 import { Button, Input } from '@/shared/ui';
@@ -105,6 +105,7 @@ function AuthForm({ type }: IProps) {
 
         resetForm();
         navigate('/login');
+        notify.success('Account created', 'You can now log in to DevTrack.');
 
         return;
       }
@@ -113,10 +114,12 @@ function AuthForm({ type }: IProps) {
 
       resetForm();
       navigate('/');
+      notify.success('Welcome back', 'You are now logged in.');
     } catch (error) {
       const message = getErrorMessage(error);
 
       console.error(message);
+      notify.error(isRegister ? 'Could not create account' : 'Could not log in', message);
     }
   };
 

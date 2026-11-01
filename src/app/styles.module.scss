@@ -1,0 +1,16 @@
+.toaster {
+  --success-bg: rgb(37, 29, 22);
+  --success-border: rgba(234, 114, 35, 0.5);
+  --success-text: rgb(var(--color-white));
+  --error-bg: rgb(43, 24, 24);
+  --error-border: rgba(220, 70, 70, 0.5);
+  --error-text: rgb(var(--color-white));
+  --info-bg: rgb(31, 29, 25);
+  --info-border: rgba(234, 114, 35, 0.35);
+  --info-text: rgb(var(--color-white));
+}
+
+.toast {
+  font-family: var(--font-family);
+  box-shadow: var(--shadow-md);
+}

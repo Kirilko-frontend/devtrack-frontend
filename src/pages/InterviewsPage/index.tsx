@@ -5,6 +5,7 @@ import type { Vacancy } from '@/types/vacancy';
 
 import { interviewsService, vacanciesService } from '@/services';
 import { Modal } from '@/shared/ui';
+import { notify } from '@/shared/utils';
 import { Header } from '@/widgets';
 import type {
   InterviewDateFilter,
@@ -46,9 +47,11 @@ function InterviewsPage() {
     try {
       await interviewsService.deleteInterview(interview.id);
       setInterviews((current) => current.filter((item) => item.id !== interview.id));
+      notify.success('Interview deleted', 'The interview was removed from your schedule.');
     } catch (error) {
       console.error('Error deleting interview:', error);
       setDeleteError('Could not delete the interview. Please try again.');
+      notify.error('Could not delete interview', 'Please try again.');
     }
   };
 
@@ -70,9 +73,11 @@ function InterviewsPage() {
         current.map((item) => (item.id === updatedInterview.id ? updatedInterview : item))
       );
       setSelectedInterview(null);
+      notify.success('Interview updated', 'Your interview details have been saved.');
     } catch (error) {
       console.error('Error updating interview:', error);
       setEditError('Could not update the interview. Please try again.');
+      notify.error('Could not update interview', 'Please try again.');
     }
   };
 
@@ -87,9 +92,11 @@ function InterviewsPage() {
       setDateFilter('ALL');
       setSort('SOONEST');
       setIsCreateModalOpen(false);
+      notify.success('Interview created', 'Your interview has been added to the schedule.');
     } catch (error) {
       console.error('Error creating interview:', error);
       setCreateError('Could not create the interview. Please try again.');
+      notify.error('Could not create interview', 'Please check the form and try again.');
     }
   };
 

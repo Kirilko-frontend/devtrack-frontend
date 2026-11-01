@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { resumesService, vacanciesService } from '@/services';
+import { notify } from '@/shared/utils';
 import type { CreateResumeData, Resume, UpdateResumeData } from '@/types/resume';
 import type { Vacancy } from '@/types/vacancy';
 
@@ -154,8 +155,18 @@ function useResumes() {
       }
 
       setDialog(null);
+      notify.success(
+        dialog.mode === 'upload' ? 'Resume uploaded' : 'Resume updated',
+        dialog.mode === 'upload'
+          ? 'Your resume has been added to your library.'
+          : 'Your resume details have been saved.'
+      );
     } catch (saveError) {
       setError(getErrorMessage(saveError));
+      notify.error(
+        dialog.mode === 'upload' ? 'Could not upload resume' : 'Could not update resume',
+        getErrorMessage(saveError)
+      );
     } finally {
       setIsSaving(false);
     }
@@ -167,8 +178,10 @@ function useResumes() {
     try {
       await resumesService.deleteResume(resume.id);
       setResumes((current) => current.filter((item) => item.id !== resume.id));
+      notify.success('Resume deleted', 'The resume was removed from your library.');
     } catch (deleteError) {
       setError(getErrorMessage(deleteError));
+      notify.error('Could not delete resume', getErrorMessage(deleteError));
     }
   };
 
@@ -186,8 +199,10 @@ function useResumes() {
       link.click();
       link.remove();
       window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      notify.success('Resume downloaded', `${resume.name} is ready.`);
     } catch (downloadError) {
       setError(getErrorMessage(downloadError));
+      notify.error('Could not download resume', getErrorMessage(downloadError));
     }
   };
 
@@ -198,6 +213,7 @@ function useResumes() {
 
     if (!previewWindow) {
       setError('Allow pop-ups to preview this resume in a new tab.');
+      notify.error('Could not open resume preview', 'Allow pop-ups and try again.');
       return;
     }
 
@@ -213,6 +229,7 @@ function useResumes() {
       const url = URL.createObjectURL(previewBlob);
 
       previewWindow.location.href = url;
+      notify.success('Resume preview opened', resume.name);
 
       const cleanupInterval = window.setInterval(() => {
         if (previewWindow.closed) {
@@ -223,6 +240,7 @@ function useResumes() {
     } catch (previewError) {
       previewWindow.close();
       setError(getErrorMessage(previewError));
+      notify.error('Could not open resume preview', getErrorMessage(previewError));
     }
   };
 
