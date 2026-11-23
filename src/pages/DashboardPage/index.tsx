@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import type { CSSProperties } from 'react';
 
 import type { DashboardResponse } from '@/types/dashboard';
 
@@ -32,9 +33,10 @@ function DashboardPage() {
   return (
     <div className={styles['dashboard-page']}>
       <div className={styles['dashboard-page__stats']}>
-        {dashboardStats.map(({ key, changeKey, label, ariaLabel, icon: Icon }) => (
+        {dashboardStats.map(({ key, changeKey, label, ariaLabel, icon: Icon }, index) => (
           <StatCard
             key={key}
+            style={{ '--i': index } as CSSProperties}
             label={label}
             ariaLabel={ariaLabel}
             value={dashboard.stats[key]}
