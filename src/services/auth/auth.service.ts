@@ -1,6 +1,6 @@
 import { api } from '../api';
 
-import type { AuthUser, LoginRequest, RegisterRequest } from '@/types/auth';
+import type { AuthUser, LoginRequest, RegisterRequest, ResetPasswordRequest } from '@/types/auth';
 
 export const authService = {
   me() {
@@ -16,6 +16,20 @@ export const authService = {
 
   register(data: RegisterRequest) {
     return api<{ message: string }>('/auth/register', {
+      method: 'POST',
+      body: data,
+    });
+  },
+
+  forgotPassword(email: string) {
+    return api<{ message: string }>('/auth/forgot-password', {
+      method: 'POST',
+      body: { email },
+    });
+  },
+
+  resetPassword(data: ResetPasswordRequest) {
+    return api<{ message: string }>('/auth/reset-password', {
       method: 'POST',
       body: data,
     });
