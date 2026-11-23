@@ -1,25 +1,96 @@
 .auth-layout {
-  @include gradient(var(--gradient-dark-light));
   @include flex-column-center;
+
+  position: relative;
+  isolation: isolate;
+
+  padding: 1.5rem;
+
+  background-color: rgb(var(--color-surface-1));
+  overflow: hidden;
+
+  // Two soft light spots slowly floating behind the card.
+  &::before,
+  &::after {
+    content: '';
+
+    position: absolute;
+    z-index: -1;
+
+    width: 40rem;
+    height: 40rem;
+
+    border-radius: 50%;
+
+    filter: blur(6rem);
+    pointer-events: none;
+  }
+
+  &::before {
+    top: -12rem;
+    left: -8rem;
+
+    background-color: rgb(var(--color-accent), 0.22);
+
+    animation: auth-orb-float 18s var(--ease-in-out) infinite alternate;
+  }
+
+  &::after {
+    right: -10rem;
+    bottom: -14rem;
+
+    background-color: rgb(var(--color-info), 0.12);
+
+    animation: auth-orb-float 22s var(--ease-in-out) infinite alternate-reverse;
+  }
 }
 
 .auth-layout__wrapper {
   display: flex;
 
   width: 70rem;
+  max-width: 100%;
   height: 45rem;
 
-  border: 0.2rem solid rgb(var(--color-white), 0.1);
-  border-radius: 2rem;
-  box-shadow: var(--shadow-lg);
+  border: 0.0625rem solid var(--border-default);
+  border-radius: 1.75rem;
+
+  background: rgb(var(--color-surface-2), 0.55);
+  backdrop-filter: blur(1.5rem);
+  -webkit-backdrop-filter: blur(1.5rem);
+
+  box-shadow:
+    var(--shadow-lg),
+    0 2rem 5rem rgb(0 0 0 / 0.45),
+    inset 0 0.0625rem 0 rgb(var(--color-white), 0.06);
 
   overflow: hidden;
+
+  animation: auth-card-in var(--duration-slow) var(--ease-out);
 }
 
 .auth-layout__image {
+  position: relative;
+
   flex: 1;
   min-width: 0;
   min-height: 0;
+
+  overflow: hidden;
+
+  // Darkens the bottom of the photo so the brand text stays readable.
+  &::after {
+    content: '';
+
+    position: absolute;
+    inset: 0;
+
+    background:
+      linear-gradient(180deg, transparent 45%, rgb(var(--color-surface-1), 0.9) 100%),
+      linear-gradient(90deg, transparent 70%, rgb(var(--color-surface-2), 0.5) 100%);
+
+    pointer-events: none;
+  }
 }
 
 .auth-layout__image img {
@@ -29,6 +100,61 @@
   height: 100%;
 
   object-fit: cover;
+
+  // Slow "Ken Burns" zoom.
+  animation: auth-image-zoom 20s var(--ease-in-out) infinite alternate;
+}
+
+.auth-layout__brand {
+  @include flex-column;
+  gap: 0.5rem;
+
+  position: absolute;
+  left: 2rem;
+  right: 2rem;
+  bottom: 2rem;
+  z-index: 1;
+
+  animation: auth-item-in var(--duration-slow) var(--ease-out) 200ms backwards;
+}
+
+.auth-layout__brand-icon {
+  @include flex-center;
+
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: 0.5rem;
+
+  border: 0.0625rem solid rgb(var(--color-accent), 0.4);
+  border-radius: var(--radius-md);
+
+  background: linear-gradient(
+    135deg,
+    rgb(var(--color-accent), 0.35),
+    rgb(var(--color-accent), 0.1)
+  );
+  backdrop-filter: blur(0.5rem);
+  -webkit-backdrop-filter: blur(0.5rem);
+
+  color: rgb(var(--color-accent));
+}
+
+.auth-layout__brand-name {
+  color: rgb(var(--color-white));
+
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-extrabold);
+  line-height: var(--line-height-sm);
+  letter-spacing: -0.02em;
+}
+
+.auth-layout__brand-tagline {
+  max-width: 22rem;
+
+  color: rgb(var(--color-white), 0.7);
+
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-md);
 }
 
 .auth-layout__content {
@@ -39,4 +165,44 @@
   min-height: 0;
 
   padding: 3rem;
+}
+
+@keyframes auth-orb-float {
+  to {
+    transform: translate3d(6rem, 4rem, 0) scale(1.15);
+  }
+}
+
+@keyframes auth-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(1rem) scale(0.98);
+  }
+}
+
+@keyframes auth-image-zoom {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes auth-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+
+@media (max-width: 900px) {
+  .auth-layout__image {
+    display: none;
+  }
+
+  .auth-layout__content {
+    padding: 2rem 1rem;
+  }
 }

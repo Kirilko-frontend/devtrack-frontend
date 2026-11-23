@@ -88,6 +88,7 @@ function RequestLinkForm() {
       <Button
         type="submit"
         size="lg"
+        variant="accent"
         className={authFormStyles['auth-form__button']}
         disabled={isSubmitting}
       >
@@ -201,6 +202,7 @@ function SetNewPasswordForm({ token }: { token: string | null }) {
       <Button
         type="submit"
         size="lg"
+        variant="accent"
         className={authFormStyles['auth-form__button']}
         disabled={isSubmitting}
       >

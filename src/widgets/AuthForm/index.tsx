@@ -156,7 +156,7 @@ function AuthForm({ type }: IProps) {
           />
         )}
 
-        <Button type="submit" size="lg" className={styles['auth-form__button']}>
+        <Button type="submit" size="lg" variant="accent" className={styles['auth-form__button']}>
           {isRegister ? 'Create account' : 'Log in'}
         </Button>
 
