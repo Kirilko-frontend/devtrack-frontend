@@ -7,7 +7,10 @@
   height: 100vh;
   min-height: 100vh;
 
+  // `clip`, not just `hidden`: the glow below sticks out by 20% and with `hidden`
+  // the browser could still scroll the layout (focus, scrollIntoView), shifting the whole UI.
   overflow: hidden;
+  overflow: clip;
 
   background-color: rgb(var(--color-surface-1));
 
