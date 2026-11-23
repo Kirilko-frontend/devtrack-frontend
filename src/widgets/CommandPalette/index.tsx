@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import type { KeyboardEvent, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -216,7 +217,9 @@ function CommandPalette({ onClose }: ICommandPaletteProps) {
   // Running index across groups, so arrow keys move through one flat list.
   let itemIndex = -1;
 
-  return (
+  // Portal: the palette is opened from TopBar, whose backdrop-filter would otherwise
+  // become the containing block for `position: fixed` and shrink the overlay to the top bar.
+  return createPortal(
     <div className={styles['palette']} onMouseDown={onClose}>
       <div
         className={styles['palette__dialog']}
@@ -315,7 +318,8 @@ function CommandPalette({ onClose }: ICommandPaletteProps) {
           </span>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
