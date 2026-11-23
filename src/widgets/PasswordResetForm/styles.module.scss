@@ -1,0 +1,16 @@
+.password-reset__text {
+  max-width: 25rem;
+  margin: 0;
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-light);
+  line-height: var(--line-height-md);
+  text-align: center;
+
+  color: rgb(var(--color-white), 0.8);
+
+  strong {
+    font-weight: var(--font-weight-semibold);
+    color: rgb(var(--color-white));
+  }
+}

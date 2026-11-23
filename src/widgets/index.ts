@@ -5,5 +5,15 @@ import TopBar from './TopBar';
 import Table from './Table';
 import VacancyForm from './VacancyForm';
 import Header from './Header';
+import PasswordResetForm from './PasswordResetForm';
 
-export { AuthForm, AuthLayout, Sidebar, TopBar, Table, VacancyForm, Header };
+export {
+  AuthForm,
+  AuthLayout,
+  Sidebar,
+  TopBar,
+  Table,
+  VacancyForm,
+  Header,
+  PasswordResetForm,
+};

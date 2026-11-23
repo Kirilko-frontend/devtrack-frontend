@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { authService } from '@/services';
+import { AUTH_EXPIRED_EVENT, authService } from '@/services';
+import { notify } from '@/shared/utils';
 import type { AuthUser } from '@/types/auth';
 
 import AuthContext, { type AuthContextValue } from './AuthContext';
@@ -12,6 +13,7 @@ interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const userRef = useRef<AuthUser | null>(null);
 
   const login = useCallback(async (email: string, password: string) => {
     await authService.login({
@@ -27,6 +29,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const logout = useCallback(async () => {
     await authService.logout();
     setUser(null);
+  }, []);
+
+  useEffect(() => {
+    userRef.current = user;
+  }, [user]);
+
+  useEffect(() => {
+    const handleAuthExpired = () => {
+      if (userRef.current) {
+        notify.info('Session expired', 'Please log in again.');
+      }
+
+      setUser(null);
+    };
+
+    window.addEventListener(AUTH_EXPIRED_EVENT, handleAuthExpired);
+
+    return () => {
+      window.removeEventListener(AUTH_EXPIRED_EVENT, handleAuthExpired);
+    };
   }, []);
 
   useEffect(() => {

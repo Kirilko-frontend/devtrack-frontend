@@ -5,6 +5,8 @@ import VacanciesPage from './VacanciesPage';
 import CompaniesPage from './CompaniesPage';
 import InterviewsPage from './InterviewsPage';
 import ResumesPage from './ResumesPage';
+import ForgotPasswordPage from './ForgotPasswordPage';
+import ResetPasswordPage from './ResetPasswordPage';
 
 export {
   LoginPage,
@@ -14,4 +16,6 @@ export {
   CompaniesPage,
   InterviewsPage,
   ResumesPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
 };

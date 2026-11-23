@@ -159,6 +159,12 @@ function AuthForm({ type }: IProps) {
         <Button type="submit" size="lg" className={styles['auth-form__button']}>
           {isRegister ? 'Create account' : 'Log in'}
         </Button>
+
+        {!isRegister && (
+          <Link className={styles['auth-form__forgot-link']} to="/forgot-password">
+            Forgot password?
+          </Link>
+        )}
       </form>
 
       <div className={styles['auth-form__switch']}>

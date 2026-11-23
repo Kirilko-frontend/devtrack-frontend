@@ -5,6 +5,30 @@ type RequestOptions = Omit<RequestInit, 'body'> & {
   body?: unknown;
 };
 
+export const AUTH_EXPIRED_EVENT = 'auth:expired';
+
+const SKIP_REFRESH_ENDPOINTS = ['/auth/login', '/auth/register', '/auth/refresh', '/auth/logout'];
+
+let refreshPromise: Promise<boolean> | null = null;
+
+/**
+ * Refreshes the session once, even if several requests get 401 at the same time:
+ * all of them wait for the same refresh request.
+ */
+function refreshSession() {
+  refreshPromise ??= fetch(new URL(`${API_URL}/auth/refresh`, window.location.origin), {
+    method: 'POST',
+    credentials: 'include',
+  })
+    .then((response) => response.ok)
+    .catch(() => false)
+    .finally(() => {
+      refreshPromise = null;
+    });
+
+  return refreshPromise;
+}
+
 async function request(endpoint: string, options: RequestOptions = {}) {
   const { params, body, ...fetchOptions } = options;
 
@@ -25,12 +49,25 @@ async function request(endpoint: string, options: RequestOptions = {}) {
     headers.set('Content-Type', 'application/json');
   }
 
-  const response = await fetch(url, {
-    ...fetchOptions,
-    credentials: 'include',
-    headers,
-    body: body === undefined ? undefined : isFormData ? body : JSON.stringify(body),
-  });
+  const send = () =>
+    fetch(url, {
+      ...fetchOptions,
+      credentials: 'include',
+      headers,
+      body: body === undefined ? undefined : isFormData ? body : JSON.stringify(body),
+    });
+
+  let response = await send();
+
+  if (response.status === 401 && !SKIP_REFRESH_ENDPOINTS.includes(endpoint)) {
+    const isRefreshed = await refreshSession();
+
+    if (isRefreshed) {
+      response = await send();
+    } else {
+      window.dispatchEvent(new Event(AUTH_EXPIRED_EVENT));
+    }
+  }
 
   if (!response.ok) {
     let error: unknown;
