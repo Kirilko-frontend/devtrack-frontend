@@ -9,10 +9,10 @@
   gap: 0.5rem;
   padding: 0.65rem 0.75rem;
 
-  border: 0.0625rem solid rgb(var(--color-white), 0.1);
-  border-radius: 0.75rem;
+  border: 0.0625rem solid var(--border-default);
+  border-radius: var(--radius-md);
 
-  background: var(--gradient-surface-shine);
+  background-color: rgb(var(--color-surface-1), 0.6);
   color: rgb(var(--color-muted));
 
   font-family: var(--font-family);
@@ -22,12 +22,20 @@
   cursor: pointer;
   outline: none;
 
-  transition: var(--transition);
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
 
-  &:hover,
-  &:focus-visible {
-    border-color: rgb(var(--color-white), 0.2);
+  &:hover {
+    border-color: var(--border-strong);
     color: rgb(var(--color-white));
+  }
+
+  &:focus-visible {
+    border-color: rgb(var(--color-accent), 0.6);
+    color: rgb(var(--color-white));
+    box-shadow: var(--focus-ring);
   }
 
   &:disabled {
@@ -37,7 +45,7 @@
 }
 
 .select__trigger--open {
-  border-color: rgb(var(--color-white), 0.2);
+  border-color: rgb(var(--color-accent), 0.5);
   color: rgb(var(--color-white));
 }
 
@@ -64,7 +72,7 @@
 
   color: rgb(var(--color-muted));
 
-  transition: transform var(--transition);
+  transition: transform var(--duration-base) var(--ease-spring);
 }
 
 .select__trigger--open .select__arrow {
@@ -89,14 +97,18 @@
 
   overflow-y: auto;
 
-  background: rgb(var(--color-black));
+  background: rgb(var(--color-surface-2), 0.95);
+  backdrop-filter: blur(1rem);
+  -webkit-backdrop-filter: blur(1rem);
 
-  border: 0.0625rem solid rgb(var(--color-white), 0.1);
-  border-radius: 0.75rem;
+  border: 0.0625rem solid var(--border-default);
+  border-radius: var(--radius-md);
 
   box-shadow: var(--shadow-lg);
 
   list-style: none;
+
+  animation: select-options-in var(--duration-base) var(--ease-out);
 
   scrollbar-width: thin;
   scrollbar-color: rgb(var(--color-white), 0.15) transparent;
@@ -125,10 +137,12 @@
 
 .select__options--bottom {
   top: calc(100% + 0.4rem);
+  transform-origin: top;
 }
 
 .select__options--top {
   bottom: calc(100% + 0.4rem);
+  transform-origin: bottom;
 }
 
 .select__option-item {
@@ -154,7 +168,9 @@
 
   cursor: pointer;
 
-  transition: var(--transition);
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
 
   &:hover {
     background-color: rgb(var(--color-white), 0.06);
@@ -163,7 +179,7 @@
 }
 
 .select__option--active {
-  background-color: rgb(var(--color-white), 0.1);
+  background-color: rgb(var(--color-accent), 0.12);
   color: rgb(var(--color-white));
 }
 
@@ -194,4 +210,11 @@
 .select__adding-action {
   width: 5rem;
   height: 1rem;
+}
+
+@keyframes select-options-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.25rem) scale(0.97);
+  }
 }
