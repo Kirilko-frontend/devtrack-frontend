@@ -9,12 +9,20 @@
 
   padding: 1.5rem;
 
-  background: var(--gradient-surface-shine);
+  background-color: rgb(var(--color-surface-2), 0.6);
 
-  border: 0.0625rem solid rgb(var(--color-white), 0.1);
-  border-radius: 1rem;
+  border: 0.0625rem solid var(--border-subtle);
+  border-radius: var(--radius-lg);
 
-  box-shadow: var(--shadow-sm);
+  box-shadow:
+    var(--shadow-md),
+    inset 0 0.0625rem 0 rgb(var(--color-white), 0.04);
+
+  transition: border-color var(--duration-base) var(--ease-out);
+
+  &:hover {
+    border-color: var(--border-default);
+  }
 }
 .recent-vacancies__header {
   @include flex-space-between;

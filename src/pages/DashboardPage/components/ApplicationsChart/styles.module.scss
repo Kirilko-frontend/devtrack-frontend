@@ -7,17 +7,19 @@
 
   padding: 1.5rem;
 
-  background: var(--gradient-surface-shine);
+  background-color: rgb(var(--color-surface-2), 0.6);
 
-  border: 0.0625rem solid rgb(var(--color-white), 0.1);
-  border-radius: 1rem;
+  border: 0.0625rem solid var(--border-subtle);
+  border-radius: var(--radius-lg);
 
-  box-shadow: var(--shadow-sm);
+  box-shadow:
+    var(--shadow-md),
+    inset 0 0.0625rem 0 rgb(var(--color-white), 0.04);
 
-  transition: var(--transition);
+  transition: border-color var(--duration-base) var(--ease-out);
 
   &:hover {
-    box-shadow: var(--shadow-md);
+    border-color: var(--border-default);
   }
 }
 
@@ -47,21 +49,47 @@
 }
 
 .applications-chart__filters {
-  display: flex;
-  gap: 0.25rem;
+  position: relative;
+
+  display: grid;
+  grid-template-columns: repeat(var(--count, 4), minmax(0, 1fr));
 
   padding: 0.25rem;
 
-  background: var(--gradient-surface-shine);
+  border: 0.0625rem solid var(--border-subtle);
+  border-radius: var(--radius-md);
 
-  border-radius: 0.75rem;
+  background-color: rgb(var(--color-surface-1), 0.6);
+
+  // Highlight that slides under the active period (--active is set in index.tsx).
+  &::before {
+    content: '';
+
+    position: absolute;
+    top: 0.25rem;
+    bottom: 0.25rem;
+    left: 0.25rem;
+
+    width: calc((100% - 0.5rem) / var(--count, 4));
+
+    border-radius: var(--radius-sm);
+
+    background-color: rgb(var(--color-accent), 0.18);
+    box-shadow: inset 0 0 0 0.0625rem rgb(var(--color-accent), 0.35);
+
+    transform: translateX(calc(var(--active, 0) * 100%));
+    transition: transform var(--duration-slow) var(--ease-spring);
+  }
 }
 
 .applications-chart__filter {
+  position: relative;
+  z-index: 1;
+
   padding: 0.4rem 0.75rem;
 
   border: 0;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-sm);
 
   background-color: transparent;
   color: rgb(var(--color-muted));
@@ -72,18 +100,17 @@
 
   cursor: pointer;
 
-  transition: var(--transition);
+  transition: color var(--duration-base) var(--ease-out);
 
+  // Was color-black, which made the text unreadable on the dark background.
   &:hover {
-    color: rgb(var(--color-black));
+    color: rgb(var(--color-white));
   }
 }
 
 .applications-chart__filter--active {
-  background-color: rgb(var(--color-white), 0.1);
-  color: rgb(var(--color-black));
-
-  box-shadow: var(--shadow-sm);
+  color: rgb(var(--color-white));
+  font-weight: var(--font-weight-semibold);
 }
 
 .applications-chart__chart {

@@ -8,16 +8,19 @@
 
   padding: 1.5rem;
 
-  background: var(--gradient-surface-shine);
-  border: 0.0625rem solid rgb(var(--color-white), 0.1);
-  border-radius: 1rem;
+  background-color: rgb(var(--color-surface-2), 0.6);
 
-  box-shadow: var(--shadow-md);
+  border: 0.0625rem solid var(--border-subtle);
+  border-radius: var(--radius-lg);
 
-  transition: var(--transition);
+  box-shadow:
+    var(--shadow-md),
+    inset 0 0.0625rem 0 rgb(var(--color-white), 0.04);
+
+  transition: border-color var(--duration-base) var(--ease-out);
 
   &:hover {
-    box-shadow: var(--shadow-lg);
+    border-color: var(--border-default);
   }
 }
 
