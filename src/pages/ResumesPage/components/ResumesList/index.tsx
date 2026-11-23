@@ -1,7 +1,7 @@
 import type { Resume } from '@/types/resume';
 import type { Vacancy } from '@/types/vacancy';
 
-import { Empty } from '@/shared/ui';
+import { Empty, Skeleton } from '@/shared/ui';
 
 import ResumeCard from '../ResumeCard';
 import styles from './styles.module.scss';
@@ -35,7 +35,11 @@ function ResumesList({
       </div>
 
       {isLoading ? (
-        <div className={styles['resumes-list__empty']}>Loading resumes...</div>
+        <div className={styles['resumes-list__grid']} role="status" aria-label="Loading resumes">
+          {Array.from({ length: 3 }, (_, index) => (
+            <Skeleton key={index} height="11rem" radius="var(--radius-lg)" />
+          ))}
+        </div>
       ) : resumes.length === 0 ? (
         <Empty
           title={hasLoadError ? 'Resumes could not be loaded' : 'No resumes yet'}

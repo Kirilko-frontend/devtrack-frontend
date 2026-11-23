@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import type { Company, CreateCompanyData, UpdateCompanyData } from '@/types/company';
 import { companiesService } from '@/services';
 
-import { Input, Modal } from '@/shared/ui';
+import { Input, Modal, Skeleton } from '@/shared/ui';
 import { notify } from '@/shared/utils';
 import { Header } from '@/widgets';
 import { CompaniesList, CompanyCreateForm, CompanyEdit } from './components';
@@ -12,6 +12,7 @@ import styles from './styles.module.scss';
 
 function CompaniesPage() {
   const [companies, setCompanies] = useState<Company[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchValue, setSearchValue] = useState('');
   const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -28,15 +29,13 @@ function CompaniesPage() {
         setCompanies(data);
       } catch (error) {
         console.error('Error fetching companies:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     loadCompanies();
   }, []);
-
-  if (!companies) {
-    return <div>Loading...</div>;
-  }
 
   const handleSelectCompany = (company: Company) => {
     setSelectedCompany(company);
@@ -107,11 +106,23 @@ function CompaniesPage() {
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
       />
-      <CompaniesList
-        companies={filteredCompanies}
-        onSelectCompany={handleSelectCompany}
-        onDeleteCompany={handleDeleteCompany}
-      />
+      {isLoading ? (
+        <div
+          className={styles['companies-page__skeleton']}
+          role="status"
+          aria-label="Loading companies"
+        >
+          {Array.from({ length: 4 }, (_, index) => (
+            <Skeleton key={index} height="8rem" radius="var(--radius-lg)" />
+          ))}
+        </div>
+      ) : (
+        <CompaniesList
+          companies={filteredCompanies}
+          onSelectCompany={handleSelectCompany}
+          onDeleteCompany={handleDeleteCompany}
+        />
+      )}
       {isCreateModalOpen && (
         <Modal title="Create Company" onClose={() => setIsCreateModalOpen(false)}>
           <CompanyCreateForm

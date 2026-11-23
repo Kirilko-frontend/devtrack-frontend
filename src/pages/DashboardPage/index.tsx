@@ -6,7 +6,13 @@ import type { DashboardResponse } from '@/types/dashboard';
 import { dashboardStats } from './config';
 
 import { dashboardService } from '@/services';
-import { ApplicationsChart, RecentVacancies, StatCard, UpcomingInterviews } from './components';
+import {
+  ApplicationsChart,
+  DashboardSkeleton,
+  RecentVacancies,
+  StatCard,
+  UpcomingInterviews,
+} from './components';
 
 import styles from './styles.module.scss';
 
@@ -27,7 +33,7 @@ function DashboardPage() {
   }, []);
 
   if (!dashboard) {
-    return <div>Loading...</div>;
+    return <DashboardSkeleton />;
   }
 
   return (

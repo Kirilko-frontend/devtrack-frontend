@@ -1,12 +1,13 @@
 import { Navigate, Outlet } from 'react-router-dom';
 
 import useAuth from '@/app/providers/useAuth';
+import { AppLoader } from '@/shared/ui';
 
 function ProtectedRoute() {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <div>Checking session...</div>;
+    return <AppLoader />;
   }
 
   if (!user) {
