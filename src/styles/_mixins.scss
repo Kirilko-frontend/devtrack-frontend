@@ -128,13 +128,6 @@
   line-height: $line-height;
 }
 
-@mixin hover-accent {
-  transition: $transition;
-
-  &:hover {
-    color: $color-accent;
-  }
-}
 // Миксин для градиентов
 @mixin gradient($gradient) {
   background: $gradient;
