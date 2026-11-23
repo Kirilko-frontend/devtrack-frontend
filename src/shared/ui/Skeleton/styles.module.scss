@@ -1,0 +1,35 @@
+.skeleton {
+  position: relative;
+
+  display: block;
+  flex-shrink: 0;
+
+  overflow: hidden;
+
+  background-color: rgb(var(--color-white), 0.05);
+
+  // Light band moving across the block.
+  &::after {
+    content: '';
+
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+      100deg,
+      transparent 20%,
+      rgb(var(--color-white), 0.06) 50%,
+      transparent 80%
+    );
+
+    transform: translateX(-100%);
+
+    animation: skeleton-shimmer 1.6s var(--ease-in-out) infinite;
+  }
+}
+
+@keyframes skeleton-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}

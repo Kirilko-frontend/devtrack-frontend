@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import type { CSSProperties } from 'react';
 
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
@@ -56,7 +57,15 @@ function ApplicationsChart({ data }: IProps) {
           <p className={styles['applications-chart__description']}>Your applications over time</p>
         </div>
 
-        <div className={styles['applications-chart__filters']}>
+        <div
+          className={styles['applications-chart__filters']}
+          style={
+            {
+              '--count': applicationPeriods.length,
+              '--active': applicationPeriods.findIndex(({ value }) => value === period),
+            } as CSSProperties
+          }
+        >
           {applicationPeriods.map(({ value, label }) => (
             <button
               key={value}
@@ -75,6 +84,13 @@ function ApplicationsChart({ data }: IProps) {
       <div className={styles['applications-chart__chart']}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={filteredData}>
+            <defs>
+              <linearGradient id="applications-bar" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="rgb(255, 178, 92)" />
+                <stop offset="100%" stopColor="rgb(var(--color-accent))" stopOpacity={0.7} />
+              </linearGradient>
+            </defs>
+
             <CartesianGrid stroke="rgb(var(--color-white))" strokeOpacity={0.06} vertical={false} />
 
             <XAxis
@@ -104,16 +120,19 @@ function ApplicationsChart({ data }: IProps) {
             <Tooltip
               content={(props) => <ApplicationsTooltip {...props} />}
               cursor={{
-                fill: 'rgb(var(--color-white))',
-                fillOpacity: 0.03,
+                fill: 'rgb(var(--color-accent))',
+                fillOpacity: 0.06,
+                radius: 6,
               }}
             />
 
             <Bar
               dataKey="count"
-              fill="rgb(var(--color-accent))"
+              fill="url(#applications-bar)"
               radius={[6, 6, 0, 0]}
               maxBarSize={32}
+              animationDuration={900}
+              animationEasing="ease-out"
             />
           </BarChart>
         </ResponsiveContainer>

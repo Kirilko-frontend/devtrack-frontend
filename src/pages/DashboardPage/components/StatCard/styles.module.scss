@@ -7,13 +7,17 @@
 
   padding: 1rem;
 
-  background: var(--gradient-surface-shine);
-  border: 0.0625rem solid rgb(var(--color-white), 0.1);
-  border-radius: 1rem;
+  background-color: rgb(var(--color-surface-2), 0.7);
+  border: 0.0625rem solid var(--border-subtle);
+  border-radius: var(--radius-lg);
 
   box-shadow: var(--shadow-md);
 
-  transition: var(--transition);
+  @include spotlight;
+
+  // Cards appear one after another; --i is set in DashboardPage.
+  animation: stat-card-in var(--duration-slow) var(--ease-out) backwards;
+  animation-delay: calc(var(--i, 0) * 70ms);
 }
 
 .stat-card__header {
@@ -33,9 +37,15 @@
 
   border-radius: 0.75rem;
 
-  background-color: rgb(var(--color-white), 0.1);
-  color: rgb(var(--color-white));
-  color: rgb(var(--color-muted));
+  border: 0.0625rem solid rgb(var(--color-accent), 0.25);
+  background-color: rgb(var(--color-accent), 0.1);
+  color: rgb(var(--color-accent));
+
+  transition: transform var(--duration-base) var(--ease-spring);
+}
+
+.stat-card:hover .stat-card__header-icon {
+  transform: scale(1.08) rotate(-4deg);
 }
 
 .stat-card__header-label {
@@ -45,8 +55,11 @@
 }
 
 .stat-card__value {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: var(--line-height-sm);
   color: rgb(var(--color-white));
   padding-left: 0.2rem;
 }
@@ -148,4 +161,11 @@
 .stat-card__change-text {
   font-size: var(--font-size-md);
   white-space: nowrap;
+}
+
+@keyframes stat-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
 }

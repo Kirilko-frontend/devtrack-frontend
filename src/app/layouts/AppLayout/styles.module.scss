@@ -1,13 +1,36 @@
 .layout {
+  position: relative;
+  isolation: isolate;
+
   display: flex;
-  gap: 1rem;
 
   height: 100vh;
   min-height: 100vh;
 
+  // `clip`, not just `hidden`: the glow below sticks out by 20% and with `hidden`
+  // the browser could still scroll the layout (focus, scrollIntoView), shifting the whole UI.
   overflow: hidden;
+  overflow: clip;
 
-  background-color: rgb(var(--color-black));
+  background-color: rgb(var(--color-surface-1));
+
+  // Ambient glow: warm accent top-left, cool hint bottom-right, slowly drifting.
+  &::before {
+    content: '';
+
+    position: absolute;
+    inset: -20%;
+    z-index: -1;
+
+    background:
+      radial-gradient(40% 35% at 18% 12%, rgb(var(--color-accent), 0.14), transparent 70%),
+      radial-gradient(35% 30% at 85% 92%, rgb(var(--color-info), 0.07), transparent 70%);
+
+    filter: blur(2rem);
+    pointer-events: none;
+
+    animation: layout-glow-drift 24s var(--ease-in-out) infinite alternate;
+  }
 }
 
 .content-area {
@@ -21,7 +44,7 @@
 
   min-width: 0;
   min-height: 0;
-  padding: 1rem;
+  padding: 1rem 1rem 1rem 0;
 
   overflow: hidden;
 }
@@ -34,4 +57,14 @@
   min-height: 0;
 
   overflow: hidden;
+}
+
+@keyframes layout-glow-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(3%, 2%, 0) scale(1.06);
+  }
 }

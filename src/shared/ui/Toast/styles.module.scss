@@ -1,0 +1,283 @@
+.toast {
+  --toast-color: var(--color-accent);
+
+  position: relative;
+
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 0.75rem;
+
+  width: 22.5rem;
+  max-width: calc(100vw - 2rem);
+  padding: 0.875rem 0.75rem 1.25rem 0.875rem;
+
+  border: 0.0625rem solid var(--border-default);
+  border-radius: var(--radius-lg);
+
+  background:
+    radial-gradient(70% 90% at 0% 0%, rgb(var(--toast-color), 0.16), transparent 70%),
+    rgb(var(--color-surface-2), 0.96);
+  backdrop-filter: blur(1rem);
+  -webkit-backdrop-filter: blur(1rem);
+
+  box-shadow:
+    var(--shadow-lg),
+    0 0.75rem 2rem rgb(0 0 0 / 0.4),
+    inset 0 0.0625rem 0 rgb(var(--color-white), 0.06);
+
+  color: rgb(var(--color-white));
+  font-family: var(--font-family);
+
+  overflow: hidden;
+}
+
+.toast--created {
+  --toast-color: var(--color-success);
+}
+
+.toast--updated {
+  --toast-color: var(--color-info);
+}
+
+.toast--deleted,
+.toast--error {
+  --toast-color: var(--color-danger);
+}
+
+.toast--info {
+  --toast-color: var(--color-accent);
+}
+
+// Icon badge
+
+.toast__badge {
+  @include flex-center;
+
+  width: 2.25rem;
+  height: 2.25rem;
+
+  border: 0.0625rem solid rgb(var(--toast-color), 0.35);
+  border-radius: var(--radius-md);
+
+  background: linear-gradient(135deg, rgb(var(--toast-color), 0.28), rgb(var(--toast-color), 0.08));
+  color: rgb(var(--toast-color));
+
+  box-shadow: 0 0 1rem rgb(var(--toast-color), 0.25);
+
+  animation: toast-badge-in var(--duration-slow) var(--ease-spring) 80ms backwards;
+}
+
+.toast--error .toast__badge {
+  animation:
+    toast-badge-in var(--duration-slow) var(--ease-spring) 80ms backwards,
+    toast-shake 0.5s var(--ease-in-out) 0.45s;
+}
+
+.toast__icon {
+  width: 1.25rem;
+  height: 1.25rem;
+
+  overflow: visible;
+}
+
+// Strokes with pathLength=1 draw themselves in.
+.toast__draw {
+  stroke-dasharray: 1;
+
+  animation: toast-draw 0.5s var(--ease-out) 0.25s backwards;
+}
+
+.toast__dot {
+  transform-box: fill-box;
+  transform-origin: center;
+
+  animation: toast-dot-in var(--duration-slow) var(--ease-spring) 0.55s backwards;
+}
+
+.toast__icon--info .toast__dot {
+  animation-delay: 0.2s;
+}
+
+// Trash lid lifts and drops back.
+.toast__lid {
+  transform-box: fill-box;
+  transform-origin: 100% 100%;
+
+  animation: toast-lid 0.7s var(--ease-in-out) 0.3s;
+}
+
+// Text
+
+.toast__content {
+  @include flex-column;
+  gap: 0.125rem;
+
+  padding-top: 0.0625rem;
+}
+
+.toast__title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-md);
+}
+
+.toast__description {
+  color: rgb(var(--color-white), 0.6);
+
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-md);
+}
+
+// Close button
+
+.toast__close {
+  @include flex-center;
+
+  width: 1.5rem;
+  height: 1.5rem;
+
+  border-radius: var(--radius-sm);
+
+  color: rgb(var(--color-white), 0.45);
+
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+
+  svg {
+    transition: transform var(--duration-base) var(--ease-spring);
+  }
+
+  &:hover,
+  &:focus-visible {
+    background-color: rgb(var(--color-white), 0.08);
+    color: rgb(var(--color-white));
+    outline: none;
+  }
+
+  &:hover svg {
+    transform: rotate(90deg);
+  }
+}
+
+// Progress line = timer. The fill shrinks to zero, then onAnimationEnd dismisses the toast
+// (animationend of the ::before fires on .toast__progress itself).
+
+.toast__progress {
+  position: absolute;
+  left: 0.875rem;
+  right: 0.875rem;
+  bottom: 0.5rem;
+
+  height: 0.1875rem;
+
+  border-radius: var(--radius-full);
+
+  background-color: rgb(var(--color-white), 0.06);
+
+  overflow: hidden;
+
+  transition: background-color var(--duration-base) var(--ease-out);
+
+  &::before {
+    content: '';
+
+    position: absolute;
+    inset: 0;
+
+    border-radius: inherit;
+
+    background: linear-gradient(90deg, rgb(var(--toast-color), 0.6), rgb(var(--toast-color)));
+    box-shadow: 0 0 0.5rem rgb(var(--toast-color), 0.6);
+
+    transform-origin: left;
+
+    animation: toast-timer var(--toast-duration, 4500ms) linear forwards;
+  }
+}
+
+// Hover / keyboard focus pauses the timer; the track lights up to show it.
+.toast:hover .toast__progress,
+.toast:focus-within .toast__progress {
+  background-color: rgb(var(--color-white), 0.12);
+
+  &::before {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes toast-timer {
+  from {
+    transform: scaleX(1);
+  }
+
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes toast-badge-in {
+  from {
+    opacity: 0;
+    transform: scale(0.5) rotate(-12deg);
+  }
+}
+
+@keyframes toast-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes toast-dot-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.25rem) scale(0);
+  }
+}
+
+@keyframes toast-lid {
+  0%,
+  100% {
+    transform: rotate(0) translateY(0);
+  }
+
+  35% {
+    transform: rotate(14deg) translateY(-0.125rem);
+  }
+
+  70% {
+    transform: rotate(-4deg);
+  }
+}
+
+@keyframes toast-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20%,
+  60% {
+    transform: translateX(-0.1875rem);
+  }
+
+  40%,
+  80% {
+    transform: translateX(0.1875rem);
+  }
+}
+
+// The timer is information, not decoration: keep its real duration even when
+// the global reduced-motion rule shortens all animations to 0.01ms
+// (otherwise every toast would close instantly).
+@media (prefers-reduced-motion: reduce) {
+  .toast__progress::before {
+    animation-duration: var(--toast-duration, 4500ms) !important;
+  }
+}

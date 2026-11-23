@@ -1,11 +1,18 @@
 import { useEffect, useState } from 'react';
+import type { CSSProperties } from 'react';
 
 import type { DashboardResponse } from '@/types/dashboard';
 
 import { dashboardStats } from './config';
 
 import { dashboardService } from '@/services';
-import { ApplicationsChart, RecentVacancies, StatCard, UpcomingInterviews } from './components';
+import {
+  ApplicationsChart,
+  DashboardSkeleton,
+  RecentVacancies,
+  StatCard,
+  UpcomingInterviews,
+} from './components';
 
 import styles from './styles.module.scss';
 
@@ -26,15 +33,16 @@ function DashboardPage() {
   }, []);
 
   if (!dashboard) {
-    return <div>Loading...</div>;
+    return <DashboardSkeleton />;
   }
 
   return (
     <div className={styles['dashboard-page']}>
       <div className={styles['dashboard-page__stats']}>
-        {dashboardStats.map(({ key, changeKey, label, ariaLabel, icon: Icon }) => (
+        {dashboardStats.map(({ key, changeKey, label, ariaLabel, icon: Icon }, index) => (
           <StatCard
             key={key}
+            style={{ '--i': index } as CSSProperties}
             label={label}
             ariaLabel={ariaLabel}
             value={dashboard.stats[key]}

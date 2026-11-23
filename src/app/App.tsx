@@ -2,22 +2,12 @@ import { Toaster } from 'sonner';
 
 import AppRouter from './router/AppRouter';
 
-import styles from './styles.module.scss';
-
 function App() {
   return (
     <>
       <AppRouter />
-      <Toaster
-        position="top-right"
-        theme="dark"
-        richColors
-        closeButton
-        className={styles['toaster']}
-        toastOptions={{
-          className: styles['toast'],
-        }}
-      />
+      {/* Toasts are rendered by shared/ui/Toast via notify(); each one runs its own timer. */}
+      <Toaster position="top-right" theme="dark" expand visibleToasts={4} gap={10} />
     </>
   );
 }

@@ -1,6 +1,7 @@
 import type { Vacancy } from '@/types/vacancy';
 import { Pencil, Trash2 } from 'lucide-react';
 
+import { StatusBadge } from '@/shared/ui';
 import { Table } from '@/widgets';
 
 import styles from './styles.module.scss';
@@ -37,6 +38,7 @@ function VacancyTable({ vacancies, onEditVacancy, onDeleteVacancy }: IProps) {
           {
             key: 'status',
             label: 'Status',
+            render: (vacancy) => <StatusBadge status={vacancy.status} />,
             width: '13%',
           },
           {

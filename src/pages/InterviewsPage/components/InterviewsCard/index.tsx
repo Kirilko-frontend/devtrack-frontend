@@ -1,5 +1,6 @@
 import { Pencil, Trash2 } from 'lucide-react';
 
+import { handleSpotlightMove } from '@/shared/utils';
 import type { Interview } from '@/types/interviews';
 
 import styles from './styles.module.scss';
@@ -14,7 +15,7 @@ function InterviewCard({ interview, onEdit, onDelete }: IProps) {
   const date = new Date(interview.date);
 
   return (
-    <article className={styles['interview-card']}>
+    <article className={styles['interview-card']} onPointerMove={handleSpotlightMove}>
       <div className={styles['interview-card__date']}>
         <span className={styles['interview-card__month']}>
           {date.toLocaleDateString('en-US', {

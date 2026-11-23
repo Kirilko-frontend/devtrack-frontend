@@ -1,4 +1,8 @@
+import type { CSSProperties } from 'react';
 import { Info, TrendingDown, TrendingUp } from 'lucide-react';
+
+import useCountUp from '@/shared/hooks/useCountUp';
+import { handleSpotlightMove } from '@/shared/utils';
 
 import styles from './styles.module.scss';
 
@@ -9,14 +13,20 @@ interface IProps {
   change: number;
   icon: React.ReactNode;
   className?: string;
+  style?: CSSProperties;
 }
 
-function StatCard({ label, ariaLabel, value, change, icon, className }: IProps) {
+function StatCard({ label, ariaLabel, value, change, icon, className, style }: IProps) {
+  const displayedValue = useCountUp(value);
   const isPositive = change > 0;
   const isNegative = change < 0;
 
   return (
-    <div className={`${styles['stat-card']} ${className ?? ''}`}>
+    <div
+      className={`${styles['stat-card']} ${className ?? ''}`}
+      style={style}
+      onPointerMove={handleSpotlightMove}
+    >
       <div className={styles['stat-card__header']}>
         <div className={styles['stat-card__title']}>
           <div className={styles['stat-card__header-icon']}>{icon}</div>
@@ -32,7 +42,9 @@ function StatCard({ label, ariaLabel, value, change, icon, className }: IProps) 
         </span>
       </div>
 
-      <p className={styles['stat-card__value']}>{value}</p>
+      <p className={styles['stat-card__value']} aria-label={String(value)}>
+        {displayedValue}
+      </p>
 
       <div className={styles['stat-card__change']}>
         {isPositive && (

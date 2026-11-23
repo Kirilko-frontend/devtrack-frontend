@@ -6,6 +6,7 @@ import Table from './Table';
 import VacancyForm from './VacancyForm';
 import Header from './Header';
 import PasswordResetForm from './PasswordResetForm';
+import CommandPalette from './CommandPalette';
 
 export {
   AuthForm,
@@ -16,4 +17,5 @@ export {
   VacancyForm,
   Header,
   PasswordResetForm,
+  CommandPalette,
 };

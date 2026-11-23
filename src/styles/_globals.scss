@@ -1,25 +1,10 @@
-@use 'sass:list';
-@use 'sass:meta';
-
 @use './variables' as *;
 
+// Interpolation keeps the original list separator:
+// (234, 114, 35) -> 234, 114, 35 and 0 0.25rem 0.75rem ... -> 0 0.25rem 0.75rem ...
 :root {
   @each $key, $value in $theme {
-    @if meta.type-of($value) == 'list' {
-      $value-str: '';
-
-      @for $i from 1 through list.length($value) {
-        $value-str: $value-str + list.nth($value, $i);
-
-        @if $i != list.length($value) {
-          $value-str: $value-str + ', ';
-        }
-      }
-
-      --#{$key}: #{$value-str};
-    } @else {
-      --#{$key}: #{$value};
-    }
+    --#{$key}: #{$value};
   }
 }
 
@@ -42,6 +27,8 @@ body {
 
   background-color: rgb(var(--color-black));
   color: rgb(var(--color-white));
+
+  font-family: var(--font-family);
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -168,6 +155,23 @@ td {
 ::selection {
   background-color: rgb(var(--color-accent), 0.25);
   color: rgb(var(--color-white));
+}
+
+// Visible only for keyboard navigation; components with their own focus style override it.
+:focus-visible {
+  outline: 0.125rem solid rgb(var(--color-accent));
+  outline-offset: 0.125rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 .auth {

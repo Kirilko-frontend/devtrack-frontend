@@ -2,6 +2,7 @@ import { BriefcaseBusiness, Clock3, Download, FileText } from 'lucide-react';
 
 import { actionButtons, type ResumeAction } from './config';
 
+import { handleSpotlightMove } from '@/shared/utils';
 import type { Resume } from '@/types/resume';
 import type { Vacancy } from '@/types/vacancy';
 
@@ -31,7 +32,7 @@ function ResumeCard({ resume, vacancy, onEdit, onDelete, onPreview, onDownload }
     delete: () => onDelete(resume),
   };
   return (
-    <div className={styles['resume-card']}>
+    <div className={styles['resume-card']} onPointerMove={handleSpotlightMove}>
       <div className={styles['resume-card__top']}>
         <div className={styles['resume-card__file-icon']}>
           <FileText size={22} />

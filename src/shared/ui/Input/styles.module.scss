@@ -37,16 +37,22 @@
 
   pointer-events: none;
   transform: translateY(-50%);
+
+  transition: color var(--duration-base) var(--ease-out);
+}
+
+.input__wrapper--search:focus-within .input__search-icon {
+  color: rgb(var(--color-accent));
 }
 
 .input__field {
   width: 100%;
   padding: 0.75rem 1rem;
 
-  border: 0.0625rem solid rgb(var(--color-white), 0.1);
-  border-radius: 0.75rem;
+  border: 0.0625rem solid var(--border-default);
+  border-radius: var(--radius-md);
 
-  background-color: rgb(var(--color-white), 0.1);
+  background-color: rgb(var(--color-surface-1), 0.6);
   color: rgb(var(--color-white));
 
   font-family: var(--font-family);
@@ -56,7 +62,10 @@
 
   outline: none;
 
-  transition: var(--transition);
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    background-color var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
 
   &::placeholder {
     color: rgb(var(--color-muted));
@@ -68,8 +77,21 @@
     transition: opacity var(--transition);
   }
 
+  &:hover:not(:disabled) {
+    border-color: var(--border-strong);
+  }
+
   &:focus {
-    border-color: rgb(var(--color-white), 0.3);
+    border-color: rgb(var(--color-accent), 0.6);
+    background-color: rgb(var(--color-surface-1), 0.9);
+    box-shadow: var(--focus-ring);
+  }
+
+  // Autofill keeps the dark style instead of the browser's yellow/white.
+  &:-webkit-autofill {
+    -webkit-text-fill-color: rgb(var(--color-white));
+    caret-color: rgb(var(--color-white));
+    transition: background-color 9999s ease-out 0s;
   }
 
   &:focus::placeholder {
@@ -96,4 +118,13 @@
   line-height: var(--line-height-md);
 
   color: rgb(var(--color-danger));
+
+  animation: input-error-in var(--duration-base) var(--ease-out);
+}
+
+@keyframes input-error-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.25rem);
+  }
 }

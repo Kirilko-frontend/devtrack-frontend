@@ -1,37 +1,69 @@
 .auth-form {
   @include flex-column-center;
-  gap: 5rem;
+  gap: 4rem;
+
   width: 30rem;
+  max-width: 100%;
   height: 38rem;
-  border: 0.2rem rgb(var(--color-white), 0.1) solid;
-  border-radius: 2rem;
-  background-color: rgb(var(--color-white), 0.1);
+  padding: 2rem 1.5rem;
+
+  border: 0.0625rem solid var(--border-default);
+  border-radius: var(--radius-xl);
+
+  background: rgb(var(--color-surface-1), 0.55);
+  box-shadow:
+    var(--shadow-md),
+    inset 0 0.0625rem 0 rgb(var(--color-white), 0.05);
+
+  // Title, form and footer appear one after another.
+  > * {
+    animation: auth-form-item-in var(--duration-slow) var(--ease-out) backwards;
+  }
+
+  > :nth-child(2) {
+    animation-delay: 80ms;
+  }
+
+  > :nth-child(3) {
+    animation-delay: 160ms;
+  }
 }
 
 .auth-form__title {
   max-width: 28rem;
 
   font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-bold);
   line-height: var(--line-height-sm);
+  letter-spacing: -0.01em;
+  text-align: center;
 
   color: rgb(var(--color-white));
 }
 
 .auth-form__form {
   @include flex-column-center;
-  gap: 3rem;
+  gap: 2rem;
   width: 25rem;
-  height: 50%;
+  max-width: 100%;
+
+  // Fields appear in sequence after the title.
+  > * {
+    animation: auth-form-item-in var(--duration-slow) var(--ease-out) backwards;
+  }
+
+  @for $i from 1 through 5 {
+    > :nth-child(#{$i}) {
+      animation-delay: #{80 + $i * 60}ms;
+    }
+  }
 }
 
 .auth-form__switch {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.8rem;
-
-  margin-top: 1.5rem;
+  gap: 0.5rem;
 
   font-size: var(--font-size-sm);
   line-height: var(--line-height-md);
@@ -39,54 +71,75 @@
 
 .auth-form__switch-text {
   margin: 0;
-  font-weight: var(--font-weight-light);
-  font-size: var(--font-size-lg);
-  color: rgb(var(--color-white));
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-md);
+  color: rgb(var(--color-muted));
 }
 
 .auth-form__switch-link {
+  position: relative;
+
   text-decoration: none;
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-md);
   font-weight: var(--font-weight-semibold);
   color: rgb(var(--color-white));
 
-  transition: var(--transition);
+  transition: color var(--duration-base) var(--ease-out);
+
+  // Underline grows from the left on hover.
+  &::after {
+    content: '';
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.125rem;
+
+    height: 0.0625rem;
+
+    background-color: currentColor;
+
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--duration-base) var(--ease-out);
+  }
 
   &:hover,
   &:focus-visible {
-    opacity: 0.7;
+    color: rgb(var(--color-accent));
   }
 
-  &:active {
-    opacity: 0.5;
+  &:hover::after,
+  &:focus-visible::after {
+    transform: scaleX(1);
   }
 }
 
 .auth-form__forgot-link {
-  margin-top: -1.5rem;
+  margin-top: -1rem;
 
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-medium);
   text-decoration: none;
-  color: rgb(var(--color-white), 0.7);
+  color: rgb(var(--color-muted));
 
-  transition: var(--transition);
+  transition: color var(--duration-base) var(--ease-out);
 
   &:hover,
   &:focus-visible {
-    color: rgb(var(--color-white));
+    color: rgb(var(--color-accent));
   }
 }
 
 .auth-form__button {
   width: 25rem;
+  max-width: 100%;
   height: 3rem;
+}
 
-  &:hover {
-    transform: translateY(-0.1rem);
-  }
-
-  &:active {
-    transform: translateY(0);
+@keyframes auth-form-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
   }
 }
