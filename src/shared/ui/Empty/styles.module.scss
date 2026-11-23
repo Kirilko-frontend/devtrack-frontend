@@ -10,22 +10,64 @@
   min-height: 0;
 
   text-align: center;
+
+  // Icon, title, description and action appear one after another.
+  > * {
+    animation: empty-item-in var(--duration-slow) var(--ease-out) backwards;
+  }
+
+  @for $i from 2 through 4 {
+    > :nth-child(#{$i}) {
+      animation-delay: #{$i * 70}ms;
+    }
+  }
 }
 
 .empty__icon {
   @include flex-center;
 
-  width: 4rem;
-  height: 4rem;
+  position: relative;
 
-  margin-bottom: 0.5rem;
+  width: 4.5rem;
+  height: 4.5rem;
 
-  color: rgb(var(--color-muted));
+  margin-bottom: 1rem;
+
+  border: 0.0625rem solid rgb(var(--color-accent), 0.3);
+  border-radius: 50%;
+
+  background:
+    radial-gradient(circle at 30% 25%, rgb(var(--color-accent), 0.25), transparent 70%),
+    rgb(var(--color-surface-2));
+  color: rgb(var(--color-accent));
+
+  box-shadow: 0 0 2rem rgb(var(--color-accent), 0.15);
+
+  // Two rings slowly spreading out from the icon.
+  &::before,
+  &::after {
+    content: '';
+
+    position: absolute;
+    inset: -0.0625rem;
+
+    border: 0.0625rem solid rgb(var(--color-accent), 0.35);
+    border-radius: 50%;
+
+    animation: empty-ring 3s var(--ease-out) infinite;
+    pointer-events: none;
+  }
+
+  &::after {
+    animation-delay: 1.5s;
+  }
 
   svg {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2rem;
+    height: 2rem;
     stroke-width: 1.5;
+
+    animation: empty-float 4s var(--ease-in-out) infinite;
   }
 }
 
@@ -51,4 +93,34 @@
 
 .empty__action {
   margin-top: 0.75rem;
+}
+
+@keyframes empty-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+}
+
+@keyframes empty-ring {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+@keyframes empty-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-0.1875rem);
+  }
 }
