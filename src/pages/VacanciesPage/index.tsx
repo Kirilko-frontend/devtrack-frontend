@@ -9,7 +9,7 @@ import { companiesService, vacanciesService } from '@/services';
 
 import { Header, VacancyForm } from '@/widgets';
 import { Modal, Pagination } from '@/shared/ui';
-import { notify } from '@/shared/utils';
+import { notify, subscribeToCreate, subscribeToSearch } from '@/shared/utils';
 import { VacancyFilters, VacancyTable } from './components';
 
 import styles from './styles.module.scss';
@@ -20,6 +20,16 @@ function VacanciesPage() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [createError, setCreateError] = useState('');
   const [companies, setCompanies] = useState<Company[]>([]);
+
+  // "+ New" in the top bar and the command palette can open this modal from anywhere.
+  useEffect(
+    () =>
+      subscribeToCreate('vacancy', () => {
+        setCreateError('');
+        setIsCreateModalOpen(true);
+      }),
+    []
+  );
 
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<VacancyStatusFilter>('ALL');
@@ -66,6 +76,16 @@ function VacanciesPage() {
     setSearch(value);
     setPage(1);
   };
+
+  // The command palette can open this page with a search already applied.
+  useEffect(
+    () =>
+      subscribeToSearch('vacancy', (query) => {
+        setSearch(query);
+        setPage(1);
+      }),
+    []
+  );
 
   const handleStatusChange = (value: VacancyStatusFilter) => {
     setStatusFilter(value);

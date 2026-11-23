@@ -5,7 +5,7 @@ import type { Vacancy } from '@/types/vacancy';
 
 import { interviewsService, vacanciesService } from '@/services';
 import { Modal } from '@/shared/ui';
-import { notify } from '@/shared/utils';
+import { notify, subscribeToCreate } from '@/shared/utils';
 import { Header } from '@/widgets';
 import type {
   InterviewDateFilter,
@@ -35,6 +35,16 @@ function InterviewsPage() {
   const [typeFilter, setTypeFilter] = useState<InterviewTypeFilter>('ALL');
   const [dateFilter, setDateFilter] = useState<InterviewDateFilter>('ALL');
   const [sort, setSort] = useState<InterviewSort>('SOONEST');
+
+  // "+ New" in the top bar and the command palette can open this modal from anywhere.
+  useEffect(
+    () =>
+      subscribeToCreate('interview', () => {
+        setCreateError('');
+        setIsCreateModalOpen(true);
+      }),
+    []
+  );
 
   const handleCreateInterview = () => {
     setCreateError('');

@@ -4,7 +4,7 @@ import type { Company, CreateCompanyData, UpdateCompanyData } from '@/types/comp
 import { companiesService } from '@/services';
 
 import { Input, Modal, Skeleton } from '@/shared/ui';
-import { notify } from '@/shared/utils';
+import { notify, subscribeToCreate, subscribeToSearch } from '@/shared/utils';
 import { Header } from '@/widgets';
 import { CompaniesList, CompanyCreateForm, CompanyEdit } from './components';
 
@@ -14,9 +14,22 @@ function CompaniesPage() {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchValue, setSearchValue] = useState('');
+
+  // The command palette can open this page with a search already applied.
+  useEffect(() => subscribeToSearch('company', setSearchValue), []);
   const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [createError, setCreateError] = useState('');
+
+  // "+ New" in the top bar and the command palette can open this modal from anywhere.
+  useEffect(
+    () =>
+      subscribeToCreate('company', () => {
+        setCreateError('');
+        setIsCreateModalOpen(true);
+      }),
+    []
+  );
 
   const filteredCompanies = companies.filter((company) =>
     company.name.toLowerCase().includes(searchValue.toLowerCase())
