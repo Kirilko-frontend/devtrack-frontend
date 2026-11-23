@@ -10,6 +10,7 @@ import StatusBadge from './StatusBadge';
 import Skeleton from './Skeleton';
 import AppLoader from './AppLoader';
 import Logo from './Logo';
+import Dropdown from './Dropdown';
 
 export {
   Input,
@@ -24,4 +25,7 @@ export {
   Skeleton,
   AppLoader,
   Logo,
+  Dropdown,
 };
+
+export type { DropdownItem } from './Dropdown';
