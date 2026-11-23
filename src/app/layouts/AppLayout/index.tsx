@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
+import { PageTransition } from '@/shared/ui';
 import { Sidebar, TopBar } from '@/widgets';
 
 import styles from './styles.module.scss';
@@ -13,7 +14,9 @@ function AppLayout() {
         <TopBar />
 
         <main className={styles['main']}>
-          <Outlet />
+          <PageTransition>
+            <Outlet />
+          </PageTransition>
         </main>
       </div>
     </div>

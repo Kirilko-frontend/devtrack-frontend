@@ -5,5 +5,6 @@ import Pagination from './Pagination';
 import Modal from './Modal';
 import Empty from './Empty';
 import ActionButtons from './ActionButtons';
+import PageTransition from './PageTransition';
 
-export { Input, Button, Select, Pagination, Modal, Empty, ActionButtons };
+export { Input, Button, Select, Pagination, Modal, Empty, ActionButtons, PageTransition };
