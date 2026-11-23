@@ -38,7 +38,10 @@ function TopBar() {
       <div className={styles['topbar__page']}>
         <span className={styles['topbar__page-dot']} />
 
-        <p className={styles['topbar__page-name']}>{currentPage}</p>
+        {/* key restarts the enter animation on every page change */}
+        <p key={pathname} className={styles['topbar__page-name']}>
+          {currentPage}
+        </p>
       </div>
 
       <div className={styles['topbar__account']}>
