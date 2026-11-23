@@ -1,0 +1,96 @@
+.logo {
+  display: block;
+  flex-shrink: 0;
+
+  overflow: visible;
+}
+
+.logo__node {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+// Current stage pulses when the logo is hovered.
+.logo:hover .logo__node--current {
+  animation: logo-node-pulse 0.9s var(--ease-spring);
+}
+
+// intro: track draws in, then the stages pop in one by one.
+.logo--intro {
+  .logo__track {
+    stroke-dasharray: 1;
+    animation: logo-track-draw 0.9s var(--ease-out) backwards;
+  }
+
+  .logo__node {
+    animation: logo-node-in var(--duration-slow) var(--ease-spring) backwards;
+  }
+
+  .logo__node:nth-of-type(1) {
+    animation-delay: 100ms;
+  }
+
+  .logo__node--current {
+    animation-delay: 450ms;
+  }
+
+  .logo__node:nth-of-type(3) {
+    animation-delay: 750ms;
+  }
+}
+
+// loop: the track is drawn, held and erased forever (used by loaders).
+.logo--loop {
+  .logo__track {
+    stroke-dasharray: 1;
+    animation: logo-track-loop 2.4s var(--ease-in-out) infinite;
+  }
+
+  .logo__node--current {
+    animation: logo-node-pulse 2.4s var(--ease-in-out) infinite;
+    animation-delay: 0.6s;
+  }
+}
+
+@keyframes logo-track-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes logo-track-loop {
+  0% {
+    stroke-dashoffset: 1;
+  }
+
+  45%,
+  70% {
+    stroke-dashoffset: 0;
+  }
+
+  100% {
+    stroke-dashoffset: -1;
+  }
+}
+
+@keyframes logo-node-in {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+@keyframes logo-node-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  40% {
+    transform: scale(1.35);
+  }
+}

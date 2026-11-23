@@ -1,7 +1,8 @@
-import { BriefcaseBusiness, LogOut, User } from 'lucide-react';
+import { LogOut, User } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import useAuth from '@/app/providers/useAuth';
+import { Logo } from '@/shared/ui';
 import { getErrorMessage, notify } from '@/shared/utils';
 
 import { pageTitles } from './config';
@@ -28,9 +29,7 @@ function TopBar() {
   return (
     <header className={styles['topbar']}>
       <div className={styles['topbar__brand']}>
-        <span className={styles['topbar__brand-icon']}>
-          <BriefcaseBusiness size={18} />
-        </span>
+        <Logo size={36} variant="intro" className={styles['topbar__logo']} />
 
         <p className={styles['topbar__brand-name']}>DevTrack</p>
       </div>

@@ -1,4 +1,4 @@
-import { BriefcaseBusiness } from 'lucide-react';
+import Logo from '../Logo';
 
 import styles from './styles.module.scss';
 
@@ -10,9 +10,7 @@ interface IAppLoaderProps {
 function AppLoader({ label = 'Checking session' }: IAppLoaderProps) {
   return (
     <div className={styles['app-loader']} role="status" aria-label={label}>
-      <div className={styles['app-loader__logo']}>
-        <BriefcaseBusiness size={28} aria-hidden="true" />
-      </div>
+      <Logo size={64} variant="loop" className={styles['app-loader__logo']} />
 
       <p className={styles['app-loader__name']}>DevTrack</p>
 

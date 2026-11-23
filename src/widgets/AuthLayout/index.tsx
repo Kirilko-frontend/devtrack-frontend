@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { BriefcaseBusiness } from 'lucide-react';
+
+import { Logo } from '@/shared/ui';
 
 import { formImg } from './config';
 
@@ -17,9 +18,7 @@ function AuthLayout({ children }: IAuthLayoutProps) {
           <img src={formImg} alt="" />
 
           <div className={styles['auth-layout__brand']}>
-            <span className={styles['auth-layout__brand-icon']}>
-              <BriefcaseBusiness size={20} aria-hidden="true" />
-            </span>
+            <Logo size={48} variant="intro" className={styles['auth-layout__logo']} />
 
             <p className={styles['auth-layout__brand-name']}>DevTrack</p>
             <p className={styles['auth-layout__brand-tagline']}>

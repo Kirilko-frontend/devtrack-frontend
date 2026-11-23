@@ -9,6 +9,7 @@ import PageTransition from './PageTransition';
 import StatusBadge from './StatusBadge';
 import Skeleton from './Skeleton';
 import AppLoader from './AppLoader';
+import Logo from './Logo';
 
 export {
   Input,
@@ -22,4 +23,5 @@ export {
   StatusBadge,
   Skeleton,
   AppLoader,
+  Logo,
 };
