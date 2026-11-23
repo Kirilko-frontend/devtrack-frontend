@@ -62,6 +62,22 @@
   }
 }
 
+.auth-form__forgot-link {
+  margin-top: -1.5rem;
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-light);
+  text-decoration: none;
+  color: rgb(var(--color-white), 0.7);
+
+  transition: var(--transition);
+
+  &:hover,
+  &:focus-visible {
+    color: rgb(var(--color-white));
+  }
+}
+
 .auth-form__button {
   width: 25rem;
   height: 3rem;
