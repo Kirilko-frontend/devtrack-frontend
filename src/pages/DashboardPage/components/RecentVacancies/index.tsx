@@ -10,7 +10,7 @@ import {
 } from '@/shared/constants/vacancies';
 import { filterVacancies, searchVacancies, sortVacancies } from '@/shared/utils/vacancies';
 
-import { Input, Select } from '@/shared/ui';
+import { Input, Select, StatusBadge } from '@/shared/ui';
 import { Table } from '@/widgets';
 
 import styles from './styles.module.scss';
@@ -81,7 +81,7 @@ function RecentVacancies({ vacancies }: IProps) {
           {
             key: 'status',
             label: 'Status',
-            render: (vacancy) => vacancy.status,
+            render: (vacancy) => <StatusBadge status={vacancy.status} />,
             width: '20%',
           },
           {
