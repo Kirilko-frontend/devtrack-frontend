@@ -4,18 +4,13 @@
   min-width: 0;
   padding: 1.125rem;
 
-  border: 0.0625rem solid rgb(var(--color-white), 0.08);
-  border-radius: 1rem;
+  border: 0.0625rem solid var(--border-subtle);
+  border-radius: var(--radius-lg);
 
-  background-color: rgb(var(--color-white), 0.04);
+  background-color: rgb(var(--color-surface-2), 0.7);
   box-shadow: var(--shadow-sm);
-  transition: var(--transition);
 
-  &:hover {
-    border-color: rgb(var(--color-white), 0.14);
-    background-color: rgb(var(--color-white), 0.055);
-    transform: translateY(-0.125rem);
-  }
+  @include spotlight;
 }
 
 .resume-card__top {

@@ -1,5 +1,5 @@
 import type { Company } from '@/types/company';
-import { formatDate } from '@/shared/utils';
+import { formatDate, handleSpotlightMove } from '@/shared/utils';
 import { Pencil, Trash2 } from 'lucide-react';
 
 import styles from './styles.module.scss';
@@ -12,7 +12,7 @@ interface IProps {
 
 function CompanyCard({ company, onClick, onDelete }: IProps) {
   return (
-    <div className={styles['company-card']}>
+    <div className={styles['company-card']} onPointerMove={handleSpotlightMove}>
       <h1 className={styles['company-card__title']}>{company.name}</h1>
       {company.website ? (
         <a

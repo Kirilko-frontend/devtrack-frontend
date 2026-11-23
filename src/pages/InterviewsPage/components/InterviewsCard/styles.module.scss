@@ -7,21 +7,16 @@
 
   padding: 1.25rem;
 
-  border: 0.0625rem solid rgb(var(--color-white), 0.08);
-  border-radius: 1rem;
+  border: 0.0625rem solid var(--border-subtle);
+  border-radius: var(--radius-lg);
 
-  background-color: rgb(var(--color-white), 0.04);
+  background-color: rgb(var(--color-surface-2), 0.7);
   backdrop-filter: blur(1rem);
   -webkit-backdrop-filter: blur(1rem);
 
   box-shadow: var(--shadow-md);
 
-  transition: var(--transition);
-
-  &:hover {
-    border-color: rgb(var(--color-white), 0.12);
-    background-color: rgb(var(--color-white), 0.055);
-  }
+  @include spotlight;
 }
 
 .interview-card__date {

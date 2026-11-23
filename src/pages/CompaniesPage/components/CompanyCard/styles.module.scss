@@ -7,17 +7,14 @@
 
   height: 8rem;
 
-  background: var(--gradient-surface-shine);
-  border: 0.1rem solid rgb(var(--color-muted));
-  border-radius: 0.75rem;
+  background-color: rgb(var(--color-surface-2), 0.7);
+  border: 0.0625rem solid var(--border-default);
+  border-radius: var(--radius-lg);
 
-  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
   z-index: 1;
 
-  &:hover {
-    box-shadow: var(--shadow-sm);
-    transform: translateY(-0.125rem);
-  }
+  @include spotlight;
 }
 
 .company-card__title {

@@ -46,6 +46,8 @@
   flex: 1;
   min-height: 0;
 
+  // Room for the hover lift of the first card (scroll container clips it otherwise).
+  padding-top: 0.25rem;
   padding-right: 0.75rem;
 
   overflow-y: auto;
