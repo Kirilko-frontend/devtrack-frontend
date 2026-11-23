@@ -11,7 +11,8 @@ function App() {
       <Toaster
         position="top-right"
         theme="dark"
-        richColors
+        // Keep in sync with $toast-duration in app/styles.module.scss (timer bar).
+        duration={4000}
         closeButton
         className={styles['toaster']}
         toastOptions={{

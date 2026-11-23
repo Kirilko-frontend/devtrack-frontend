@@ -1,63 +1,155 @@
+// Toasts (sonner). Each type only sets --toast-color; the look is shared.
+// Note: sonner uses ::before/::after on toasts for its hover/swipe areas,
+// so the accent bar and the timer are drawn with background layers instead.
+
+$toast-duration: 4s;
+
 .toaster {
-  --notification-created-bg: rgb(20, 43, 31);
-  --notification-created-border: rgb(76, 175, 80);
-  --notification-created-text: rgb(205, 255, 215);
-
-  --notification-deleted-bg: rgb(48, 25, 27);
-  --notification-deleted-border: rgb(220, 70, 70);
-  --notification-deleted-text: rgb(255, 215, 215);
-
-  --notification-updated-bg: rgb(24, 35, 54);
-  --notification-updated-border: rgb(80, 145, 235);
-  --notification-updated-text: rgb(220, 235, 255);
-
-  --notification-error-bg: rgb(48, 21, 23);
-  --notification-error-border: rgb(220, 70, 70);
-  --notification-error-text: rgb(255, 215, 215);
-
-  --notification-info-bg: rgb(31, 29, 25);
-  --notification-info-border: rgba(234, 114, 35, 0.5);
-  --notification-info-text: rgb(var(--color-white));
-
-  --notification-close-bg: rgb(38, 38, 38);
-  --notification-close-border: rgb(82, 82, 82);
-  --notification-close-text: rgb(230, 230, 230);
+  --toast-close-bg: rgb(38, 38, 42);
 }
 
 .toast {
+  --toast-color: var(--color-accent);
+
+  gap: 0.75rem !important;
+  padding: 0.875rem 1rem 0.875rem 1.125rem !important;
+
+  border: 0.0625rem solid var(--border-default) !important;
+  border-radius: var(--radius-lg) !important;
+
+  background-color: rgb(var(--color-surface-2), 0.92) !important;
+  background-image:
+    linear-gradient(rgb(var(--toast-color)), rgb(var(--toast-color))),
+    linear-gradient(rgb(var(--toast-color), 0.6), rgb(var(--toast-color), 0.6)),
+    radial-gradient(80% 120% at 0% 50%, rgb(var(--toast-color), 0.12), transparent 70%) !important;
+  background-repeat: no-repeat !important;
+  background-position:
+    left top,
+    left bottom,
+    left top !important;
+  background-size:
+    0.1875rem 100%,
+    100% 0.125rem,
+    100% 100% !important;
+
+  backdrop-filter: blur(1rem);
+  -webkit-backdrop-filter: blur(1rem);
+
+  color: rgb(var(--color-white)) !important;
   font-family: var(--font-family);
-  box-shadow: var(--shadow-md);
+
+  box-shadow:
+    var(--shadow-lg),
+    0 0.75rem 2rem rgb(0 0 0 / 0.35) !important;
+
+  // Timer bar at the bottom shrinks while the toast is visible.
+  animation: toast-timer $toast-duration linear forwards;
+
+  :global([data-icon]) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 1.75rem !important;
+    height: 1.75rem !important;
+    margin: 0 !important;
+
+    border-radius: var(--radius-md);
+
+    background-color: rgb(var(--toast-color), 0.15);
+    color: rgb(var(--toast-color));
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  :global([data-title]) {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-md);
+  }
+
+  :global([data-description]) {
+    color: rgb(var(--color-white), 0.65) !important;
+
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-md);
+  }
+
+  :global([data-close-button]) {
+    border-color: var(--border-default) !important;
+    background-color: var(--toast-close-bg) !important;
+    color: rgb(var(--color-white), 0.8) !important;
+
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
+
+    &:hover {
+      background-color: rgb(58, 58, 62) !important;
+      color: rgb(var(--color-white)) !important;
+    }
+  }
 }
 
-.toaster :global([data-sonner-toast] [data-close-button]) {
-  background-color: var(--notification-close-bg) !important;
-  border-color: var(--notification-close-border) !important;
-  color: var(--notification-close-text) !important;
+// sonner pauses the timer while the stack is hovered — pause the bar too.
+.toaster:hover .toast {
+  animation-play-state: paused;
+}
 
-  &:hover {
-    background-color: rgb(58, 58, 58) !important;
-    border-color: rgb(110, 110, 110) !important;
-    color: rgb(var(--color-white)) !important;
-  }
+.created {
+  --toast-color: var(--color-success);
+}
+
+.deleted {
+  --toast-color: var(--color-danger);
+}
+
+.updated {
+  --toast-color: var(--color-info);
+}
+
+.info {
+  --toast-color: var(--color-accent);
 }
 
 .error {
-  animation: notification-error-flash 0.75s ease-in-out 3;
+  --toast-color: var(--color-danger);
+
+  animation:
+    toast-timer $toast-duration linear forwards,
+    toast-error-flash 0.75s var(--ease-in-out) 3;
 }
 
-@keyframes notification-error-flash {
+@keyframes toast-timer {
+  from {
+    background-size:
+      0.1875rem 100%,
+      100% 0.125rem,
+      100% 100%;
+  }
+
+  to {
+    background-size:
+      0.1875rem 100%,
+      0% 0.125rem,
+      100% 100%;
+  }
+}
+
+@keyframes toast-error-flash {
   0%,
   100% {
-    box-shadow: var(--shadow-md);
+    box-shadow:
+      var(--shadow-lg),
+      0 0.75rem 2rem rgb(0 0 0 / 0.35);
   }
 
   50% {
-    box-shadow: 0 0 1.25rem rgba(220, 70, 70, 0.8);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .error {
-    animation: none;
+    box-shadow:
+      var(--shadow-lg),
+      0 0 1.5rem rgb(var(--color-danger), 0.6);
   }
 }
