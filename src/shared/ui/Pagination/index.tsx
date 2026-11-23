@@ -1,4 +1,4 @@
-import Button from '../Button';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import styles from './styles.module.scss';
 
@@ -10,31 +10,39 @@ interface IProps {
 }
 
 function Pagination({ className, page, totalPages, onPageChange }: IProps) {
-  const isFirstPage = page === 1;
-  const isLastPage = page === totalPages;
+  const isFirstPage = page <= 1;
+  const isLastPage = page >= totalPages;
 
   return (
-    <div className={`${styles['pagination']} ${className}`}>
-      <Button
-        className={`${styles['pagination__button']} ${styles['pagination__button-previous']}`}
+    <nav className={`${styles['pagination']} ${className ?? ''}`} aria-label="Pagination">
+      <button
+        type="button"
+        className={styles['pagination__button']}
         disabled={isFirstPage}
         onClick={() => onPageChange(page - 1)}
       >
+        <ChevronLeft size={16} aria-hidden="true" />
         Previous
-      </Button>
+      </button>
 
       <p className={styles['pagination__text']}>
-        Page {page} of {totalPages}
+        {/* key replays the number animation on every page change */}
+        <span key={page} className={styles['pagination__current']}>
+          {page}
+        </span>
+        <span className={styles['pagination__total']}>/ {Math.max(totalPages, 1)}</span>
       </p>
 
-      <Button
-        className={`${styles['pagination__button']} ${styles['pagination__button-next']}`}
+      <button
+        type="button"
+        className={styles['pagination__button']}
         disabled={isLastPage}
         onClick={() => onPageChange(page + 1)}
       >
         Next
-      </Button>
-    </div>
+        <ChevronRight size={16} aria-hidden="true" />
+      </button>
+    </nav>
   );
 }
 
