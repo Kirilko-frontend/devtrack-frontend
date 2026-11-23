@@ -1,35 +1,22 @@
 import { createElement } from 'react';
-import { CircleAlert, CircleCheck, Info, Pencil, Trash2 } from 'lucide-react';
-import { toast, type ExternalToast } from 'sonner';
+import { toast } from 'sonner';
 
-import styles from '@/app/styles.module.scss';
+import Toast, { type ToastType } from '@/shared/ui/Toast';
 
-// Colors live in app/styles.module.scss: each type class sets --toast-color.
-function withType(
-  className: string,
-  icon: typeof CircleCheck,
-  description?: string
-): ExternalToast {
-  return {
-    description,
-    icon: createElement(icon, { size: 16, 'aria-hidden': true }),
-    classNames: {
-      toast: className,
-    },
-  };
-}
+// Toasts are our own component (shared/ui/Toast) rendered through toast.custom().
+// sonner only positions and animates them; the Toast itself owns the timer
+// (progress line) and dismisses itself, so sonner's own timer is turned off.
+const show = (type: ToastType, title: string, description?: string) =>
+  toast.custom((id) => createElement(Toast, { id, type, title, description }), {
+    duration: Infinity,
+  });
 
 const notify = {
-  created: (message: string, description?: string) =>
-    toast.success(message, withType(styles['created'], CircleCheck, description)),
-  deleted: (message: string, description?: string) =>
-    toast(message, withType(styles['deleted'], Trash2, description)),
-  updated: (message: string, description?: string) =>
-    toast.info(message, withType(styles['updated'], Pencil, description)),
-  error: (message: string, description?: string) =>
-    toast.error(message, withType(styles['error'], CircleAlert, description)),
-  info: (message: string, description?: string) =>
-    toast.info(message, withType(styles['info'], Info, description)),
+  created: (message: string, description?: string) => show('created', message, description),
+  updated: (message: string, description?: string) => show('updated', message, description),
+  deleted: (message: string, description?: string) => show('deleted', message, description),
+  error: (message: string, description?: string) => show('error', message, description),
+  info: (message: string, description?: string) => show('info', message, description),
 };
 
 export default notify;
