@@ -68,6 +68,11 @@
   &::placeholder {
     color: rgb(var(--color-muted));
   }
+
+  // The palette is already the focused context; the global focus ring would box the input.
+  &:focus-visible {
+    outline: none;
+  }
 }
 
 .palette__kbd {
