@@ -1,6 +1,5 @@
 type InterviewTypeFilter = 'ALL' | 'PHONE' | 'HR' | 'TECHNICAL' | 'FINAL';
 type InterviewDateFilter = 'ALL' | 'UPCOMING' | 'PAST';
-type InterviewSort = 'SOONEST' | 'LATEST';
 
 const interviewTypeFilters: {
   value: InterviewTypeFilter;
@@ -46,20 +45,6 @@ const interviewDateFilters: {
   },
 ];
 
-const interviewSortOptions: {
-  value: InterviewSort;
-  label: string;
-}[] = [
-  {
-    value: 'SOONEST',
-    label: 'Soonest',
-  },
-  {
-    value: 'LATEST',
-    label: 'Latest',
-  },
-];
+export { interviewTypeFilters, interviewDateFilters };
 
-export { interviewTypeFilters, interviewDateFilters, interviewSortOptions };
-
-export type { InterviewTypeFilter, InterviewDateFilter, InterviewSort };
+export type { InterviewTypeFilter, InterviewDateFilter };

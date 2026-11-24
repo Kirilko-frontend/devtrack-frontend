@@ -4,18 +4,16 @@ import type { CreateInterviewData, Interview, UpdateInterviewData } from '@/type
 import type { Vacancy } from '@/types/vacancy';
 
 import { interviewsService, vacanciesService } from '@/services';
-import { Modal } from '@/shared/ui';
+import { Button, Empty, Modal } from '@/shared/ui';
 import { notify, subscribeToCreate } from '@/shared/utils';
+import { toDayKey } from '@/shared/utils/interviews';
 import { Header } from '@/widgets';
-import type {
-  InterviewDateFilter,
-  InterviewSort,
-  InterviewTypeFilter,
-} from './components/InterviewsFilters/config';
+import type { InterviewDateFilter, InterviewTypeFilter } from './components/InterviewsFilters/config';
 
 import {
   InterviewsFilters,
-  InterviewsList,
+  InterviewsAgenda,
+  MiniCalendar,
   InterviewsStats,
   InterviewEditForm,
   InterviewCreateForm,
@@ -34,7 +32,8 @@ function InterviewsPage() {
   const [search, setSearch] = useState('');
   const [typeFilter, setTypeFilter] = useState<InterviewTypeFilter>('ALL');
   const [dateFilter, setDateFilter] = useState<InterviewDateFilter>('ALL');
-  const [sort, setSort] = useState<InterviewSort>('SOONEST');
+  // Day picked in the mini calendar (local yyyy-mm-dd), null = all days.
+  const [selectedDay, setSelectedDay] = useState<string | null>(null);
 
   // "+ New" in the top bar and the command palette can open this modal from anywhere.
   useEffect(
@@ -100,7 +99,7 @@ function InterviewsPage() {
       setSearch('');
       setTypeFilter('ALL');
       setDateFilter('ALL');
-      setSort('SOONEST');
+      setSelectedDay(null);
       setIsCreateModalOpen(false);
       notify.created('Interview created', 'Your interview has been added to the schedule.');
     } catch (error) {
@@ -134,6 +133,7 @@ function InterviewsPage() {
     void loadVacancies();
   }, []);
 
+  // The agenda decides the order itself (upcoming first, past at the end), so no sort here.
   const filteredInterviews = useMemo(() => {
     const now = new Date();
 
@@ -158,6 +158,7 @@ function InterviewsPage() {
 
         return date < now;
       })
+      .filter((interview) => !selectedDay || toDayKey(new Date(interview.date)) === selectedDay)
       .filter((interview) => {
         if (!search.trim()) {
           return true;
@@ -169,14 +170,16 @@ function InterviewsPage() {
           interview.vacancy.title.toLowerCase().includes(value) ||
           interview.vacancy.company.name.toLowerCase().includes(value)
         );
-      })
-      .sort((a, b) => {
-        const dateA = new Date(a.date).getTime();
-        const dateB = new Date(b.date).getTime();
-
-        return sort === 'SOONEST' ? dateA - dateB : dateB - dateA;
       });
-  }, [interviews, search, typeFilter, dateFilter, sort]);
+  }, [interviews, search, typeFilter, dateFilter, selectedDay]);
+
+  const selectedDayLabel = selectedDay
+    ? new Date(`${selectedDay}T00:00:00`).toLocaleDateString('en-US', {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric',
+      })
+    : null;
 
   return (
     <div className={styles['interviews-page']}>
@@ -203,15 +206,54 @@ function InterviewsPage() {
           onTypeChange={setTypeFilter}
           date={dateFilter}
           onDateChange={setDateFilter}
-          sort={sort}
-          onSortChange={setSort}
         />
 
-        <InterviewsList
-          interviews={filteredInterviews}
-          onEdit={handleEditInterview}
-          onDelete={(interview) => void handleDeleteInterview(interview)}
-        />
+        <div className={styles['interviews-page__content']}>
+          <div className={styles['interviews-page__agenda']}>
+            {selectedDayLabel && (
+              <div className={styles['interviews-page__day-filter']}>
+                <span>
+                  Showing <strong>{selectedDayLabel}</strong>
+                </span>
+                <button
+                  className={styles['interviews-page__day-filter-clear']}
+                  type="button"
+                  onClick={() => setSelectedDay(null)}
+                >
+                  Show all days
+                </button>
+              </div>
+            )}
+
+            {filteredInterviews.length > 0 ? (
+              <InterviewsAgenda
+                interviews={filteredInterviews}
+                allInterviews={interviews}
+                onEdit={handleEditInterview}
+                onDelete={(interview) => void handleDeleteInterview(interview)}
+              />
+            ) : selectedDayLabel ? (
+              <Empty
+                title="Nothing planned for this day"
+                description="Pick another day in the calendar or show all days."
+                action={<Button onClick={() => setSelectedDay(null)}>Show all days</Button>}
+              />
+            ) : (
+              <Empty
+                title="No interviews found"
+                description="Try changing your search or filters."
+              />
+            )}
+          </div>
+
+          <aside className={styles['interviews-page__aside']}>
+            <MiniCalendar
+              interviews={interviews}
+              selectedDay={selectedDay}
+              onSelectDay={setSelectedDay}
+            />
+          </aside>
+        </div>
       </main>
 
       {isCreateModalOpen && (
