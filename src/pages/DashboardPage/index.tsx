@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react';
-import type { CSSProperties } from 'react';
 
 import type { DashboardResponse } from '@/types/dashboard';
 
-import { dashboardStats } from './config';
-
 import { dashboardService } from '@/services';
 import {
+  ApplicationFunnel,
   ApplicationsChart,
   DashboardSkeleton,
   RecentVacancies,
-  StatCard,
+  StatsStrip,
   UpcomingInterviews,
 } from './components';
 
@@ -39,23 +37,28 @@ function DashboardPage() {
   return (
     <div className={styles['dashboard-page']}>
       <div className={styles['dashboard-page__stats']}>
-        {dashboardStats.map(({ key, changeKey, label, ariaLabel, icon: Icon }, index) => (
-          <StatCard
-            key={key}
-            style={{ '--i': index } as CSSProperties}
-            label={label}
-            ariaLabel={ariaLabel}
-            value={dashboard.stats[key]}
-            change={dashboard.statsChanges[changeKey]}
-            icon={<Icon size={20} color="rgb(var(--color-accent))" />}
-          />
-        ))}
+        <StatsStrip dashboard={dashboard} />
       </div>
-      <main className={styles['dashboard-page__main']}>
+
+      {/* Bento tiles: funnel + chart on the first row, interviews + vacancies on the second. */}
+      <div
+        className={`${styles['dashboard-page__tile']} ${styles['dashboard-page__tile--funnel']}`}
+      >
+        <ApplicationFunnel funnel={dashboard.funnel} />
+      </div>
+      <div className={`${styles['dashboard-page__tile']} ${styles['dashboard-page__tile--chart']}`}>
         <ApplicationsChart data={dashboard.applicationActivity} />
+      </div>
+      <div
+        className={`${styles['dashboard-page__tile']} ${styles['dashboard-page__tile--interviews']}`}
+      >
         <UpcomingInterviews interviews={dashboard.upcomingInterviews} />
-      </main>
-      <RecentVacancies vacancies={dashboard.recentVacancies} />
+      </div>
+      <div
+        className={`${styles['dashboard-page__tile']} ${styles['dashboard-page__tile--vacancies']}`}
+      >
+        <RecentVacancies vacancies={dashboard.recentVacancies} />
+      </div>
     </div>
   );
 }

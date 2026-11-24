@@ -1,0 +1,30 @@
+.stats-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  border: 0.0625rem solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+
+  background-color: rgb(var(--color-surface-2), 0.6);
+  box-shadow:
+    var(--shadow-md),
+    inset 0 0.0625rem 0 rgb(var(--color-white), 0.04);
+
+  // Keeps the segment hover background inside the rounded corners.
+  overflow: hidden;
+
+  transition: border-color var(--duration-base) var(--ease-out);
+
+  &:hover {
+    border-color: var(--border-default);
+  }
+}
+
+.stats-strip__text {
+  @include text-ellipsis;
+
+  strong {
+    color: rgb(var(--color-white), 0.85);
+    font-weight: var(--font-weight-semibold);
+  }
+}

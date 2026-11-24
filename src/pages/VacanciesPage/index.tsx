@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { type VacancySort, type VacancyStatusFilter } from '@/shared/constants/vacancies';
 
-import type { Vacancy, VacancyFormValues } from '@/types/vacancy';
+import type { Vacancy, VacancyFormValues, VacancyStatus } from '@/types/vacancy';
 import type { Company } from '@/types/company';
 
 import { companiesService, vacanciesService } from '@/services';
@@ -10,9 +10,33 @@ import { companiesService, vacanciesService } from '@/services';
 import { Header, VacancyForm } from '@/widgets';
 import { Modal, Pagination } from '@/shared/ui';
 import { notify, subscribeToCreate, subscribeToSearch } from '@/shared/utils';
-import { VacancyFilters, VacancyTable } from './components';
+import {
+  VacancyBoard,
+  VacancyFilters,
+  VacancyTable,
+  type VacancyView,
+} from './components';
+
+import { BOARD_LIMIT, PAGE_LIMIT, VIEW_STORAGE_KEY } from './config';
 
 import styles from './styles.module.scss';
+
+// localStorage can be unavailable (private mode, blocked storage) — fall back to the table.
+const readView = (): VacancyView => {
+  try {
+    return localStorage.getItem(VIEW_STORAGE_KEY) === 'board' ? 'board' : 'table';
+  } catch {
+    return 'table';
+  }
+};
+
+const saveView = (view: VacancyView) => {
+  try {
+    localStorage.setItem(VIEW_STORAGE_KEY, view);
+  } catch {
+    // Not critical: the page just won't remember the chosen view.
+  }
+};
 
 function VacanciesPage() {
   const [vacancies, setVacancies] = useState<Vacancy[]>([]);
@@ -38,16 +62,27 @@ function VacanciesPage() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
+  const [view, setView] = useState<VacancyView>(readView);
+  // Bumped to refetch the current list (e.g. after creating a vacancy).
+  const [reloadKey, setReloadKey] = useState(0);
+
+  const isBoard = view === 'board';
+
   useEffect(() => {
+    // Ignore responses that arrive after the filters have changed again.
+    let isCurrent = true;
+
     const loadVacancies = async () => {
       try {
-        const response = await vacanciesService.getVacancies({
-          page,
-          limit: 10,
-          search,
-          status: statusFilter,
-          sort,
-        });
+        const response = await vacanciesService.getVacancies(
+          isBoard
+            ? { page: 1, limit: BOARD_LIMIT, search, status: 'ALL', sort }
+            : { page, limit: PAGE_LIMIT, search, status: statusFilter, sort }
+        );
+
+        if (!isCurrent) {
+          return;
+        }
 
         setVacancies(response.data);
         setTotalPages(response.meta.totalPages);
@@ -57,7 +92,16 @@ function VacanciesPage() {
     };
 
     void loadVacancies();
-  }, [page, search, statusFilter, sort]);
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [isBoard, page, search, statusFilter, sort, reloadKey]);
+
+  const handleViewChange = (value: VacancyView) => {
+    setView(value);
+    saveView(value);
+  };
 
   useEffect(() => {
     const loadCompanies = async () => {
@@ -129,12 +173,37 @@ function VacanciesPage() {
     }
   };
 
+  // Optimistic: the card moves right away and goes back if the request fails.
+  const handleMoveVacancy = async (vacancy: Vacancy, status: VacancyStatus) => {
+    const setStatus = (nextStatus: VacancyStatus) =>
+      setVacancies((current) =>
+        current.map((item) => (item.id === vacancy.id ? { ...item, status: nextStatus } : item))
+      );
+
+    setStatus(status);
+
+    try {
+      const updatedVacancy = await vacanciesService.updateVacancy(vacancy.id, { status });
+
+      setVacancies((current) =>
+        current.map((item) => (item.id === updatedVacancy.id ? updatedVacancy : item))
+      );
+
+      const statusLabel = status.charAt(0) + status.slice(1).toLowerCase();
+      notify.updated('Status changed', `${vacancy.title} moved to ${statusLabel}.`);
+    } catch (error) {
+      console.error('Change vacancy status error:', error);
+      setStatus(vacancy.status);
+      notify.error('Could not change status', 'The vacancy was moved back. Please try again.');
+    }
+  };
+
   const handleDeleteVacancy = async (vacancy: Vacancy) => {
     try {
       await vacanciesService.deleteVacancy(vacancy.id);
       setVacancies((current) => current.filter((item) => item.id !== vacancy.id));
 
-      if (vacancies.length === 1 && page > 1) {
+      if (!isBoard && vacancies.length === 1 && page > 1) {
         setPage((current) => current - 1);
       }
 
@@ -159,29 +228,12 @@ function VacanciesPage() {
         appliedAt: values.appliedAt || undefined,
       });
 
+      // Reset filters so the new vacancy is visible, then refetch the list for the current view.
       setSearch('');
       setStatusFilter('ALL');
       setSort('NEWEST');
       setPage(1);
-      setVacancies((current) =>
-        [createdVacancy, ...current.filter((vacancy) => vacancy.id !== createdVacancy.id)].slice(
-          0,
-          10
-        )
-      );
-
-      try {
-        const response = await vacanciesService.getVacancies({
-          page: 1,
-          limit: 10,
-          status: 'ALL',
-          sort: 'NEWEST',
-        });
-        setVacancies(response.data);
-        setTotalPages(response.meta.totalPages);
-      } catch (error) {
-        console.error('Error refreshing vacancies after creation:', error);
-      }
+      setReloadKey((current) => current + 1);
 
       setIsCreateModalOpen(false);
       notify.created('Vacancy created', `${createdVacancy.title} was added to your vacancies.`);
@@ -229,16 +281,27 @@ function VacanciesPage() {
           onStatusChange={handleStatusChange}
           sort={sort}
           onSortChange={handleSortChange}
+          view={view}
+          onViewChange={handleViewChange}
         />
 
-        <VacancyTable
-          vacancies={vacancies}
-          onEditVacancy={handleSelectVacancy}
-          onDeleteVacancy={(vacancy) => void handleDeleteVacancy(vacancy)}
-        />
+        {isBoard ? (
+          <VacancyBoard
+            vacancies={vacancies}
+            onEditVacancy={handleSelectVacancy}
+            onDeleteVacancy={(vacancy) => void handleDeleteVacancy(vacancy)}
+            onStatusChange={(vacancy, status) => void handleMoveVacancy(vacancy, status)}
+          />
+        ) : (
+          <VacancyTable
+            vacancies={vacancies}
+            onEditVacancy={handleSelectVacancy}
+            onDeleteVacancy={(vacancy) => void handleDeleteVacancy(vacancy)}
+          />
+        )}
       </main>
 
-      <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+      {!isBoard && <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />}
 
       {isCreateModalOpen && (
         <Modal onClose={() => setIsCreateModalOpen(false)} title="Create Vacancy">

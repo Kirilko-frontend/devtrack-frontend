@@ -6,6 +6,7 @@ import {
 } from '@/shared/constants/vacancies';
 
 import { Input, Select } from '@/shared/ui';
+import ViewToggle, { type VacancyView } from '../ViewToggle';
 
 import styles from './styles.module.scss';
 
@@ -16,6 +17,8 @@ interface IProps {
   onStatusChange: (value: VacancyStatusFilter) => void;
   sort: VacancySort;
   onSortChange: (value: VacancySort) => void;
+  view: VacancyView;
+  onViewChange: (view: VacancyView) => void;
 }
 
 function VacancyFilters({
@@ -25,6 +28,8 @@ function VacancyFilters({
   onStatusChange,
   sort,
   onSortChange,
+  view,
+  onViewChange,
 }: IProps) {
   return (
     <div className={styles['vacancy-fiters']}>
@@ -36,18 +41,22 @@ function VacancyFilters({
         className={styles['vacancy-fiters__search']}
       />
       <div className={styles['vacancy-fiters__actions']}>
-        <Select
-          value={status}
-          options={vacancyStatusOptions}
-          onChange={onStatusChange}
-          placeholder="Status"
-        />
+        {/* On the board the columns already split vacancies by status. */}
+        {view === 'table' && (
+          <Select
+            value={status}
+            options={vacancyStatusOptions}
+            onChange={onStatusChange}
+            placeholder="Status"
+          />
+        )}
         <Select
           value={sort}
           options={vacancySortOptions}
           onChange={onSortChange}
           placeholder="Sort by"
         />
+        <ViewToggle view={view} onViewChange={onViewChange} />
       </div>
     </div>
   );

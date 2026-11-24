@@ -2,10 +2,8 @@ import { Input, Select } from '@/shared/ui';
 
 import {
   interviewDateFilters,
-  interviewSortOptions,
   interviewTypeFilters,
   type InterviewDateFilter,
-  type InterviewSort,
   type InterviewTypeFilter,
 } from './config';
 
@@ -20,9 +18,6 @@ interface IProps {
 
   date: InterviewDateFilter;
   onDateChange: (value: InterviewDateFilter) => void;
-
-  sort: InterviewSort;
-  onSortChange: (value: InterviewSort) => void;
 }
 
 function InterviewsFilters({
@@ -32,8 +27,6 @@ function InterviewsFilters({
   onTypeChange,
   date,
   onDateChange,
-  sort,
-  onSortChange,
 }: IProps) {
   return (
     <div className={styles['interviews-filters']}>
@@ -55,11 +48,6 @@ function InterviewsFilters({
           value={date}
           options={interviewDateFilters}
           onChange={(value) => onDateChange(value as InterviewDateFilter)}
-        />
-        <Select
-          value={sort}
-          options={interviewSortOptions}
-          onChange={(value) => onSortChange(value as InterviewSort)}
         />
       </div>
     </div>

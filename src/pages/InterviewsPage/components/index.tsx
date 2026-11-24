@@ -1,14 +1,14 @@
-import InterviewCard from './InterviewsCard';
 import InterviewsFilters from './InterviewsFilters';
-import InterviewsList from './InterviewsList';
+import InterviewsAgenda from './InterviewsAgenda';
+import MiniCalendar from './MiniCalendar';
 import InterviewsStats from './InterviewsStats';
 import InterviewEditForm from './InterviewEditForm';
 import InterviewCreateForm from './InterviewCreateForm';
 
 export {
-  InterviewCard,
   InterviewsFilters,
-  InterviewsList,
+  InterviewsAgenda,
+  MiniCalendar,
   InterviewsStats,
   InterviewEditForm,
   InterviewCreateForm,

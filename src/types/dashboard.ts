@@ -24,6 +24,16 @@ export interface DashboardVacancyStatuses {
   rejected: number;
 }
 
+/** How many vacancies ever reached each stage (from status history, not only the current status). */
+export interface DashboardFunnel {
+  tracked: number;
+  applied: number;
+  interviewing: number;
+  offered: number;
+  /** Currently rejected, at any stage. */
+  rejected: number;
+}
+
 export interface DashboardInterviewCompany {
   id: number;
   name: string;
@@ -66,6 +76,8 @@ export interface DashboardResponse {
   stats: DashboardStats;
   statsChanges: DashboardStatsChanges;
   vacancyStatuses: DashboardVacancyStatuses;
+  /** Optional: an older backend doesn't send it, the funnel tile then shows a placeholder. */
+  funnel?: DashboardFunnel;
   upcomingInterviews: DashboardInterview[];
   applicationActivity: DashboardApplicationActivity[];
   recentVacancies: DashboardRecentVacancy[];
