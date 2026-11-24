@@ -1,0 +1,389 @@
+.vacancy-board {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(15rem, 1fr));
+  // Columns fill the page height and scroll inside instead of growing the page.
+  grid-template-rows: minmax(0, 1fr);
+  gap: 1rem;
+
+  flex: 1;
+  min-height: 0;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--color-white), 0.15) transparent;
+
+  &::-webkit-scrollbar {
+    height: 0.3rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--color-white), 0.15);
+    border-radius: var(--radius-full);
+  }
+}
+
+// ---------- column ----------
+
+.vacancy-board__column {
+  --column-color: var(--color-muted);
+
+  @include flex-column;
+  gap: 0.75rem;
+
+  position: relative;
+  min-height: 0;
+  padding: 0.875rem 0.625rem 0.625rem;
+
+  border: 0.0625rem solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+
+  background-color: rgb(var(--color-surface-2), 0.45);
+
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    background-color var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+
+  animation: board-column-in var(--duration-slow) var(--ease-out) backwards;
+
+  // Thin status-colored line on top of the column.
+  &::before {
+    content: '';
+
+    position: absolute;
+    top: -0.0625rem;
+    left: 1rem;
+    right: 1rem;
+
+    height: 0.125rem;
+
+    border-radius: var(--radius-full);
+
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(var(--column-color), 0.8),
+      transparent
+    );
+
+    opacity: 0.6;
+    transition: opacity var(--duration-base) var(--ease-out);
+  }
+}
+
+.vacancy-board__column--saved {
+  --column-color: 170, 170, 175;
+}
+
+.vacancy-board__column--applied {
+  --column-color: var(--color-info);
+}
+
+.vacancy-board__column--interviewing {
+  --column-color: var(--color-accent);
+}
+
+.vacancy-board__column--offered {
+  --column-color: var(--color-success);
+}
+
+.vacancy-board__column--rejected {
+  --column-color: var(--color-danger);
+}
+
+// While dragging every column hints it can take the card; the hovered one lights up.
+.is-dragging .vacancy-board__column {
+  border-style: dashed;
+  border-color: var(--border-default);
+}
+
+.is-dragging .vacancy-board__column--over {
+  border-color: rgb(var(--column-color), 0.6);
+}
+
+.vacancy-board__column--over {
+  background-color: rgb(var(--column-color), 0.07);
+  box-shadow: 0 0 1.5rem rgb(var(--column-color), 0.15);
+
+  &::before {
+    opacity: 1;
+  }
+}
+
+.vacancy-board__column-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  padding: 0 0.375rem;
+}
+
+.vacancy-board__column-dot {
+  @include square(0.5rem);
+
+  flex-shrink: 0;
+  border-radius: 50%;
+
+  background-color: rgb(var(--column-color));
+  box-shadow: 0 0 0.5rem rgb(var(--column-color), 0.6);
+}
+
+.vacancy-board__column-title {
+  flex: 1;
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: rgb(var(--color-white));
+}
+
+.vacancy-board__column-count {
+  min-width: 1.5rem;
+  padding: 0.0625rem 0.5rem;
+
+  border-radius: var(--radius-full);
+
+  background-color: rgb(var(--color-white), 0.06);
+  color: rgb(var(--color-muted));
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.vacancy-board__list {
+  @include flex-column;
+  gap: 0.5rem;
+
+  min-height: 0;
+  overflow-y: auto;
+  // Room for the card's hover lift and focus ring.
+  padding: 0.25rem 0.125rem;
+  margin: -0.25rem -0.125rem;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--color-white), 0.12) transparent;
+
+  &::-webkit-scrollbar {
+    width: 0.25rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--color-white), 0.12);
+    border-radius: var(--radius-full);
+  }
+
+  &:empty {
+    display: none;
+  }
+}
+
+.vacancy-board__placeholder {
+  @include flex-center;
+
+  flex: 1;
+  min-height: 5rem;
+  max-height: 10rem;
+
+  border: 0.0625rem dashed var(--border-subtle);
+  border-radius: var(--radius-md);
+
+  color: rgb(var(--color-muted));
+  font-size: var(--font-size-xs);
+
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out);
+
+  .vacancy-board__column--over & {
+    border-color: rgb(var(--column-color), 0.5);
+    color: rgb(var(--column-color));
+  }
+}
+
+// ---------- card ----------
+
+.vacancy-board__card {
+  @include spotlight;
+  @include flex-column;
+  gap: 0.375rem;
+
+  flex-shrink: 0;
+  padding: 0.75rem 0.75rem 0.75rem 0.625rem;
+
+  border: 0.0625rem solid var(--border-default);
+  border-radius: var(--radius-md);
+
+  background-color: rgb(var(--color-surface-3), 0.7);
+
+  cursor: grab;
+  user-select: none;
+
+  // Plays on mount, so a card dropped into a new column "lands" there.
+  animation: board-card-in var(--duration-slow) var(--ease-spring) backwards;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: rgb(var(--color-accent), 0.6);
+    box-shadow: var(--focus-ring);
+  }
+
+  &:hover .vacancy-board__card-actions,
+  &:focus-within .vacancy-board__card-actions {
+    opacity: 1;
+  }
+
+  &:hover .vacancy-board__card-grip {
+    color: rgb(var(--color-white), 0.6);
+  }
+}
+
+// The original stays in place as a faded ghost while its drag image follows the cursor.
+.vacancy-board__card--dragged,
+.vacancy-board__card--dragged:hover {
+  box-shadow: none;
+  opacity: 0.35;
+  transform: scale(0.97);
+}
+
+.vacancy-board__card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+.vacancy-board__card-grip {
+  flex-shrink: 0;
+  margin-top: 0.1875rem;
+
+  color: rgb(var(--color-white), 0.2);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.vacancy-board__card-title {
+  @include text-ellipsis(2);
+
+  flex: 1;
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-sm);
+  color: rgb(var(--color-white));
+
+  word-break: break-word;
+}
+
+.vacancy-board__card-actions {
+  display: flex;
+  gap: 0.125rem;
+
+  margin: -0.25rem -0.25rem 0 0;
+
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.vacancy-board__card-button {
+  @include flex-center;
+  @include square(1.625rem);
+
+  border-radius: var(--radius-sm);
+  color: rgb(var(--color-muted));
+
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+
+  &:hover,
+  &:focus-visible {
+    background-color: rgb(var(--color-white), 0.08);
+    color: rgb(var(--color-white));
+  }
+}
+
+.vacancy-board__card-button--danger {
+  &:hover,
+  &:focus-visible {
+    background-color: rgb(var(--color-danger), 0.15);
+    color: rgb(var(--color-danger));
+  }
+}
+
+.vacancy-board__card-company {
+  @include text-ellipsis;
+
+  padding-left: 1.125rem;
+
+  font-size: var(--font-size-xs);
+  color: rgb(var(--color-muted));
+}
+
+.vacancy-board__card-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+
+  padding-left: 1.125rem;
+  margin-top: 0.25rem;
+
+  font-size: var(--font-size-xs);
+}
+
+.vacancy-board__card-salary {
+  padding: 0.0625rem 0.5rem;
+
+  border-radius: var(--radius-full);
+
+  background-color: rgb(var(--color-accent), 0.12);
+  color: rgb(var(--color-accent));
+
+  font-weight: var(--font-weight-semibold);
+}
+
+.vacancy-board__card-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  color: rgb(var(--color-muted));
+}
+
+.vacancy-board__card-link {
+  @include flex-center;
+  @include square(1.5rem);
+
+  margin-left: auto;
+
+  border-radius: var(--radius-sm);
+  color: rgb(var(--color-muted));
+
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+
+  &:hover,
+  &:focus-visible {
+    background-color: rgb(var(--color-white), 0.08);
+    color: rgb(var(--color-accent));
+  }
+}
+
+@keyframes board-column-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+
+@keyframes board-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem) scale(0.96);
+  }
+}
