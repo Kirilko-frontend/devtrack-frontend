@@ -1,0 +1,202 @@
+.funnel {
+  @include flex-column;
+  gap: 1rem;
+
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+
+  padding: 1.5rem;
+
+  background-color: rgb(var(--color-surface-2), 0.6);
+
+  border: 0.0625rem solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+
+  box-shadow:
+    var(--shadow-md),
+    inset 0 0.0625rem 0 rgb(var(--color-white), 0.04);
+
+  overflow: hidden;
+
+  transition: border-color var(--duration-base) var(--ease-out);
+
+  &:hover {
+    border-color: var(--border-default);
+  }
+}
+
+.funnel__header {
+  @include flex-space-between;
+  align-items: flex-start;
+}
+
+.funnel__title {
+  color: rgb(var(--color-white));
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-md);
+}
+
+.funnel__subtitle {
+  margin-top: 0.25rem;
+
+  color: rgb(var(--color-muted));
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-md);
+}
+
+.funnel__icon {
+  color: rgb(var(--color-accent));
+}
+
+.funnel__empty {
+  @include flex-center;
+
+  flex: 1;
+
+  color: rgb(var(--color-muted));
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+// Stages on the left, summary column on the right: keeps the tile short enough
+// for low screens where the bento row is only ~200px tall.
+.funnel__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1.25rem;
+
+  flex: 1;
+  min-height: 0;
+}
+
+// ---------- stages ----------
+
+.funnel__stages {
+  @include flex-column;
+  justify-content: space-evenly;
+  gap: 0.5rem;
+
+  min-height: 0;
+}
+
+// One line per stage: label | bar | conversion | count.
+.funnel__stage {
+  --stage-color: 170, 170, 175;
+
+  display: grid;
+  grid-template-columns: 6.25rem minmax(0, 1fr) 2.75rem 2rem;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.funnel__stage--applied {
+  --stage-color: var(--color-info);
+}
+
+.funnel__stage--interviewing {
+  --stage-color: var(--color-accent);
+}
+
+.funnel__stage--offered {
+  --stage-color: var(--color-success);
+}
+
+.funnel__stage-label {
+  color: rgb(var(--color-white), 0.85);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.funnel__stage-conversion {
+  justify-self: end;
+  padding: 0 0.375rem;
+
+  border-radius: var(--radius-full);
+
+  background-color: rgb(var(--stage-color), 0.12);
+  color: rgb(var(--stage-color));
+
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+
+  // The first stage has no conversion; the empty cell still keeps the grid aligned.
+  &:empty {
+    visibility: hidden;
+  }
+}
+
+.funnel__stage-count {
+  text-align: right;
+
+  color: rgb(var(--color-white));
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.funnel__bar {
+  height: 0.5rem;
+
+  border-radius: var(--radius-full);
+
+  background-color: rgb(var(--color-white), 0.05);
+
+  overflow: hidden;
+}
+
+.funnel__bar-fill {
+  display: block;
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: linear-gradient(90deg, rgb(var(--stage-color), 0.55), rgb(var(--stage-color)));
+  box-shadow: 0 0 0.75rem rgb(var(--stage-color), 0.45);
+
+  transform-origin: left center;
+  animation: funnel-bar-in 0.9s var(--ease-out) backwards;
+  animation-delay: calc(300ms + var(--delay, 0ms));
+}
+
+// ---------- summary ----------
+
+.funnel__summary {
+  @include flex-column;
+  justify-content: space-evenly;
+  gap: 0.5rem;
+
+  padding-left: 1.25rem;
+
+  border-left: 0.0625rem solid var(--border-subtle);
+}
+
+.funnel__summary-item {
+  @include flex-column;
+  gap: 0.125rem;
+
+  dt {
+    color: rgb(var(--color-muted));
+    font-size: var(--font-size-xs);
+  }
+
+  dd {
+    color: rgb(var(--color-white));
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.funnel__summary-item--danger dd {
+  color: rgb(var(--color-danger));
+}
+
+@keyframes funnel-bar-in {
+  from {
+    transform: scaleX(0);
+  }
+}
