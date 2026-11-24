@@ -1,0 +1,200 @@
+.mini-calendar {
+  @include flex-column;
+  gap: 0.75rem;
+
+  padding: 1rem;
+
+  border: 0.0625rem solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+
+  background-color: rgb(var(--color-surface-2), 0.45);
+}
+
+.mini-calendar__header {
+  @include flex-space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mini-calendar__title {
+  color: rgb(var(--color-white));
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.mini-calendar__nav {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.mini-calendar__today,
+.mini-calendar__arrow {
+  @include flex-center;
+
+  height: 1.75rem;
+
+  border-radius: var(--radius-sm);
+  color: rgb(var(--color-muted));
+
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+
+  &:hover {
+    background-color: rgb(var(--color-white), 0.08);
+    color: rgb(var(--color-white));
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+}
+
+.mini-calendar__today {
+  padding: 0 0.5rem;
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+.mini-calendar__arrow {
+  width: 1.75rem;
+}
+
+.mini-calendar__weekdays,
+.mini-calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.125rem;
+}
+
+.mini-calendar__weekdays {
+  color: rgb(var(--color-muted));
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.mini-calendar__grid--next {
+  animation: mini-calendar-from-right var(--duration-slow) var(--ease-out);
+}
+
+.mini-calendar__grid--prev {
+  animation: mini-calendar-from-left var(--duration-slow) var(--ease-out);
+}
+
+.mini-calendar__day {
+  @include flex-column-center;
+
+  position: relative;
+  aspect-ratio: 1;
+
+  border: 0.0625rem solid transparent;
+  border-radius: var(--radius-sm);
+
+  color: rgb(var(--color-white), 0.85);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  font-variant-numeric: tabular-nums;
+
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+
+  &:hover {
+    background-color: rgb(var(--color-white), 0.07);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+}
+
+.mini-calendar__day--outside {
+  color: rgb(var(--color-white), 0.25);
+}
+
+.mini-calendar__day--busy {
+  font-weight: var(--font-weight-bold);
+}
+
+.mini-calendar__day--today {
+  border-color: rgb(var(--color-accent), 0.6);
+  color: rgb(var(--color-accent));
+}
+
+.mini-calendar__day--selected {
+  border-color: rgb(var(--color-accent), 0.6);
+  background-color: rgb(var(--color-accent), 0.9);
+  color: rgb(var(--color-black));
+  box-shadow: 0 0 1rem rgb(var(--color-accent), 0.35);
+
+  &:hover {
+    background-color: rgb(var(--color-accent));
+  }
+
+  // Dots would disappear on the orange background.
+  .mini-calendar__dot {
+    background-color: rgb(var(--color-black), 0.7);
+    box-shadow: none;
+  }
+}
+
+.mini-calendar__dots {
+  position: absolute;
+  bottom: 0.1875rem;
+  left: 50%;
+
+  display: flex;
+  gap: 0.125rem;
+
+  transform: translateX(-50%);
+}
+
+.mini-calendar__dot {
+  @include interview-type-colors;
+  @include square(0.25rem);
+
+  flex-shrink: 0;
+  border-radius: 50%;
+
+  background-color: rgb(var(--type-color));
+  box-shadow: 0 0 0.25rem rgb(var(--type-color), 0.7);
+}
+
+.mini-calendar__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem 0.875rem;
+
+  padding-top: 0.75rem;
+  border-top: 0.0625rem solid var(--border-subtle);
+
+  color: rgb(var(--color-muted));
+  font-size: 0.6875rem;
+}
+
+.mini-calendar__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+@keyframes mini-calendar-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(0.75rem);
+  }
+}
+
+@keyframes mini-calendar-from-left {
+  from {
+    opacity: 0;
+    transform: translateX(-0.75rem);
+  }
+}
