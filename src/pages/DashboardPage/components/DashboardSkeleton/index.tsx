@@ -8,13 +8,13 @@ function DashboardSkeleton() {
     <div className={styles['dashboard-skeleton']} role="status" aria-label="Loading dashboard">
       <div className={styles['dashboard-skeleton__stats']}>
         {Array.from({ length: 4 }, (_, index) => (
-          <div key={index} className={styles['dashboard-skeleton__card']}>
+          <div key={index} className={styles['dashboard-skeleton__segment']}>
             <div className={styles['dashboard-skeleton__row']}>
-              <Skeleton width="3rem" height="2rem" radius="var(--radius-md)" />
-              <Skeleton width="45%" height="1.25rem" />
+              <Skeleton width="1.75rem" height="1.75rem" radius="var(--radius-sm)" />
+              <Skeleton width="40%" height="0.875rem" />
             </div>
             <Skeleton width="3rem" height="2rem" />
-            <Skeleton width="60%" height="1.25rem" radius="var(--radius-full)" />
+            <Skeleton width="75%" height="0.375rem" radius="var(--radius-full)" />
           </div>
         ))}
       </div>
