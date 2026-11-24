@@ -204,3 +204,25 @@
     opacity: 1;
   }
 }
+
+// Color per interview type, exposed as --type-color (an "r, g, b" triple).
+// Generates BEM modifiers on the current block: &--phone, &--hr, &--technical, &--final.
+@mixin interview-type-colors {
+  --type-color: var(--color-muted);
+
+  &--phone {
+    --type-color: 170, 170, 175;
+  }
+
+  &--hr {
+    --type-color: var(--color-info);
+  }
+
+  &--technical {
+    --type-color: var(--color-accent);
+  }
+
+  &--final {
+    --type-color: var(--color-success);
+  }
+}
