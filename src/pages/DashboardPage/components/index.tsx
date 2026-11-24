@@ -1,5 +1,5 @@
 import ApplicationsChart from './ApplicationsChart';
-import StatCard from './StatCard';
+import StatsStrip from './StatsStrip';
 import UpcomingInterviews from './UpcomingInterviews';
 import RecentVacancies from './RecentVacancies';
 import DashboardSkeleton from './DashboardSkeleton';
@@ -7,7 +7,7 @@ import ApplicationFunnel from './ApplicationFunnel';
 
 export {
   ApplicationsChart,
-  StatCard,
+  StatsStrip,
   UpcomingInterviews,
   RecentVacancies,
   DashboardSkeleton,

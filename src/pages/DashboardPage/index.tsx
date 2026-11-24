@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
-import type { CSSProperties } from 'react';
 
 import type { DashboardResponse } from '@/types/dashboard';
-
-import { dashboardStats } from './config';
 
 import { dashboardService } from '@/services';
 import {
@@ -11,7 +8,7 @@ import {
   ApplicationsChart,
   DashboardSkeleton,
   RecentVacancies,
-  StatCard,
+  StatsStrip,
   UpcomingInterviews,
 } from './components';
 
@@ -40,17 +37,7 @@ function DashboardPage() {
   return (
     <div className={styles['dashboard-page']}>
       <div className={styles['dashboard-page__stats']}>
-        {dashboardStats.map(({ key, changeKey, label, ariaLabel, icon: Icon }, index) => (
-          <StatCard
-            key={key}
-            style={{ '--i': index } as CSSProperties}
-            label={label}
-            ariaLabel={ariaLabel}
-            value={dashboard.stats[key]}
-            change={dashboard.statsChanges[changeKey]}
-            icon={<Icon size={20} color="rgb(var(--color-accent))" />}
-          />
-        ))}
+        <StatsStrip dashboard={dashboard} />
       </div>
 
       {/* Bento tiles: funnel + chart on the first row, interviews + vacancies on the second. */}

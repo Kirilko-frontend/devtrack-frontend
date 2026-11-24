@@ -14,13 +14,7 @@
 }
 
 .dashboard-page__stats {
-  @include flex-center;
-  gap: 1rem;
-
   grid-column: 1 / -1;
-
-  // Room for the hover lift (the page clips overflow).
-  padding-top: 0.25rem;
 }
 
 .dashboard-page__tile {
