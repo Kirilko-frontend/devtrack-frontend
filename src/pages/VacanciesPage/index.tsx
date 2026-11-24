@@ -17,12 +17,9 @@ import {
   type VacancyView,
 } from './components';
 
-import styles from './styles.module.scss';
+import { BOARD_LIMIT, PAGE_LIMIT, VIEW_STORAGE_KEY } from './config';
 
-const PAGE_LIMIT = 10;
-// The board shows every vacancy at once instead of paginating.
-const BOARD_LIMIT = 500;
-const VIEW_STORAGE_KEY = 'devtrack:vacancies-view';
+import styles from './styles.module.scss';
 
 // localStorage can be unavailable (private mode, blocked storage) — fall back to the table.
 const readView = (): VacancyView => {
