@@ -7,6 +7,7 @@ import { dashboardStats } from './config';
 
 import { dashboardService } from '@/services';
 import {
+  ApplicationFunnel,
   ApplicationsChart,
   DashboardSkeleton,
   RecentVacancies,
@@ -51,11 +52,26 @@ function DashboardPage() {
           />
         ))}
       </div>
-      <main className={styles['dashboard-page__main']}>
+
+      {/* Bento tiles: funnel + chart on the first row, interviews + vacancies on the second. */}
+      <div
+        className={`${styles['dashboard-page__tile']} ${styles['dashboard-page__tile--funnel']}`}
+      >
+        <ApplicationFunnel funnel={dashboard.funnel} />
+      </div>
+      <div className={`${styles['dashboard-page__tile']} ${styles['dashboard-page__tile--chart']}`}>
         <ApplicationsChart data={dashboard.applicationActivity} />
+      </div>
+      <div
+        className={`${styles['dashboard-page__tile']} ${styles['dashboard-page__tile--interviews']}`}
+      >
         <UpcomingInterviews interviews={dashboard.upcomingInterviews} />
-      </main>
-      <RecentVacancies vacancies={dashboard.recentVacancies} />
+      </div>
+      <div
+        className={`${styles['dashboard-page__tile']} ${styles['dashboard-page__tile--vacancies']}`}
+      >
+        <RecentVacancies vacancies={dashboard.recentVacancies} />
+      </div>
     </div>
   );
 }
