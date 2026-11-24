@@ -1,5 +1,8 @@
+// Same bento grid as DashboardPage.
 .dashboard-skeleton {
-  @include flex-column;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: auto minmax(0, 1fr) minmax(0, 1fr);
   gap: 1rem;
 
   width: 100%;
@@ -9,6 +12,8 @@
 }
 
 .dashboard-skeleton__stats {
+  grid-column: 1 / -1;
+
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
@@ -32,13 +37,17 @@
   gap: 1rem;
 }
 
-.dashboard-skeleton__main {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-  gap: 1rem;
-
-  flex: 1;
+.dashboard-skeleton__panel {
   min-height: 0;
+  overflow: hidden;
+}
+
+.dashboard-skeleton__panel--narrow {
+  grid-column: span 5;
+}
+
+.dashboard-skeleton__panel--wide {
+  grid-column: span 7;
 }
 
 .dashboard-skeleton__fill {
