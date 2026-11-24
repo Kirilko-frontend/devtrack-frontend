@@ -1,0 +1,76 @@
+.view-toggle {
+  position: relative;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  // Same height and surface as the Select triggers next to it.
+  align-self: center;
+  height: 2.5rem;
+  padding: 0.1875rem;
+
+  border: 0.0625rem solid var(--border-default);
+  border-radius: var(--radius-md);
+
+  background-color: rgb(var(--color-surface-1), 0.6);
+}
+
+.view-toggle__thumb {
+  position: absolute;
+  top: 0.1875rem;
+  bottom: 0.1875rem;
+  left: 0.1875rem;
+
+  width: calc(50% - 0.1875rem);
+
+  border: 0.0625rem solid rgb(var(--color-accent), 0.35);
+  border-radius: var(--radius-sm);
+
+  background-color: rgb(var(--color-accent), 0.14);
+  box-shadow: 0 0 1rem rgb(var(--color-accent), 0.15);
+
+  transition: transform var(--duration-slow) var(--ease-spring);
+
+  .view-toggle--board & {
+    transform: translateX(100%);
+  }
+}
+
+.view-toggle__button {
+  @include flex-center;
+  gap: 0.375rem;
+
+  position: relative;
+  padding: 0 0.75rem;
+
+  border-radius: var(--radius-sm);
+
+  color: rgb(var(--color-muted));
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+
+  white-space: nowrap;
+
+  transition: color var(--duration-base) var(--ease-out);
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    color: rgb(var(--color-white));
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+}
+
+.view-toggle__button--active {
+  color: rgb(var(--color-accent));
+
+  &:hover {
+    color: rgb(var(--color-accent));
+  }
+}
